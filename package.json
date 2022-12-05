@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
+  "name": "mail",
   "version": "0.0.0",
-  "description": "",
+  "description": "Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -15,6 +15,18 @@
     "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
+    "normalize.css": "^8.0.1",
+    "reset-css": "^5.0.1",
     "solid-js": "^1.5.1"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YankinA/mail.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/YankinA/mail/issues"
+  },
+  "homepage": "https://github.com/YankinA/mail#readme"
 }
