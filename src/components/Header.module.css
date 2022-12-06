@@ -5,6 +5,16 @@
   padding-left: 16px;
 }
 
+.Logo {
+  width: 96px;
+  display: flex;  
+  align-items: center;
+  justify-content: space-between;
+}
+
 .Back {
   width: 99px;
+  display: flex;  
+  align-items: center;
+  justify-content: space-between;
 }

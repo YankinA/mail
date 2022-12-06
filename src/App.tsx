@@ -5,7 +5,7 @@ import Mail from './pages/Mail';
 const App: Component = () => {
   return (
     <div class={styles.App}>
-      <Mail />
+      <Mail /> 
     </div>
   );
 };

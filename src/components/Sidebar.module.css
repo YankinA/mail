@@ -1,0 +1,14 @@
+.Sidebar {
+  width: 232px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.Sidebar-btn {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
