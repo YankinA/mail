@@ -1,10 +1,24 @@
 import type { Component } from 'solid-js';
 import styles from './Sidebar.module.css';
+import Button from './shared/Button';
 import InboxIcon from './../assets/icons/inbox.svg';
-
+import FolderIcon from './../assets/icons/folder.svg';
+import SentIcon from './../assets/icons/folder.svg';
+import DraftIcon from './../assets/icons/draft.svg';
+import ArchiveIcon from './../assets/icons/archive.svg';
+import SpamIcon from './../assets/icons/spam.svg';
+import TrashIcon from './../assets/icons/trash.svg';
 
 const Sidebar: Component = () => {
-  const folders = [{ name: 'Входящие', Icon: InboxIcon }];
+  const folders = [
+    { Icon: InboxIcon, name: 'Входящие' },
+    { Icon: FolderIcon, name: 'Важное' },
+    { Icon: SentIcon, name: 'Отправленные' },
+    { Icon: DraftIcon, name: 'Черновики' },
+    { Icon: ArchiveIcon, name: 'Архив' },
+    { Icon: SpamIcon, name: 'Спам' },
+    { Icon: TrashIcon, name: 'Корзина' },
+  ];
   return (
     <aside class={styles.Sidebar}>
       <header>
@@ -20,46 +34,31 @@ const Sidebar: Component = () => {
 
 const WriteEmail: Component = () => {
   return (
-    <button class={styles['Sidebar-btn']}>
-      <div class={styles['Sidebar-btn-img']}>
-      </div>
-      <span>Написать письмо</span>
-    </ button>
+    <Button name="Написать письмо" />
   )
 };
+
+
+interface Folders {
+  folders: Folder[]
+}
+
+const Folders: Component<Folders> = ({ folders }) => (
+  <ul>
+    {folders.map(({ Icon, name }) => <Folder Icon={Icon} name={name} />)}
+  </ ul>);
 
 interface Folder {
   name: string,
   Icon: string
 }
 
-const Folders: Component<{ folders: Folder[] }> = ({ folders }) => {
-  return (
-    <ul>
-      {folders.map(({ name, Icon }) => <Folder name={name} Icon={Icon} />)}
-    </ ul>
-  )
-};
-
-const Folder: Component<Folder> = ({ name, Icon }) => {
-  return (
-    <li>
-      <a class={styles['Sidebar-btn']}>
-        <div class={styles['Sidebar-btn-img']}><Icon /></div>
-        <span>{name}</span>
-      </ a>
-    </li>
-  )
-}
-interface SideBarBtn {
-  Icon: string,
-  name: string
-};
-
-const SideBarBtn: Component<SideBarBtn> = ({ Icon, name }) => (
-  <a class={styles['Sidebar-btn']}>
-    <div class={styles['Sidebar-btn-img']}><Icon /></div>
-    <span>{name}</span>
-  </ a>);
+const Folder: Component<Folder> = ({ Icon, name }) => (
+  <li>
+    <a>
+    <Button Icon={<Icon/>} name={name}/>
+    </a>
+  </li>
+);
 
 export default Sidebar;

@@ -1,0 +1,25 @@
+.Button {
+  width: 200px;
+  height: 36px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+ 
+}
+.Button:hover {
+  background: rgba(0, 16, 61, 0.08);
+  border-radius: 8px;
+}
+
+.Button:active {
+  background: rgba(0, 16, 61, 0.08);
+  border-radius: 8px;
+}
+
+.Icon {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
