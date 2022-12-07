@@ -20,10 +20,13 @@ const Sidebar: Component = () => {
 
 const WriteEmail: Component = () => {
   return (
-  <button class={styles['Sidebar-btn']}>
-    Написать письмо
-  </ button>
-)};
+    <button class={styles['Sidebar-btn']}>
+      <div class={styles['Sidebar-btn-img']}>
+      </div>
+      <span>Написать письмо</span>
+    </ button>
+  )
+};
 
 interface Folder {
   name: string,
@@ -40,13 +43,23 @@ const Folders: Component<{ folders: Folder[] }> = ({ folders }) => {
 
 const Folder: Component<Folder> = ({ name, Icon }) => {
   return (
-  <li>
-    <button class={styles['Sidebar-btn']} > 
-      <Icon />
-      {name} 
-    </ button> 
-  </li>
+    <li>
+      <a class={styles['Sidebar-btn']}>
+        <div class={styles['Sidebar-btn-img']}><Icon /></div>
+        <span>{name}</span>
+      </ a>
+    </li>
   )
 }
+interface SideBarBtn {
+  Icon: string,
+  name: string
+};
+
+const SideBarBtn: Component<SideBarBtn> = ({ Icon, name }) => (
+  <a class={styles['Sidebar-btn']}>
+    <div class={styles['Sidebar-btn-img']}><Icon /></div>
+    <span>{name}</span>
+  </ a>);
 
 export default Sidebar;
