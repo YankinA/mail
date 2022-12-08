@@ -1,8 +1,8 @@
 import type { Component } from 'solid-js';
 import styles from './Header.module.css';
-import LogoIcon from './../assets/icons/logo.svg';
-import MailIcon from './../assets/icons/mail.svg';
-import BackIcon from './../assets/icons/back.svg';
+import LogoIcon from './../../assets/icons/logo.svg';
+import MailIcon from './../../assets/icons/mail.svg';
+import BackIcon from './../../assets/icons/back.svg';
 
 const Header: Component = (props) => {
   return (

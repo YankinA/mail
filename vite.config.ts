@@ -1,13 +1,13 @@
 import solidPlugin from 'vite-plugin-solid'
 import solidSvg from 'vite-plugin-solid-svg'
-import { defineConfig } from 'vite'
 import devtools from 'solid-devtools/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    devtools({ name: true, componentLocation: true }),
     solidPlugin(),
-    solidSvg()
+    solidSvg({ defaultAsComponent: true }),
+    devtools({ name: true, componentLocation: true }),
   ],
   server: {
     port: 3000,
