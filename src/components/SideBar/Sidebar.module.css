@@ -9,3 +9,19 @@
 .WriteEmail {
   border: 1px solid rgba(0, 16, 61, 0.12);
 }
+
+@media screen and (max-width: 900px) {
+
+  .Sidebar {
+    width: 52px;
+  }
+
+  .Button {
+    max-width: 36px;
+  }
+
+  .Button > span {
+    display: none;
+  }
+  
+}

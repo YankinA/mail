@@ -36,7 +36,7 @@ const WriteEmail = () => {
     <Button
       Icon={<PenIcon />}
       name="Написать письмо"
-      classes={styles.WriteEmail}
+      classes={styles.WriteEmail + " " + styles.Button}
       mini
     />
   )
@@ -59,7 +59,11 @@ const Folders = () => {
       <For each={folders}>
         {({ Icon, name }) => <li>
           <a>
-            <Button Icon={<Icon />} name={name} mini/>
+            <Button 
+             Icon={<Icon />} 
+             name={name} 
+             classes={styles.Button}
+           />
           </a>
         </li>}
       </For>
