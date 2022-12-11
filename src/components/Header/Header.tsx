@@ -16,7 +16,7 @@ const Logo: Component = () => {
   return (
     <div class={styles.Logo}>
       <LogoIcon />
-      <MailIcon />
+      <span class={styles.Logo_Mail}><MailIcon /></span>
     </div>
   );
 };
