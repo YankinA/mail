@@ -32,7 +32,7 @@ const letters = [
   }
 ];
 
-const Letter: Component = () => {
+const Letters: Component = () => {
   return (
     <main>
       <LetterList />
@@ -44,7 +44,8 @@ const LetterList = () => {
 
   return <ul>
     <For each={letters}>
-      {({ author, bookmark, read, important, title, text, category, doc, date }) => (
+      {({ 
+        author, bookmark, read, important, title, text, category, doc, date }) => (
         <li>
           <ReadCheckBox />
           <CheckBox />
@@ -55,7 +56,7 @@ const LetterList = () => {
             <span>{title}</span>
             <span>{text}</span>
           </span>
-           <Category />
+           <Category category={category} />
           <Date date={date}/>
           {doc && <></>}
         </ li>
@@ -79,7 +80,7 @@ const Author = ({ author }) => {
 const Avatar = ({ img }) => {
   return <>{img}</>
 }
-const Category = () => <div></div>;
+const Category = ({ category }) => <div>{category}</div>;
 const Date = ({ date }) => <div>{date}</div>
 
-export default Letter;
+export default Letters;
