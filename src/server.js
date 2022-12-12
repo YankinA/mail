@@ -6,9 +6,13 @@ const conf = {
   port: 3000,
 };
 
+const fisrt = db[3];
+console.log(fisrt);
+
+
 const reqListener = (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(db), 'utf-8');
+  //res.writeHead(200, { 'Content-Type': 'application/json' });
+ // res.end(JSON.stringify(db), 'utf-8');
 }
 
 const server = http.createServer(reqListener);
