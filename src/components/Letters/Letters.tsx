@@ -35,52 +35,52 @@ const letters = [
 const Letters: Component = () => {
   return (
     <main>
-      <LetterList />
+ 
     </main>
   );
 };
 
-const LetterList = () => {
+// const LetterList = () => {
 
-  return <ul>
-    <For each={letters}>
-      {({ 
-        author, bookmark, read, important, title, text, category, doc, date }) => (
-        <li>
-          <ReadCheckBox />
-          <CheckBox />
-          <Author author={author}/>
-          {bookmark && <></>}
-          {(!bookmark && important) && <></>}
-          <span>
-            <span>{title}</span>
-            <span>{text}</span>
-          </span>
-           <Category category={category} />
-          <Date date={date}/>
-          {doc && <></>}
-        </ li>
-      )}
-    </For>
-  </ul>
-};
+//   return <ul>
+//     <For each={letters}>
+//       {({ 
+//         author, bookmark, read, important, title, text, category, doc, date }) => (
+//         <li>
+//           <ReadCheckBox />
+//           <CheckBox />
+//           <Author author={author}/>
+//           {bookmark && <></>}
+//           {(!bookmark && important) && <></>}
+//           <span>
+//             <span>{title}</span>
+//             <span>{text}</span>
+//           </span>
+//            <Category category={category} />
+//           <Date date={date}/>
+//           {doc && <></>}
+//         </ li>
+//       )}
+//     </For>
+//   </ul>
+// };
 
-const ReadCheckBox = () => <div></div>;
+// const ReadCheckBox = () => <div></div>;
 
-const CheckBox = () => <div></div>;
+// const CheckBox = () => <div></div>;
 
-const Author = ({ author }) => {
-  return <div>
-    <Avatar img={author.avatar} />
-    <span>{author.name}</span>
-    <span>{author.surname}</span>
-  </div>
-}
+// const Author = ({ author }) => {
+//   return <div>
+//     <Avatar img={author.avatar} />
+//     <span>{author.name}</span>
+//     <span>{author.surname}</span>
+//   </div>
+// }
 
-const Avatar = ({ img }) => {
-  return <>{img}</>
-}
-const Category = ({ category }) => <div>{category}</div>;
-const Date = ({ date }) => <div>{date}</div>
+// const Avatar = ({ img }) => {
+//   return <>{img}</>
+// }
+// const Category = ({ category }) => <div>{category}</div>;
+// const Date = ({ date }) => <div>{date}</div>
 
 export default Letters;
