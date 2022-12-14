@@ -5,22 +5,26 @@
   padding-left: 16px;
 }
 
+.Logo_Mail_show {
+  display: inline;
+}
+
 .Logo {
   width: 96px;
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .Back {
   width: 99px;
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 @media screen and (max-width: 900px) {
-  .Logo_Mail {
+  .Logo_Mail:not(.Logo_Mail_show) {
     display: none;
   }
 }

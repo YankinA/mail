@@ -5,8 +5,15 @@
   align-items: center;
 }
 
+.Sidebar_full {
+  width: 232px;
+}
+
+.Sidebar_full > .Separator {
+  display: inline;
+}
+
 .WriteEmail {
-  border: 1px solid rgba(0, 16, 61, 0.12);
   margin-bottom: 12px;
 }
 
@@ -15,6 +22,7 @@
 }
 
 .Counter {
+  display: block;
   margin-left: auto;
   margin-right: 0;
   text-align: end;
@@ -23,6 +31,7 @@
 }
 
 .Separator {
+  display: inline;
   width: 200px;
   height: 1px;
   margin-top: 8px;
@@ -30,28 +39,14 @@
   background: rgba(0, 16, 61, 0.12);
 }
 
-.AddFolder > button {
-  color: #87898f;
-  fill:#87898f;
-}
-
-.AddFolder > button:hover {
-  color: #333333;
-  fill:#333333;
+.AddFolder {
+  display: block;
 }
 
 @media screen and (max-width: 900px) {
 
-  .Sidebar {
+  .Sidebar:not(.Sidebar_full) {
     width: 64px;
-  }
-
-  .Button {
-    max-width: 36px;
-  }
-
-  .Button > span {
-    display: none;
   }
 
   .Burger {
@@ -62,7 +57,7 @@
     display: none;
   }
 
-  .Separator {
+  .Sidebar > .Separator {
     display: none;
   }
 

@@ -5,11 +5,12 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp server.js dist/server.js",
     "serve": "vite preview"
   },
   "license": "MIT",
   "devDependencies": {
+    "nodemon": "^2.0.20",
     "typescript": "^4.8.2",
     "vite": "^3.0.9",
     "vite-plugin-solid": "^2.3.0",

@@ -1,8 +1,22 @@
-const path = require('path');
 const fs = require('fs');
 const http = require('http');
-const db = require('../db.json');
+const path = require('path');
+const url = require('url');
+const querystring = require('querystring');
+const db = require('./db.json');
+const PORT = 3000;
 
+const dev = process.argv.includes('dev');
+const DIR = dev ? '/dist' : '';
+
+const MIME_TYPES = {
+  default: 'application/octet-stream',
+  html: 'text/html; charset=UTF-8',
+  js: 'application/javascript; charset=UTF-8',
+  css: 'text/css',
+  png: 'image/png',
+  svg: 'image/svg+xml',
+};
 
 /**
  * Simle orm for db.json
@@ -14,6 +28,7 @@ class Orm {
    */
   constructor(db) {
     this.db = db;
+    this.offset = 0;
   }
 
   /**
@@ -21,96 +36,92 @@ class Orm {
    * @param {{ [key: string]: string | number }} query
    * @param {number} offset
    * @param {number} limit
-   * @returns {Promise<{ offset: number, limit: number, findedRows: object[] | [] }>}
+   * @returns {Promise<{ offset: number, limit: number, result: object[] | [] }>}
    */
   async findBy(query, offset = 0, limit = 10) {
+    this.offset = offset === 0 ? offset : this.offset;
 
-    const findedRows = []
+    const result = []
+    while (result.length < limit && this.offset < this.db.length) {
+      const select = this.db[this.offset];
+      this.offset++;
 
-    while (offset < this.db.length && findedRows.length < limit) {
-      const tableRow = this.db[offset];
-      offset++;
-
-      if (this.where(tableRow, query)) {
-        findedRows.push(tableRow);
+      if (this.where(select, query)) {
+        result.push(select);
       }
     }
-    return { offset, limit, findedRows };
+    return { offset: result.length + offset, limit, result };
   }
 
   /**
-   * checks if a table row contains query parameters
-   * @param {{[string]: string | number }} tableRow
+   * checks if a select contains query parameters
+   * @param {{[string]: string | number }} select
    * @param {{ [key: string]: string | number }} query 
    * @returns {boolean}
   */
-  where(tableRow, query) {
-    const columnNames = Object.keys(query);
-    return columnNames.every(columnName => query[columnName] === tableRow[columnName]);
+  where(select, query) {
+    const collNames = Object.keys(query);
+    return collNames.every(coll => query[coll] === select[coll]);
   }
-}
-
-const MIME_TYPES = {
-  default: 'application/octet-stream',
-  html: 'text/html; charset=UTF-8',
-  js: 'application/javascript; charset=UTF-8',
-  css: 'text/css',
-  png: 'image/png',
-  jpg: 'image/jpg',
-  gif: 'image/gif',
-  ico: 'image/x-icon',
-  svg: 'image/svg+xml',
 };
 
-const sendStatic = (req, res) => {
-  if (req.method !== 'GET') {
-    res.statusCode = 403;
-    res.end('Forbidden');
-    return;
-  }
+const orm = new Orm(db);
 
+const statFileController = async (req, res) => {
   const file = req.url === '/' ? 'index.html' : req.url;
   const ext = path.extname(file).substring(1);
   const mimeType = MIME_TYPES[ext];
 
-  try {
-    res.writeHead(200, { 'Content-Type': mimeType });
-    const filePath = path.join(__dirname, file);
-    fs.createReadStream(filePath).pipe(res);
-
-  } catch (error) {
-    res.statusCode = 404;
-    res.end('Page not found');
-  }
+  res.writeHead(200, { 'Content-Type': mimeType });
+  const filePath = path.join(__dirname, DIR, file);
+  fs.createReadStream(filePath).pipe(res);
 }
- 
-const orm = new Orm(db);
+
+const mailsController = async (req, res) => {
+  const parsedUrl = url.parse(req.url);
+
+  const query = querystring.parse(parsedUrl.query);
+
+  const offset = query.offset ?? 0;
+  delete query.offset;
+
+  if (query.folder === 'Входящие') {
+    query.folder = undefined;
+  }
+  const mails = await orm.findBy(query, offset);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(mails), 'utf-8');
+}
 
 const router = async (req, res) => {
-  if (req.url === '/' || req.url.includes('assets')) {
-    sendStatic(req, res);
-  } else if (req.url.includes('mails')) {
-
-    const mails = await orm.findBy({ folder: undefined });
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(mails), 'utf-8');
-  } else {
-    res.statusCode = 404;
-    res.end('Page not found');
+  const stateMachine = {
+    '': async () => {
+      await statFileController(req, res);
+    },
+    'assets': async () => {
+      await statFileController(req, res);
+    },
+    'api': async (parsedPath) => {
+      const controllerName = parsedPath[3];
+      if (controllerName === 'mails') {
+        await mailsController(req, res);
+      }
+    },
+    default: () => {
+      res.statusCode = 404;
+      res.end('Page not found');
+    }
   }
 
- 
+  const parsedPath = req.url.split("/");
+  const key = parsedPath[1];
+  await key in stateMachine ? stateMachine[key](parsedPath) : stateMachine.default();
 }
-
-const conf = {
-  host: "localhost",
-  port: 3000,
-};
 
 const server = http.createServer(router);
 
-server.listen(conf.port, conf.host, () => {
-  console.log(`Server is running on http://${conf.host}:${conf.port}`);
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 

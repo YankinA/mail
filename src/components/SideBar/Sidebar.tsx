@@ -12,49 +12,46 @@ import ArchiveIcon from './../../assets/icons/archive.svg?component-solid';
 import SpamIcon from './../../assets/icons/spam.svg?component-solid';
 import TrashIcon from './../../assets/icons/trash.svg?component-solid';
 import PlusIcon from './../../assets/icons/plus.svg?component-solid';
-import { createStore } from 'solid-js/store';
-
-// const icons = import.meta.glob(
-//   './../../assets/icons/*.svg',
-//    { as: 'component-solid' }
-// );
+import { useStore } from '../../store';
 
 const Sidebar = () => {
 
+  const { drawer } = useStore();
   return (
-    <aside class={styles.Sidebar}>
-      <header>
-        <WriteEmail />
-      </header>
-      <main>
-        <Folders />
-        <hr class={styles.Separator} />
-        <AddFolder />
-      </main>
-      <footer></footer>
+    <aside class={styles.Sidebar}
+     classList={{ [styles.Sidebar_full]: drawer.get() }}>
+      <WriteEmail />
+      <Folders />
+      <hr class={styles.Separator} />
+      <AddFolder />
     </aside>
   );
 };
 
 const WriteEmail = () => {
+
+  const { drawer } = useStore();
+
   return (
-    <Button
-      Icon={<PenIcon />}
-      name="Написать письмо"
-      classes={{ [styles.WriteEmail]: true, [styles.Button]: true }}
-    />
+    <div class={styles.WriteEmail}>
+      <Button 
+        Icon={<PenIcon />} 
+        name="Написать письмо" 
+        border
+        full={drawer.get()}
+      />
+    </div>
   )
 };
 
 const Folders = () => {
 
-  const [
-    curFolder, 
-    setFolder,
-  ] = createStore<{name: string}>({ name: 'Входящие' });
+  const { drawer, folder: folderStore, mails } = useStore();
+
+  const toggleDrawer = () => { drawer.set(v => !v) }
 
   const folders: Folder[] = [
-    { Icon: BurgerIcon, name: 'Меню' },
+    { Icon: BurgerIcon, name: 'Скрыть' },
     { Icon: InboxIcon, name: 'Входящие' },
     { Icon: FolderIcon, name: 'Важное' },
     { Icon: SentIcon, name: 'Отправленные' },
@@ -64,24 +61,27 @@ const Folders = () => {
     { Icon: TrashIcon, name: 'Корзина' },
   ];
 
-  const onClick = (name: string) => {
-    setFolder({name});
-  };
-
   return (
     <ul>
       <For each={folders}>
         {(folder) => (
-          <li classList={{ [styles.Burger]: folder.name === 'Меню' }}>
+          <li classList={{ [styles.Burger]: folder.name === 'Скрыть' }}>
             <a>
               <Button
                 Icon={<folder.Icon />}
                 name={folder.name}
-                classes={{[styles.Button]: true }}
-                onClick={() => onClick(folder.name)}
-                active={curFolder.name === folder.name}
+                onClick={() => {
+                  folderStore.set(folder.name);
+                  console.log(mails);
+                  if (folder.name === 'Скрыть') {
+                    toggleDrawer();
+                  }
+                }}
+                active={folderStore.get() === folder.name}
+                full={drawer.get()}
               >
-                {folder.name === 'Входящие' && <div class={styles.Counter}>11</div>}
+                {folder.name === 'Входящие'
+                  && <div class={styles.Counter}>11</div>}
               </ Button>
             </a>
           </li>
@@ -90,13 +90,18 @@ const Folders = () => {
     </ ul>)
 };
 
-const AddFolder = () => (
-  <div class={styles.AddFolder}>
-    <Button
-      Icon={<PlusIcon />}
-      name='Новая папка'
-    />
-  </div>
-);
+const AddFolder = () => {
+  const { drawer } = useStore();
+  return (
+    <div class={styles.AddFolder}>
+      <Button
+        Icon={<PlusIcon />}
+        name='Новая папка'
+        light
+        full={drawer.get()}
+      />
+    </div>
+  )
+};
 
 export default Sidebar;

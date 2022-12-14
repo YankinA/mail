@@ -1,5 +1,10 @@
+:root {
+  --width-full: 200px;
+  --width-mini: 36px;
+}
+
 .Button {
-  width: 200px;
+  width: var(--width-full);
   height: 36px;
   display: flex;
   justify-content: start;
@@ -7,8 +12,38 @@
   border-radius: 8px;
 }
 
+.Button_full {
+  width: var(--width-full);
+}
+
+.Button_full > .Name {
+  display: inline;
+}
+
+.Button_mini {
+  width: var(--width-mini);
+}
+
+.Button_mini > .Name {
+  display: none;
+}
+
+.Button_light {
+  color: #87898f;
+  fill:#87898f;
+}
+
+.Button_border {
+  border: 1px solid rgba(0, 16, 61, 0.12);  
+}
+
 .Button:hover {
   background: rgba(0, 16, 61, 0.04);
+}
+
+.Button_light:hover {
+  color: #333333;
+  fill:#333333;
 }
 
 .Button_active {
@@ -27,11 +62,14 @@
 
 }
 
-svg {
-  
-}
+@media screen and (max-width: 900px) {
 
-.Name {
-  
+  .Button:not(.Button_full) {
+    max-width: var(--width-mini);
+  }
+
+  .Name {
+    display: none;
+  }
 }
 

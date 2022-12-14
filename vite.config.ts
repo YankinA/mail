@@ -10,7 +10,7 @@ export default defineConfig({
     devtools({ name: true, componentLocation: true }),
   ],
   server: {
-    port: 3000,
+    port: 4000,
   },
   build: {
     target: 'esnext',

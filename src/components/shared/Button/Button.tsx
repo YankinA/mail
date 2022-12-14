@@ -8,8 +8,14 @@ const Button: ButtonComp = (props) => {
     <button
       onClick={onClick}
       class={styles.Button}
-      classList={{ [styles.Button_active]: props.active, ...classes }}
-      
+      classList={{ 
+        [styles.Button_border]: props.border, 
+        [styles.Button_active]: props.active,
+        [styles.Button_light]: props.light,
+        [styles.Button_mini]: props.mini,
+        [styles.Button_full]: props.full,
+        ...classes 
+      }}
     >
       <div class={styles.Icon}>
         {Icon}
