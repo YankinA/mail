@@ -3,10 +3,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #F6F7F8;
 }
 
 .Sidebar_full {
-  position: absolute;
   width: 232px;
 }
 

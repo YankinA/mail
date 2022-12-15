@@ -15,13 +15,13 @@ const Header: Component = (props) => {
 
 const Logo: Component = () => {
 
-  const { drawer } = useStore();
+  const { getDrawer } = useStore();
   return (
     <div class={styles.Logo}>
       <LogoIcon />
       <span
         class={styles.Logo_Mail}
-        classList={{ [styles.Logo_Mail_show]: drawer.get() }}
+        classList={{ [styles.Logo_Mail_show]: getDrawer() }}
       >
         <MailIcon />
       </span>

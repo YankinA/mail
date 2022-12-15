@@ -1,11 +1,11 @@
 import type { Component } from 'solid-js';
 import styles from './App.module.css';
-import Mail from './pages/Mail';
+import MailClient from './pages/MailClient';
 
 const App: Component = () => {
   return (
     <div class={styles.App}>
-      <Mail /> 
+      <MailClient /> 
     </div>
   );
 };

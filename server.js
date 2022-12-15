@@ -89,6 +89,7 @@ const mailsController = async (req, res) => {
     query.folder = undefined;
   }
   const mails = await orm.findBy(query, offset);
+  console.log(mails);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(mails), 'utf-8');
 }

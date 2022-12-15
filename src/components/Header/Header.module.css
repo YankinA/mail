@@ -3,6 +3,8 @@
   display: flex;
   align-items: center;
   padding-left: 16px;
+  margin-bottom: 12px;
+  background: #FFFFFF;
 }
 
 .Logo_Mail_show {

@@ -13,8 +13,8 @@ type ButtonComp = Component<{
 	light?: boolean,
 	mini?: boolean,
 	full?: boolean,
-  hide?: boolean,
-  miniHide?: boolean,
+	hide?: boolean,
+	miniHide?: boolean,
 	hideIcon?: boolean,
 }>;
 

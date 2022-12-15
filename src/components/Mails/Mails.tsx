@@ -1,4 +1,6 @@
 import { Component, For } from 'solid-js';
+import { useStore } from '../../store';
+import styles from './Mails.module.css';
 
 const letters = [
   {
@@ -28,33 +30,34 @@ const letters = [
     read: false,
     folder: 'Архив',
     date: '2021-11-29T11:54:50.502Z',
-    doc: { img: 'img' }
+    doc: { img: 'img' },
+    category: "Деньги"
   }
 ];
 
-const Letters: Component = () => {
+const Mails: Component = () => {
   return (
-    <main>
-    
-    </main>
+    <section class={styles.Mails}>
+      <MailList />
+    </section>
   );
 };
 
-const LetterList = () => {
-
+const MailList = () => {
+  const { getMails }  = useStore();
   return <ul>
     <For each={letters}>
       {({ 
         author, bookmark, read, important, title, text, category, doc, date }) => (
-        <li>
-          <ReadCheckBox />
-          <CheckBox />
+        <li class={styles.MailList_item}>
+          <ReadCheckBox read={read}/>
+          <CheckBoxAuthor />
           <Author author={author}/>
           {bookmark && <></>}
           {(!bookmark && important) && <></>}
           <span>
             <span>{title}</span>
-            <span>{text}</span>
+            <span>{"text"}</span>
           </span>
            <Category category={category} />
           <Date date={date}/>
@@ -65,9 +68,16 @@ const LetterList = () => {
   </ul>
 };
 
-const ReadCheckBox = () => <div></div>;
+const ReadCheckBox = ({read}) => (
+  <label 
+    class={styles.Read_CheckBox}
+    classList={{[styles.Read_CheckBox_active]: read }}
+  >
+    <input type='checkbox'/>
+  </label>
+);
 
-const CheckBox = () => <div></div>;
+const CheckBoxAuthor = () => <div></div>;
 
 const Author = ({ author }) => {
   return <div>
@@ -80,7 +90,17 @@ const Author = ({ author }) => {
 const Avatar = ({ img }) => {
   return <>{img}</>
 }
-const Category = ({ category }) => <div>{category}</div>;
+const Category = ({ category }) => {
+  const categories = {
+    "Деньги": "img",
+  }
+  return (
+    <div>
+      {categories[category]}
+      {category}
+    </div>
+  );
+};
 const Date = ({ date }) => <div>{date}</div>
 
-export default Letters;
+export default Mails;

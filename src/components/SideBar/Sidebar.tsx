@@ -16,10 +16,10 @@ import { useStore } from '../../store';
 
 const Sidebar = () => {
 
-  const { drawer } = useStore();
+  const { getDrawer } = useStore();
   return (
     <aside class={styles.Sidebar}
-     classList={{ [styles.Sidebar_full]: drawer.get() }}>
+      classList={{ [styles.Sidebar_full]: getDrawer() }}>
       <WriteEmail />
       <Folders />
       <hr class={styles.Separator} />
@@ -30,26 +30,22 @@ const Sidebar = () => {
 
 const WriteEmail = () => {
 
-  const { drawer } = useStore();
+  const { getDrawer } = useStore();
 
   return (
     <div class={styles.WriteEmail}>
-      <Button 
-        Icon={<PenIcon />} 
-        name="Написать письмо" 
+      <Button
+        Icon={<PenIcon />}
+        name="Написать письмо"
         border
-        full={drawer.get()}
-        hideIcon={drawer.get()}
+        full={getDrawer()}
+        hideIcon={getDrawer()}
       />
     </div>
   )
 };
 
 const Folders = () => {
-
-  const { drawer, folder: folderStore, mails } = useStore();
-
-  const toggleDrawer = () => { drawer.set(v => !v) }
 
   const folders: Folder[] = [
     { Icon: BurgerIcon, name: 'Скрыть' },
@@ -62,6 +58,18 @@ const Folders = () => {
     { Icon: TrashIcon, name: 'Корзина' },
   ];
 
+  const { getDrawer, setDrawer, setFolder, getFolder, getMails } = useStore();
+
+  const toggleDrawer = () => { setDrawer(v => !v) }
+
+  const folderOnClick = (name: string) => {
+    if (name === 'Скрыть') {
+      toggleDrawer();
+    } else {
+      setFolder(name);
+    }
+  }
+
   return (
     <ul>
       <For each={folders}>
@@ -71,14 +79,9 @@ const Folders = () => {
               <Button
                 Icon={<folder.Icon />}
                 name={folder.name}
-                onClick={() => {
-                  folderStore.set(folder.name);
-                  if (folder.name === 'Скрыть') {
-                    toggleDrawer();
-                  }
-                }}
-                active={folderStore.get() === folder.name}
-                full={drawer.get()}
+                onClick={() => { folderOnClick(folder.name) }}
+                active={getFolder() === folder.name}
+                full={getDrawer()}
               >
                 {folder.name === 'Входящие'
                   && <div class={styles.Counter}>11</div>}
@@ -91,15 +94,15 @@ const Folders = () => {
 };
 
 const AddFolder = () => {
-  const { drawer } = useStore();
+  const { getDrawer } = useStore();
   return (
     <div class={styles.AddFolder}>
       <Button
         Icon={<PlusIcon />}
         name='Новая папка'
         light
-        full={drawer.get()}
-        miniHide={!drawer.get()}
+        full={getDrawer()}
+        miniHide={!getDrawer()}
       />
     </div>
   )
