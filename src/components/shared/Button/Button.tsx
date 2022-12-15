@@ -14,6 +14,9 @@ const Button: ButtonComp = (props) => {
         [styles.Button_light]: props.light,
         [styles.Button_mini]: props.mini,
         [styles.Button_full]: props.full,
+        [styles.Button_hide]: props.hide,
+        [styles.Button_miniHide]: props.miniHide,
+        [styles.Button_hideIcon]: props.hideIcon,
         ...classes 
       }}
     >

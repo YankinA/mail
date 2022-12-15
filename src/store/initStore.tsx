@@ -26,14 +26,15 @@ const initStore = (): Store => {
     mails: {}
   };
 
-  const fetchMails = async (folder: string) => (await fetch(routes.getMails({ folder }))).json();
+  const fetchMails = async (folder: string) => {
+    return (await fetch(routes.getMails({ folder }))).json()
+  };
 
   const getQuery = (): Query => ({ folder: store.folder.get() });
 
   const [mails] = createResource(getFolder, fetchMails);
-  console.log({mails});
   store.mails = mails;
-
+ 
   return store;
 }
 export default initStore;

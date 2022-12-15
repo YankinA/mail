@@ -39,6 +39,7 @@ const WriteEmail = () => {
         name="Написать письмо" 
         border
         full={drawer.get()}
+        hideIcon={drawer.get()}
       />
     </div>
   )
@@ -72,7 +73,6 @@ const Folders = () => {
                 name={folder.name}
                 onClick={() => {
                   folderStore.set(folder.name);
-                  console.log(mails);
                   if (folder.name === 'Скрыть') {
                     toggleDrawer();
                   }
@@ -99,6 +99,7 @@ const AddFolder = () => {
         name='Новая папка'
         light
         full={drawer.get()}
+        miniHide={!drawer.get()}
       />
     </div>
   )

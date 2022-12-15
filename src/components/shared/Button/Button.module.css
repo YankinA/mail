@@ -12,12 +12,20 @@
   border-radius: 8px;
 }
 
+.Button_hide {
+  display: none; 
+}
+
 .Button_full {
   width: var(--width-full);
 }
 
 .Button_full > .Name {
   display: inline;
+}
+
+.Button_hideIcon > .Icon > * {
+  display: none;
 }
 
 .Button_mini {
@@ -34,7 +42,7 @@
 }
 
 .Button_border {
-  border: 1px solid rgba(0, 16, 61, 0.12);  
+  outline: 1px solid rgba(0, 16, 61, 0.12);  
 }
 
 .Button:hover {
@@ -55,14 +63,17 @@
 }
 
 .Icon {
-  width: 40px;
+  width: 36px !important;
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 @media screen and (max-width: 900px) {
+
+  .Button_miniHide {
+    display: none; 
+  }
 
   .Button:not(.Button_full) {
     max-width: var(--width-mini);

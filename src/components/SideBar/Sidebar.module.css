@@ -6,11 +6,16 @@
 }
 
 .Sidebar_full {
+  position: absolute;
   width: 232px;
 }
 
 .Sidebar_full > .Separator {
-  display: inline;
+  display: block;
+}
+
+.WriteEmail {
+  margin-bottom: 12px;
 }
 
 .WriteEmail {
@@ -31,7 +36,7 @@
 }
 
 .Separator {
-  display: inline;
+  display: block;
   width: 200px;
   height: 1px;
   margin-top: 8px;
@@ -39,14 +44,11 @@
   background: rgba(0, 16, 61, 0.12);
 }
 
-.AddFolder {
-  display: block;
-}
-
 @media screen and (max-width: 900px) {
 
   .Sidebar:not(.Sidebar_full) {
     width: 64px;
+    padding-left: 2px;
   }
 
   .Burger {
@@ -57,11 +59,7 @@
     display: none;
   }
 
-  .Sidebar > .Separator {
-    display: none;
-  }
-
-  .AddFolder {
+  .Sidebar:not(.Sidebar_full) > .Separator {
     display: none;
   }
 }

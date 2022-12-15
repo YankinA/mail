@@ -103,9 +103,12 @@ const router = async (req, res) => {
     },
     'api': async (parsedPath) => {
       const controllerName = parsedPath[3];
-      if (controllerName === 'mails') {
+      if (controllerName.includes('mails?') || controllerName === "mails") {
         await mailsController(req, res);
+      } else {
+        stateMachine.default();
       }
+
     },
     default: () => {
       res.statusCode = 404;
