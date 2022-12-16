@@ -39,7 +39,7 @@ const WriteEmail = () => {
         name="Написать письмо"
         border
         full={getDrawer()}
-        hideIcon={getDrawer()}
+        hideIcon
       />
     </div>
   )

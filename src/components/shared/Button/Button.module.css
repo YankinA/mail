@@ -79,6 +79,10 @@
     max-width: var(--width-mini);
   }
 
+  .Button:not(.Button_full) > .Icon > * {
+    display: block;
+  }
+
   .Name {
     display: none;
   }

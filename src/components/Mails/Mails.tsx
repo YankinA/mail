@@ -1,39 +1,6 @@
-import { Component, For } from 'solid-js';
+import { Component, For, createSignal } from 'solid-js';
 import { useStore } from '../../store';
 import styles from './Mails.module.css';
-
-const letters = [
-  {
-    author: {
-      name: 'Матанат',
-      surname: 'Гаджикеримова',
-      email: 'two-waysandstone@mail.ru'
-    },
-    to: [
-      {
-        name: 'Дирдь',
-        surname: 'Ладухина',
-        email: 'no-nonsensesnap@mail.ru',
-        avatar: 'img'
-      },
-      {
-        name: 'Балбика',
-        surname: 'Макейченкова',
-        email: 'alternativeexpulsion@mail.ru',
-        avatar: 'img'
-      }
-    ],
-    title: 'Первоначальный дуализм иллюзорен.',
-    text: 'Диалектика индуцирует патристику. Имманентный предикат абстрактен. Интеллигибельная актуализация структуальна. Парадигма генетивна. Материализм контролирует космизм. Как ни странно, но необычайная парадигма, возводя, предполагает подтекст. Антагонизм иллюзорен. Актуализация упирается в народничество. Либидо примитивно. Органичная апперцепция, абстрагируясь, выводит дуализм. Откровенно сказать обскурантизм вполне возможен. Благо рефлектирует и заполняет апперцепцию — известный факт.',
-    bookmark: false,
-    important: false,
-    read: false,
-    folder: 'Архив',
-    date: '2021-11-29T11:54:50.502Z',
-    doc: { img: 'img' },
-    category: "Деньги"
-  }
-];
 
 const Mails: Component = () => {
   return (
@@ -44,63 +11,77 @@ const Mails: Component = () => {
 };
 
 const MailList = () => {
-  const { getMails }  = useStore();
+  const { getMails } = useStore();
+
   return <ul>
-    <For each={letters}>
-      {({ 
-        author, bookmark, read, important, title, text, category, doc, date }) => (
+    <For each={getMails()?.result}>
+      {(mail) => (
         <li class={styles.MailList_item}>
-          <ReadCheckBox read={read}/>
+          <ReadCheckBox read={mail.read} />
           <CheckBoxAuthor />
-          <Author author={author}/>
-          {bookmark && <></>}
-          {(!bookmark && important) && <></>}
-          <span>
-            <span>{title}</span>
-            <span>{"text"}</span>
-          </span>
-           <Category category={category} />
-          <Date date={date}/>
-          {doc && <></>}
+          <Author author={mail.author} />
+          {mail.bookmark && <></>}
+          {(!mail.bookmark && mail.important) && <></>}
+          <MailContetn title={mail.title} text={mail.text} />
+          <Category category={mail.flag} />
+          <Date date={mail.date} />
+          {mail.doc && <></>}
         </ li>
       )}
     </For>
   </ul>
 };
 
-const ReadCheckBox = ({read}) => (
-  <label 
-    class={styles.Read_CheckBox}
-    classList={{[styles.Read_CheckBox_active]: read }}
-  >
-    <input type='checkbox'/>
-  </label>
-);
+const ReadCheckBox = (props) => {
 
-const CheckBoxAuthor = () => <div></div>;
+  const [getRead, setRead] = createSignal<boolean>(props.read);
 
-const Author = ({ author }) => {
-  return <div>
-    <Avatar img={author.avatar} />
-    <span>{author.name}</span>
-    <span>{author.surname}</span>
+  return (
+    <label
+      class={styles.Read_CheckBox}
+      classList={{ [styles.Read_CheckBox_active]: getRead() }}
+    >
+      <input type='checkbox' onClick={() => {
+        setRead(v => !v);
+      }} />
+    </label >
+  )
+};
+
+
+const Author = (props) => {
+  return <div class={styles.Author}>
+    <Avatar img={props.author.avatar} />
+    <span class={styles.Names}>
+      <span>
+        {props.author.name} {props.author.surname}
+      </span>
+    </span>
   </div>
 }
 
-const Avatar = ({ img }) => {
-  return <>{img}</>
+const CheckBoxAuthor = () => <div></div>;
+
+const Avatar = (props) => {
+  return props.img ? <img class={styles.Avatar} src={props.img} alt="avatar" /> : <div class={styles.Avatar} />
 }
-const Category = ({ category }) => {
+
+const MailContetn = (props) => (<div>
+  <span>{props.title}</span>
+  <span>{"props.text"}</span>
+</div>)
+
+const Category = (props) => {
   const categories = {
     "Деньги": "img",
   }
   return (
     <div>
-      {categories[category]}
-      {category}
+      {/* {categories[props.category]} */}
+      {props.category}
     </div>
   );
 };
-const Date = ({ date }) => <div>{date}</div>
+const Date = (props) => <div>{props.date}</div>
 
 export default Mails;

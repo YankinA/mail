@@ -9,6 +9,7 @@
   border-radius: 12px;
   display: flex;
   align-items: center;
+  text-align: center;
 }
 
 .MailList_item:hover {
@@ -28,10 +29,24 @@
   background: #005FF9;
 }
 
-input[type=checkbox]:checked > .Read_CheckBox  { 
-  background: red;
-}
-
 .Read_CheckBox > input[type=checkbox] { 
   display: none;
+}
+
+.Author {
+  display: flex;
+  align-items: center;
+}
+
+.Avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.Names {
+  width: 167px;
+  word-wrap: break-word;
+  outline: 1px solid red;
 }

@@ -1,7 +1,37 @@
 import { Accessor, Resource, Setter } from "solid-js";
 
-type Mails = {
-  result: object[] | [],
+
+export type Author = {
+  name: string;
+  surname: string;
+  email: string;
+}
+
+export type To = {
+  name: string;
+  surname: string;
+  email: string;
+}
+
+export type Doc = {
+  img: string | string[];
+}
+
+export type Mail = {
+  author: Author;
+  to: To[];
+  title: string;
+  text: string;
+  bookmark: boolean;
+  important: boolean;
+  read: boolean;
+  date: Date;
+  doc: Doc;
+  flag: string;
+}
+
+export type Mails = {
+  result: Mail[] | [],
   limit: number,
   offset: number
 };
