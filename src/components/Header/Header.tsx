@@ -6,9 +6,12 @@ import BackIcon from './../../assets/icons/back.svg';
 import { useStore } from '../../store';
 
 const Header: Component = (props) => {
+
+  const { getMail } = useStore();
+
   return (
     <header class={styles.Header}>
-      <Logo />
+      {getMail() ? <Back /> : <Logo />}
     </header>
   );
 };
@@ -30,8 +33,11 @@ const Logo: Component = () => {
 };
 
 const Back: Component = () => {
+  const { setMail } = useStore();
   return (
-    <button class={styles.Back}>
+    <button 
+      class={styles.Back} 
+      onClick={() => { setMail(null); }}>
       <BackIcon />
       Вернуться
     </button>

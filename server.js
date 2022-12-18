@@ -3,7 +3,11 @@ const http = require('http');
 const path = require('path');
 const url = require('url');
 const querystring = require('querystring');
-const db = require('./db.json');
+let db = require('./db.json');
+
+db.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+
 const PORT = 3000;
 
 const dev = process.argv.includes('dev');
@@ -38,7 +42,7 @@ class Orm {
    * @param {number} limit
    * @returns {Promise<{ offset: number, limit: number, result: object[] | [] }>}
    */
-  async findBy(query, offset = 0, limit = 10) {
+  async findBy(query, offset = 0, limit = 30) {
     this.offset = offset === 0 ? offset : this.offset;
 
     const result = []
@@ -89,7 +93,6 @@ const mailsController = async (req, res) => {
     query.folder = undefined;
   }
   const mails = await orm.findBy(query, offset);
-  console.log(mails);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(mails), 'utf-8');
 }

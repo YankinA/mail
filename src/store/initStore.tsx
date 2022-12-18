@@ -1,6 +1,6 @@
 import { createResource, createSignal } from "solid-js";
 import routes from '../routes';
-import type { Store } from './store.d';
+import type { Store, Mail } from './store.d';
 
 const initStore = (): Store => {
 
@@ -16,6 +16,8 @@ const initStore = (): Store => {
 
   const [getMails] = createResource(getFolder, fetchMails);
 
+  const [getMail, setMail] = createSignal<Mail | null>(null);
+
   return {
     getTheme,
     setTheme,
@@ -24,6 +26,8 @@ const initStore = (): Store => {
     getDrawer,
     setDrawer,
     getMails,
+    getMail,
+    setMail
   }
 }
 export default initStore;

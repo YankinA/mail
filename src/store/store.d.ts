@@ -5,6 +5,7 @@ export type Author = {
   name: string;
   surname: string;
   email: string;
+  avatar?: string;
 }
 
 export type To = {
@@ -28,6 +29,7 @@ export type Mail = {
   date: Date;
   doc: Doc;
   flag: string;
+  folder?: string;
 }
 
 export type Mails = {
@@ -44,4 +46,6 @@ export type Store = {
   getDrawer: Accessor<boolean>,
   setDrawer: Setter<boolean>,
   getMails: Resource<Mails>,
+  getMail: Accessor<Mail | null>,
+  setMail: Setter<Mail | null>,
 }

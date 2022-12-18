@@ -58,7 +58,7 @@ const Folders = () => {
     { Icon: TrashIcon, name: 'Корзина' },
   ];
 
-  const { getDrawer, setDrawer, setFolder, getFolder, getMails } = useStore();
+  const { getDrawer, setDrawer, setFolder, getFolder, getMails, setMail } = useStore();
 
   const toggleDrawer = () => { setDrawer(v => !v) }
 
@@ -66,7 +66,9 @@ const Folders = () => {
     if (name === 'Скрыть') {
       toggleDrawer();
     } else {
+      setMail(null);
       setFolder(name);
+       
     }
   }
 

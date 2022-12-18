@@ -1,41 +1,203 @@
 .Mails {
+  display: flex;
+  margin-left: 232px;
+  margin-top: 68px;
+  margin-right: 12px;
+  width: 100%;
   border-radius: 12px;
-  margin-left: 16px;
   background: #FFFFFF;
+  overflow-y: scroll;
 }
 
-.MailList_item {
+.Mail {
+  width: 100%;
+  min-height: 40vh;
+  padding-left: 32px;
+  padding-top: 22px;
+  padding-right: 24px;
+  padding-bottom: 32px;
+}
+
+.Mail_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Mail_title {
+  margin-top: -6px;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.MailAuthor {
+  position: relative;
+  display: flex;
+  justify-content: start;
+  height: 60px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.MailAuthor>.ReadCheckBox {
+  position: absolute;
+  left: -13px;
+  top: 21px;
+}
+
+.MailAuthor_desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.MailAuthor_desc_names {
+  display: flex;
+}
+
+.Mail_names {
+  margin-right: 8px;
+}
+
+.Mail_names>span:first-child {
+  margin-right: 5px;
+}
+
+.MailTo {
+  font-size: 13px;
+  line-height: 18px;
+  color: #87898F;
+}
+
+.MailDocs {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 522px;
+  margin-bottom: 8px;
+  font-family: 'Helvetica Neue';
+  font-size: 13px;
+}
+
+.MailDocs_download {
+  color: #005BD1;
+}
+
+.MailDocs_filesize {
+  color: #87898F;
+}
+
+.MailDocs_img {
+  width: 256px;
+  height: 190px;
+  border-radius: 12px;
+}
+
+.MailDocs_img:first-child {
+  margin-right: 10px;
+}
+
+.MailText {
+  margin-top: 28px;
+  font-family: 'Helvetica Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: left;
+}
+
+.MailLists {
+  width: 100%;
+}
+
+.MailListItem {
+  position: relative;
+  width: 100%;
   height: 48px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.MailList_item:hover {
+.MailListItem:hover {
   background: rgba(0, 16, 61, 0.04);
 }
 
-.Read_CheckBox {
+.ReadCheckBox {
+  position: absolute;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  margin-left: 11px;
-  margin-right: 11px;
+  left: 11px;
   background: #A5A7AD;
 }
 
-.Read_CheckBox_active {
+.ReadCheckBox_active {
   background: #005FF9;
 }
 
-.Read_CheckBox > input[type=checkbox] { 
+.ReadCheckBox>input[type=checkbox] {
   display: none;
 }
 
 .Author {
   display: flex;
   align-items: center;
+  margin-left: 28px;
+}
+
+.AuthorCheckBox_wrapper {
+  display: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.AuthorCheckBox {
+  display: none;
+  width: 16px;
+  height: 16px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 16, 61, 0.12);
+  border-radius: 4px;
+}
+
+.MailListItem:hover>.Author>.AuthorCheckBox_wrapper,
+.AuthorCheckBox_wrapper_show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.MailListItem:hover>.Author>.AuthorCheckBox_wrapper>.AuthorCheckBox,
+.AuthorCheckBox_wrapper_show>.AuthorCheckBox {
+  display: block;
+}
+
+.AuthorCheckBox_wrapper_show~.Avatar {
+  display: none;
+}
+
+.AuthorCheckBox_active {
+  background: #005FF9;
+}
+
+.AuthorCheckBox>input[type=checkbox] {
+  display: none;
+}
+
+.AuthorCheckBox_Icon:not(.AuthorCheckBox_active) {
+  display: none;
+}
+
+.AuthorCheckBox_active>.AuthorCheckBox_Icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Avatar {
@@ -43,10 +205,182 @@
   height: 32px;
   border-radius: 50%;
   margin-right: 12px;
+  background: #D3B3FF;
 }
 
-.Names {
+.Avatar_char {
+  font-family: 'Mail Sans Roman';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+  padding-top: 8px;
+  color: #874DD6;
+
+}
+
+.MailListItem:hover>.Author>.Avatar {
+  display: none;
+}
+
+.Author_names {
   width: 167px;
-  word-wrap: break-word;
-  outline: 1px solid red;
+  text-align: start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.Author_name {
+  max-width: 136px;
+  padding-right: 5px;
+}
+
+.ReadCheckBox_active~.Author>.Author_names {
+  font-weight: 700;
+}
+
+.Bookmark {
+  margin-left: 31px;
+  margin-right: 27px;
+}
+
+.Bookmark>input {
+  display: none;
+}
+
+.MailListItem:not(.MailListItem:hover)>.Bookmark:not(.Bookmark_active) {
+  opacity: 0;
+}
+
+.MailListItem:not(.MailListItem:hover)>.Bookmark_hide:not(.Bookmark_active) {
+  display: none;
+}
+
+.exclamation {
+  margin-left: 34px;
+  margin-right: 31px;
+}
+
+.MailListItem:hover>.exclamation {
+  display: none;
+}
+
+.Bookmark_active~.exclamation {
+  display: none;
+}
+
+.MailContent {
+  display: flex;
+}
+
+.title {
+  max-width: 252px;
+  text-align: start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+} 
+
+.ReadCheckBox_active~.MailContent>.title {
+  font-weight: 700;
+}
+
+.text {
+  max-width: 500px;
+  color: #87898F;
+  text-align: start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.text_less {
+  max-width: 480px; 
+}
+
+.wrap_widget {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+
+.Category {
+  display: flex;
+  align-items: center;
+}
+
+.wrap_widget > .Category {
+  margin-right: 10.5px;
+}
+
+.Category_name {
+  padding-left: 10.5px;
+}
+
+.Attach {
+  margin-right: 16px;
+}
+
+.Date {
+  min-width: 44px;
+  margin-right: 17px;
+  color: #87898F;
+}
+
+
+@media screen and (max-width: 1366px) {
+  .text {
+    max-width: 350px; 
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .text {
+    max-width: 220px; 
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .text {
+    max-width: 150px; 
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .text {
+    max-width: 70px; 
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .text {
+    max-width: 60px; 
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .Mails {
+    margin-left: 65px;
+  }
+
+  .title {
+    max-width: 150px;
+  }
+
+  .text {
+    max-width: 150px; 
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  .title {
+    max-width: 130px;
+  }
+
+  .text {
+    max-width: 70px; 
+  }
 }

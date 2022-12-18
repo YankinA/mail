@@ -1,9 +1,11 @@
 .Header {
+  position: fixed;
+  z-index: 1;
+  min-width: 100vw;
+  padding-left: 16px;
   height: 56px;
   display: flex;
   align-items: center;
-  padding-left: 16px;
-  margin-bottom: 12px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   background: #FFFFFF;
