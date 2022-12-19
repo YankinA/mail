@@ -12,5 +12,7 @@ body {
   font-size: 15px;
   line-height: 20px;
   background: #F6F7F8;
+  width: 100vw;
+  overflow: hidden;
 }
 

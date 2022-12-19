@@ -6,7 +6,6 @@
   width: 100%;
   border-radius: 12px;
   background: #FFFFFF;
-  overflow-y: scroll;
 }
 
 .Mail {
@@ -106,6 +105,22 @@
 
 .MailLists {
   width: 100%;
+  height: 100vh;
+  overflow: auto;
+}
+
+.MailLists::-webkit-scrollbar {
+  border-radius: 5px;
+  width: 0.7em;
+}
+
+.MailLists::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+.MailLists::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 16, 61, 0.08);
+  border-radius: 5px;
 }
 
 .MailListItem {
