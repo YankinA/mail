@@ -1,4 +1,4 @@
-import { Component, For, createSignal } from 'solid-js';
+import { For, createSignal, Component } from 'solid-js';
 import { useStore } from '../../store';
 import styles from './Mails.module.css';
 import CheckIcon from './../../assets/icons/check.svg?component-solid';
@@ -12,17 +12,19 @@ import PlaneIcon from './../../assets/icons/categories/plane.svg?component-solid
 import ShopIcon from './../../assets/icons/categories/shopping.svg?component-solid';
 import TicketIcon from './../../assets/icons/categories/ticket.svg?component-solid';
 import AttachIcon from './../../assets/icons/attach.svg?component-solid';
+import type { AuthorComp, AvatarComp, BookmarkComp, MailDocsComp, MailTextComp, OnOpenMail, OnToggle, ReadCheckBoxComp } from './Mails.d';
 
-const Mails: Component = () => {
+const Mails = () => {
   const { getMail } = useStore();
   return (
     <section class={styles.Mails}>
+      <div class={styles.screen}></div>
       {getMail() ? <Mail /> : <MailList />}
     </section>
   );
 };
 
-const Mail = (props) => {
+const Mail = () => {
 
   const { getMail } = useStore();
   const mail = getMail();
@@ -46,8 +48,8 @@ const MailAuthor = () => {
   const mail = getMail();
   return (
     <section class={styles.MailAuthor}>
-      <ReadCheckBox read={mail?.read} />
-      <Avatar img={mail?.author?.avatar} char={mail?.author.name[0]} />
+      <ReadCheckBox read={mail?.read ?? false} />
+      <Avatar img={mail?.author?.avatar} label={mail?.author.name[0]} />
       <div style={styles.MailAuthor_desc}>
         <div class={styles.MailAuthor_desc_names}>
           <span class={styles.Mail_names}>
@@ -85,74 +87,68 @@ const MailTo = () => {
     </ div>)
 }
 
-const MailDocs = (props) => {
+const MailDocs: MailDocsComp = ({ doc: { img } }) => {
 
-  const isArr = Array.isArray(props.doc.img);
-  const files = (num: number) => {
-    const lastNum = Number(String(num)[String(num).length - 1]);
+  const docCounter = String(Array.isArray(img) ? img.length : 1);
+  const lastNum = Number(docCounter[docCounter.length - 1]);
 
-    if (lastNum === 1) {
-      return ' файл';
-    } else if (lastNum > 1 && lastNum < 5) {
-      return ' файла'
-    } else {
-      return ' файлов';
-    }
+  let filesLocale: 'файлов' | 'файл' | 'файла' = 'файлов';
+  if (lastNum === 1) {
+    filesLocale = 'файл';
+  } else if (lastNum > 1 && lastNum < 5) {
+    filesLocale = 'файла'
+  }
 
-  };
-
-  const len = isArr ? props.doc.img.length : 1;
-
-  const getSize = (src: string) => {
+  const getImgSize = (src: string) => {
     try {
       const base64str = src.substring(22);
       return Math.floor(atob(base64str).length / 1024);
     } catch (error) {
       return 0;
     }
+  };
 
-  }
-
-  const fullSize = isArr
-    ? props.doc.img.reduce((acc: number, src: string) => acc + getSize(src), 0)
-    : getSize(props.doc.img);
+  const fullImgSize = Array.isArray(img)
+    ? img.reduce((acc: number, src: string) => acc + getImgSize(src), 0)
+    : getImgSize(img);
 
   return (
     <>
       <div class={styles.MailDocs}>
-        {isArr ? props.doc.img.map((src: string) => (
+        {Array.isArray(img) ? img.map((src: string) => (
           <img class={styles.MailDocs_img} src={src} alt='вложенное изображение' />
-        )) : <img class={styles.MailDocs_img} src={props.doc.img} alt='вложенное изображение' />}
+        )) : <img class={styles.MailDocs_img} src={img} alt='вложенное изображение' />}
       </div>
-      <span>{len}{files(len)} </span>
-      <a class={styles.MailDocs_download} >Скачать </a>
-      <span class={styles.MailDocs_filesize}>({fullSize} кб)</span>
+      <span>{docCounter} {filesLocale} </span>
+      <a class={styles.MailDocs_download}>Скачать </a>
+      <span class={styles.MailDocs_filesize}>({fullImgSize} кб)</span>
     </>
   )
 };
 
-const MailText = (props) => {
-  return <article class={styles.MailText}>
+const MailText: MailTextComp = (props) => (
+  <article class={styles.MailText}>
     <p>{props.text}</p>
   </article>
-}
+);
 
 const MailList = () => {
   const { getMails, setMail } = useStore();
 
-  const onClick = (mail, e) => {
+  const onOpenMail: OnOpenMail = (mail, e) => {
     const forbiddenTags = ['input', 'label', 'svg', 'path'];
-    if (!forbiddenTags.includes(e.target.tagName.toLowerCase())) {
+    const target: HTMLElement = e.target as HTMLElement;
+    if (!forbiddenTags.includes(target?.tagName.toLowerCase())) {
       setMail(mail);
     }
-
   }
+
   return <ul class={styles.MailLists}>
     <For each={getMails()?.result}>
       {(mail) => (
         <li
           class={styles.MailListItem}
-          onClick={[onClick, mail]}
+          onClick={[onOpenMail, mail]}
         >
           <ReadCheckBox read={mail.read} />
           <Author author={mail.author} />
@@ -163,7 +159,6 @@ const MailList = () => {
           <MailContent
             title={mail.title}
             text={mail.text}
-            less={mail.flag || mail.doc}
           />
           <div class={styles.wrap_widget}>
             <Category category={mail.flag} />
@@ -174,31 +169,33 @@ const MailList = () => {
         </ li>
       )}
     </For>
+    <li class={styles.MailList_page_fixer} />
   </ul>
 };
 
-const ReadCheckBox = (props) => {
+const ReadCheckBox: ReadCheckBoxComp = (props) => {
 
   const [getRead, setRead] = createSignal<boolean>(props.read);
+
+  const onToggle: OnToggle = (e) => {
+    const target = e.target as HTMLInputElement;
+    setRead(target.checked);
+  }
 
   return (
     <label
       class={styles.ReadCheckBox}
       classList={{ [styles.ReadCheckBox_active]: getRead() }}
     >
-      <input type='checkbox' onClick={() => {
-        setRead(v => !v);
-
-      }} />
+      <input type='checkbox' onClick={onToggle} checked={getRead()} />
     </label >
   )
 };
 
-
-const Author = (props) => {
+const Author: AuthorComp = (props) => {
   return <div class={styles.Author}>
     <AuthorCheckBox />
-    <Avatar img={props.author.avatar} char={props.author.name[0]} />
+    <Avatar img={props.author.avatar} label={props.author.name[0]} />
     <div class={styles.Author_names}>
       <span class={styles.Author_name}>
         {props.author.name}
@@ -214,8 +211,9 @@ const AuthorCheckBox = () => {
 
   const [getCheck, setCheck] = createSignal<boolean>(false);
 
-  const onClick = () => {
-    setCheck(v => !v);
+  const onToggle: OnToggle = (e) => {
+    const target = e.target as HTMLInputElement;
+    setCheck(target.checked);
 
   }
 
@@ -235,12 +233,12 @@ const AuthorCheckBox = () => {
         <div class={styles.AuthorCheckBox_Icon}>
           <CheckIcon />
         </ div>
-        <input type='checkbox' onClick={[onClick]} />
+        <input type='checkbox' onClick={onToggle} />
       </label >
     </div>)
 };
 
-const Avatar = (props) => {
+const Avatar: AvatarComp = (props) => {
   return props.img
     ? <img
       class={styles.Avatar}
@@ -249,20 +247,19 @@ const Avatar = (props) => {
     />
     : (
       <div class={styles.Avatar}>
-        <div class={styles.Avatar_char}>
-          {props.char}
+        <div class={styles.Avatar_label}>
+          {props.label}
         </div>
       </div>)
 }
 
-const Bookmark = (props) => {
+const Bookmark: BookmarkComp = (props) => {
 
   const [getCheck, setCheck] = createSignal<boolean>(props.bookmark);
 
-  const onClick = () => {
-
-    setCheck(v => !v);
-
+  const onToggle: OnToggle = (e) => {
+    const target = e.target as HTMLInputElement;
+    setCheck(target.checked);
   }
 
   return (
@@ -276,17 +273,14 @@ const Bookmark = (props) => {
       <div class={styles.Bookmark_Icon}>
         {getCheck() ? <BookmarkRedIcon /> : <BookmarkGrayIcon />}
       </ div>
-      <input type='checkbox' onClick={[onClick]} />
+      <input type='checkbox' onClick={onToggle} checked={getCheck()} />
     </label >)
 };
 
 const MailContent = (props) => (
   <article class={styles.MailContent}>
     <h3 class={styles.title} >{props.title}</h3>
-    <p
-      class={styles.text}
-      classList={{ [styles.text_less]: props.less }}
-    >
+    <p class={styles.text}>
       {props.text}
     </p>
   </article>)

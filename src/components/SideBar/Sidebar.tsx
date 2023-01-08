@@ -1,7 +1,7 @@
-import { createSignal, For } from 'solid-js';
+import { For } from 'solid-js';
 import type { Folder } from './Sidebar.d';
 import styles from './Sidebar.module.css';
-import Button from './../shared/Button/Button';
+import Button from '../@shared/Button/Button';
 import PenIcon from './../../assets/icons/pen.svg?component-solid';
 import BurgerIcon from './../../assets/icons/burger.svg?component-solid';
 import InboxIcon from './../../assets/icons/inbox.svg?component-solid';
@@ -12,6 +12,7 @@ import ArchiveIcon from './../../assets/icons/archive.svg?component-solid';
 import SpamIcon from './../../assets/icons/spam.svg?component-solid';
 import TrashIcon from './../../assets/icons/trash.svg?component-solid';
 import PlusIcon from './../../assets/icons/plus.svg?component-solid';
+import SettingsIcon from './../../assets/icons/settings.svg?component-solid';
 import { useStore } from '../../store';
 
 const Sidebar = () => {
@@ -23,20 +24,21 @@ const Sidebar = () => {
       <WriteEmail />
       <Folders />
       <hr class={styles.Separator} />
-      <AddFolder />
+      <NewFolder />
+      <OpenSetting />
     </aside>
   );
 };
 
 const WriteEmail = () => {
 
-  const { getDrawer } = useStore();
+  const { getLocale, getDrawer } = useStore();
 
   return (
     <div class={styles.WriteEmail}>
       <Button
         Icon={<PenIcon />}
-        name="Написать письмо"
+        name={getLocale().sidebar.writeEmail}
         border
         full={getDrawer()}
         hideIcon
@@ -48,27 +50,27 @@ const WriteEmail = () => {
 const Folders = () => {
 
   const folders: Folder[] = [
-    { Icon: BurgerIcon, name: 'Скрыть' },
-    { Icon: InboxIcon, name: 'Входящие' },
-    { Icon: FolderIcon, name: 'Важное' },
-    { Icon: SentIcon, name: 'Отправленные' },
-    { Icon: DraftIcon, name: 'Черновики' },
-    { Icon: ArchiveIcon, name: 'Архив' },
-    { Icon: SpamIcon, name: 'Спам' },
-    { Icon: TrashIcon, name: 'Корзина' },
+    { Icon: BurgerIcon, name: 'hide' },
+    { Icon: InboxIcon, name: 'inbox' },
+    { Icon: FolderIcon, name: 'important' },
+    { Icon: SentIcon, name: 'sent' },
+    { Icon: DraftIcon, name: 'draft' },
+    { Icon: ArchiveIcon, name: 'archive' },
+    { Icon: SpamIcon, name: 'spam' },
+    { Icon: TrashIcon, name: 'trash' },
   ];
 
-  const { getDrawer, setDrawer, setFolder, getFolder, getMails, setMail } = useStore();
+  const { getLocale, getDrawer, setDrawer, setFolder, getFolder, setMail } = useStore();
 
   const toggleDrawer = () => { setDrawer(v => !v) }
 
   const folderOnClick = (name: string) => {
-    if (name === 'Скрыть') {
+    if (name === 'hide') {
       toggleDrawer();
     } else {
       setMail(null);
       setFolder(name);
-       
+
     }
   }
 
@@ -76,16 +78,16 @@ const Folders = () => {
     <ul>
       <For each={folders}>
         {(folder) => (
-          <li classList={{ [styles.Burger]: folder.name === 'Скрыть' }}>
+          <li classList={{ [styles.Burger]: folder.name === 'hide' }}>
             <a>
               <Button
                 Icon={<folder.Icon />}
-                name={folder.name}
+                name={getLocale().sidebar.folders[folder.name] ?? folder.name}
                 onClick={() => { folderOnClick(folder.name) }}
                 active={getFolder() === folder.name}
                 full={getDrawer()}
               >
-                {folder.name === 'Входящие'
+                {folder.name === 'inbox'
                   && <div class={styles.Counter}>11</div>}
               </ Button>
             </a>
@@ -95,13 +97,13 @@ const Folders = () => {
     </ ul>)
 };
 
-const AddFolder = () => {
-  const { getDrawer } = useStore();
+const NewFolder = () => {
+  const { getLocale, getDrawer } = useStore();
   return (
-    <div class={styles.AddFolder}>
+    <div class={styles.NewFolder}>
       <Button
         Icon={<PlusIcon />}
-        name='Новая папка'
+        name={getLocale().sidebar.newFolder}
         light
         full={getDrawer()}
         miniHide={!getDrawer()}
@@ -109,5 +111,25 @@ const AddFolder = () => {
     </div>
   )
 };
+
+const OpenSetting = () => {
+
+  const { getLocale, setSettings, getDrawer } = useStore();
+
+  const onOpenSettings = () => {
+    setSettings('open', true)
+  };
+
+  return (
+    <div class={styles.OpenSetting}>
+      <Button
+        onClick={onOpenSettings}
+        Icon={<SettingsIcon />}
+        name={getLocale().sidebar.settings}
+        full={getDrawer()}
+      />
+    </div>
+  )
+}
 
 export default Sidebar;

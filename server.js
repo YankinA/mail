@@ -5,6 +5,21 @@ const url = require('url');
 const querystring = require('querystring');
 let db = require('./db.json');
 
+const _trslateFolder = {
+  undefined: 'inbox',
+  'Важное': 'important',
+  'Отправленные': 'sent',
+  'Черновики': 'draft',
+  'Архив': 'archive',
+  'Спам': 'spam',
+  'Корзина': 'trash',
+}
+
+db = db.map((mail) => {
+  mail.folder = _trslateFolder[mail.folder];
+  return mail;
+});
+
 db.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 
@@ -89,9 +104,6 @@ const mailsController = async (req, res) => {
   const offset = query.offset ?? 0;
   delete query.offset;
 
-  if (query.folder === 'Входящие') {
-    query.folder = undefined;
-  }
   const mails = await orm.findBy(query, offset);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(mails), 'utf-8');

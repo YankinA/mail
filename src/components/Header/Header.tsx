@@ -1,11 +1,10 @@
-import type { Component } from 'solid-js';
 import styles from './Header.module.css';
 import LogoIcon from './../../assets/icons/logo.svg';
 import MailIcon from './../../assets/icons/mail.svg';
 import BackIcon from './../../assets/icons/back.svg';
 import { useStore } from '../../store';
 
-const Header: Component = (props) => {
+const Header = () => {
 
   const { getMail } = useStore();
 
@@ -16,7 +15,7 @@ const Header: Component = (props) => {
   );
 };
 
-const Logo: Component = () => {
+const Logo = () => {
 
   const { getDrawer } = useStore();
   return (
@@ -32,14 +31,19 @@ const Logo: Component = () => {
   );
 };
 
-const Back: Component = () => {
-  const { setMail } = useStore();
+const Back = () => {
+  const { getLocale, setMail, getDrawer } = useStore();
   return (
     <button 
       class={styles.Back} 
       onClick={() => { setMail(null); }}>
       <BackIcon />
-      Вернуться
+      <span
+        class={styles.Back_text}
+        classList={{[styles.Back_text_show]: getDrawer() }}
+      >
+        {getLocale().mail.back}
+      </span>
     </button>
   );
 };

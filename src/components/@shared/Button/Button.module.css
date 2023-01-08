@@ -36,6 +36,13 @@
   display: none;
 }
 
+.Button_big {
+  width: 223px;
+  height: 40px;
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+
 .Button_light {
   color: #87898f;
   fill:#87898f;

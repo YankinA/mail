@@ -1,0 +1,21 @@
+.Submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  margin-top: 32px;
+  width: 137px;
+  height: 36px;
+  background: #005FF9;
+  border-radius: 8px;
+  color: #FFFFFF;
+}
+
+.Submit:hover {
+  background: #005ff9ea;
+}
+
+.Submit:active {
+  background: #004fcfe1;
+}

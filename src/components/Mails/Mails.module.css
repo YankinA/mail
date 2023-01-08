@@ -104,14 +104,13 @@
 }
 
 .MailLists {
-  width: 100%;
-  height: 100vh;
   overflow: auto;
+  
 }
 
 .MailLists::-webkit-scrollbar {
   border-radius: 5px;
-  width: 0.7em;
+  width: 0.6em;
 }
 
 .MailLists::-webkit-scrollbar-track {
@@ -125,7 +124,7 @@
 
 .MailListItem {
   position: relative;
-  width: 100%;
+  width: calc(100vw - 242px);
   height: 48px;
   border-radius: 12px;
   display: flex;
@@ -133,6 +132,7 @@
   text-align: center;
   overflow: hidden;
   white-space: nowrap;
+  flex: 1;
 }
 
 .MailListItem:hover {
@@ -146,6 +146,10 @@
   border-radius: 50%;
   left: 11px;
   background: #A5A7AD;
+}
+
+.MailListItem:not(.MailListItem:hover) > .ReadCheckBox:not(.ReadCheckBox_active) { 
+  display: none;
 }
 
 .ReadCheckBox_active {
@@ -223,7 +227,7 @@
   background: #D3B3FF;
 }
 
-.Avatar_char {
+.Avatar_label {
   font-family: 'Mail Sans Roman';
   font-style: normal;
   font-weight: 700;
@@ -287,6 +291,8 @@
 
 .MailContent {
   display: flex;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .title {
@@ -302,16 +308,12 @@
 }
 
 .text {
-  max-width: 500px;
   color: #87898F;
   text-align: start;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.text_less {
-  max-width: 480px; 
+  flex: 1;
 }
 
 .wrap_widget {
@@ -344,58 +346,106 @@
   color: #87898F;
 }
 
+.screen {
+  display: none;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 35%;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.screen::after {
+  position: absolute;
+  content: 'normal';
+}
+
+.MailList_page_fixer {
+  height: 10px;
+  width: 100%;
+}
+
 
 @media screen and (max-width: 1366px) {
-  .text {
-    max-width: 350px; 
+
+  .screen::after {
+    content: 'max-width: 1366px';
   }
+  
 }
 
 @media screen and (max-width: 1200px) {
-  .text {
-    max-width: 220px; 
+  .screen::after {
+    content: 'max-width: 1200px';
   }
 }
 
 @media screen and (max-width: 1100px) {
-  .text {
-    max-width: 150px; 
+  .screen::after {
+    content: 'max-width: 1366px';
   }
 }
 
 @media screen and (max-width: 1000px) {
-  .text {
-    max-width: 70px; 
+  .screen::after {
+    content: 'max-width: 1000px';
   }
 }
 
 @media screen and (max-width: 950px) {
-  .text {
-    max-width: 60px; 
-  }
+  .screen::after {
+    content: 'max-width: 950px';
+  }   
 }
 
 @media screen and (max-width: 900px) {
+
+  .screen::after {
+    content:'max-width: 900px';
+  }  
+
   .Mails {
     margin-left: 65px;
+  }
+
+  .MailLists::-webkit-scrollbar {
+    width: 0.4em;
+  }
+
+  .MailListItem {
+    width: calc(100vw - 70px);
   }
 
   .title {
     max-width: 150px;
   }
 
-  .text {
-    max-width: 150px; 
-  }
+  
 }
 
 @media screen and (max-width: 800px) {
 
+  .screen::after {
+    content:'max-width: 800px';
+  }  
+
   .title {
     max-width: 130px;
   }
+}
 
-  .text {
-    max-width: 70px; 
-  }
+@media screen and (max-width: 700px) {
+
+  .screen::after {
+    content:'max-width: 700px';
+  }  
+}
+
+@media screen and (max-width: 600px) {
+
+  .screen::after {
+    content:'max-width: 600px';
+  }  
 }

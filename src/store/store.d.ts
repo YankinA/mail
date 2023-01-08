@@ -1,5 +1,17 @@
 import { Accessor, Resource, Setter } from "solid-js";
+import { SetStoreFunction } from "solid-js/store";
+import ru from './../locale/ru';
+import en from './../locale/en';
+import { ColorThemes, FullThemes } from "./SettingsStore";
 
+export type SettingsStore = {
+  theme: ColorThemes | FullThemes,
+  colorThemes: typeof ColorThemes,
+  fullThemes: typeof FullThemes,
+  lang: 'ru' | 'en',
+  open: boolean,
+  tab: 'appearance' | 'lang',
+}
 
 export type Author = {
   name: string;
@@ -39,8 +51,9 @@ export type Mails = {
 };
 
 export type Store = {
-  getTheme: Accessor<'white' | 'black'>,
-  setTheme: Setter<'white' | 'black'>,
+  getLocale: Accessor<typeof ru | typeof en>,
+  settings: SettingsStore,
+  setSettings: SetStoreFunction<SettingsStore>,
   getFolder: Accessor<string>,
   setFolder: Setter<string>,
   getDrawer: Accessor<boolean>,

@@ -1,26 +1,35 @@
-import { createResource, createSignal } from "solid-js";
+import { createEffect, createResource, createSignal } from "solid-js";
 import routes from '../routes';
+import { settings, setSettings } from './SettingsStore';
+import { getLocale, switchLocale } from "./localeStore";
 import type { Store, Mail } from './store.d';
+
 
 const initStore = (): Store => {
 
-  const [getTheme, setTheme] = createSignal<'white' | 'black'>('white');
-
-  const [getFolder, setFolder] = createSignal<string>('Входящие');
+  const [getFolder, setFolder] = createSignal<string>('inbox');
 
   const [getDrawer, setDrawer] = createSignal<boolean>(false);
 
-  const fetchMails = async (folder: string) => {
-    return (await fetch(routes.getMails({ folder }))).json()
+  const fetchMails = async (folder: string): Promise<Mail[]> => {
+    try {
+      return (await fetch(routes.getMails({ folder }))).json()
+    } catch (error) {
+      console.log({error});
+      return await fetchMails(folder);
+    };
   };
 
   const [getMails] = createResource(getFolder, fetchMails);
 
   const [getMail, setMail] = createSignal<Mail | null>(null);
 
+  createEffect(() => { switchLocale(settings.lang); });
+
   return {
-    getTheme,
-    setTheme,
+    getLocale,
+    settings,
+    setSettings,
     getFolder,
     setFolder,
     getDrawer,

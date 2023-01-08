@@ -1,8 +1,7 @@
 .Header {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   min-width: 100vw;
-  padding-left: 16px;
   height: 56px;
   display: flex;
   align-items: center;
@@ -16,6 +15,7 @@
 }
 
 .Logo {
+  margin-left: 16px;
   width: 96px;
   display: flex;
   align-items: center;
@@ -23,14 +23,30 @@
 }
 
 .Back {
-  width: 99px;
+  margin-left: 34px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  height: 20px;
+}
+
+.Back_text {
+  margin-left: 19.5px;
+}
+
+.Back_text_show {
+  display: inline;
 }
 
 @media screen and (max-width: 900px) {
   .Logo_Mail:not(.Logo_Mail_show) {
+    display: none;
+  }
+
+  .Back {
+    margin-left: 28px;
+  }
+
+  .Back_text:not(.Back_text_show) {
     display: none;
   }
 }
