@@ -98,6 +98,7 @@ const AppearanceSettings = () => {
         {getLocale().settings.selectAppearance}
       </h5>
       <ColorThemes />
+      <FullThemes />
     </form>
   )
 }
@@ -112,6 +113,26 @@ const ColorThemes = () => {
         {(color) => (
           <div
             class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`}
+          >
+            <div class={styles.selected_theme}>
+              <CheckIcon />
+            </ div>
+          </ div>
+        )}
+      </For>
+    </section>)
+}
+
+const FullThemes = () => {
+
+  const { settings } = useStore();
+
+  return (
+    <section class={styles.FullThemes}>
+      <For each={Object.values(settings.fullThemes)}>
+        {(color) => (
+          <div
+            class={`${styles.FullTheme}  ${styles.FullTheme_}${color}`}
           >
             <div class={styles.selected_theme}>
               <CheckIcon />

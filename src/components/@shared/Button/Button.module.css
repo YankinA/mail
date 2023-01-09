@@ -1,6 +1,7 @@
 :root {
   --width-full: 200px;
   --width-mini: 36px;
+  --width-big: 223px;
 }
 
 .Button {
@@ -37,7 +38,7 @@
 }
 
 .Button_big {
-  width: 223px;
+  width: var(--width-big);
   height: 40px;
   padding: 10px 16px;
   border-radius: 8px;

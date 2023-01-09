@@ -43,6 +43,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   max-width: 700px;
+  margin-bottom: 8px;
 }
 
 .ColorTheme {
@@ -53,11 +54,25 @@
   margin: 6px 10px;
 }
 
+.FullThemes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 700px;
+}
+
+.FullTheme {
+  position: relative;
+  width: 120px;
+  height: 88px;
+  background: #4A352F;
+  margin: 6px 10px;
+}
+
 .selected_theme {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0, 95, 249, 0.48);
   display: flex;
   justify-content: center;
   align-items: center;
