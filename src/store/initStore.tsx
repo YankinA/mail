@@ -1,8 +1,8 @@
 import { createEffect, createResource, createSignal } from "solid-js";
 import routes from '../routes';
 import { settings, setSettings } from './SettingsStore';
-import { getLocale, switchLocale } from "./localeStore";
-import type { Store, Mail } from './store.d';
+import { getLocale, switchLocale } from "./LocaleStore";
+import type { Store, Mail, Mails } from './store.d';
 
 
 const initStore = (): Store => {
@@ -11,7 +11,7 @@ const initStore = (): Store => {
 
   const [getDrawer, setDrawer] = createSignal<boolean>(false);
 
-  const fetchMails = async (folder: string): Promise<Mail[]> => {
+  const fetchMails = async (folder: string): Promise<Mails> => {
     try {
       return (await fetch(routes.getMails({ folder }))).json()
     } catch (error) {

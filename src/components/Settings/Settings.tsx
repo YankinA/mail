@@ -3,6 +3,7 @@ import Button from '../@shared/Button/Button';
 import styles from './Settings.module.css';
 import RuIcon from './../../assets/icons/flags/ru.svg?component-solid';
 import EnIcon from './../../assets/icons/flags/en.svg?component-solid';
+import CheckIcon from './../../assets/icons/check_big.svg?component-solid';
 import Radio from '../@shared/inputs/Radio/Radio';
 import Submit from '../@shared/inputs/Submit/Submit';
 import { createSignal, For, Match, Switch } from 'solid-js';
@@ -108,19 +109,15 @@ const ColorThemes = () => {
   return (
     <section class={styles.ColorThemes}>
       <For each={Object.values(settings.colorThemes)}>
-        {(color) => <div class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`} />}
-      </For>
-      <For each={Object.values(settings.colorThemes)}>
-        {(color) => <div class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`} />}
-      </For>
-      <For each={Object.values(settings.colorThemes)}>
-        {(color) => <div class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`} />}
-      </For>
-      <For each={Object.values(settings.colorThemes)}>
-        {(color) => <div class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`} />}
-      </For>
-      <For each={Object.values(settings.colorThemes)}>
-        {(color) => <div class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`} />}
+        {(color) => (
+          <div
+            class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`}
+          >
+            <div class={styles.selected_theme}>
+              <CheckIcon />
+            </ div>
+          </ div>
+        )}
       </For>
     </section>)
 }
