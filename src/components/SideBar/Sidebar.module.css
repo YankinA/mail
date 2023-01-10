@@ -1,4 +1,5 @@
 .Sidebar {
+  background: var(--theme-bg);
   position: fixed;
   z-index: 1;
   width: 232px;
@@ -10,7 +11,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #F6F7F8;
 }
 
 .Sidebar_full {
@@ -27,6 +27,8 @@
 
 .WriteEmail {
   margin-bottom: 12px;
+  border-radius: 8px;
+  background: #ffffff;
 }
 
 .Burger {

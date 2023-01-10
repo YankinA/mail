@@ -1,4 +1,11 @@
+:root {
+  --theme-bg: #F6F7F8;
+  --theme-header-bg: #ffffff;
+  --theme-logo-mail-color: #005FF9;
+}
+
 .MailClient {
+  background: var(--theme-bg);
   transition: 80ms;
 }
 

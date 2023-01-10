@@ -105,18 +105,26 @@ const AppearanceSettings = () => {
 
 const ColorThemes = () => {
 
-  const { settings } = useStore();
-
+  const { settings, setSettings } = useStore();
+  
   return (
     <section class={styles.ColorThemes}>
-      <For each={Object.values(settings.colorThemes)}>
-        {(color) => (
+      <For each={settings.colorThemes}>
+        {(theme) => (
           <div
-            class={`${styles.ColorTheme}  ${styles.ColorTheme_}${color}`}
+            onClick={() => { 
+              setSettings('theme', theme); 
+              document.documentElement.style.setProperty("--theme-bg", theme.bg);
+              document.documentElement.style.setProperty("--theme-header-bg", theme.header);
+              document.documentElement.style.setProperty("--theme-logo-mail-color", theme.logo);
+
+            }}
+            style={{ background: `${theme.bg}` }}
+            class={styles.ColorTheme}
           >
-            <div class={styles.selected_theme}>
+            {settings.theme.bg === theme.bg ? <div class={styles.selected_theme}>
               <CheckIcon />
-            </ div>
+            </ div> : null}
           </ div>
         )}
       </For>
@@ -129,7 +137,7 @@ const FullThemes = () => {
 
   return (
     <section class={styles.FullThemes}>
-      <For each={Object.values(settings.fullThemes)}>
+      {/* <For each={Object.values(settings.fullThemes)}>
         {(color) => (
           <div
             class={`${styles.FullTheme}  ${styles.FullTheme_}${color}`}
@@ -139,7 +147,7 @@ const FullThemes = () => {
             </ div>
           </ div>
         )}
-      </For>
+      </For> */}
     </section>)
 }
 
