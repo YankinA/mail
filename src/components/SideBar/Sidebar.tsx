@@ -75,7 +75,7 @@ const Folders = () => {
   }
 
   return (
-    <ul>
+    <ul class={styles.Folders}>
       <For each={folders}>
         {(folder) => (
           <li classList={{ [styles.Burger]: folder.name === 'hide' }}>
@@ -104,7 +104,6 @@ const NewFolder = () => {
       <Button
         Icon={<PlusIcon />}
         name={getLocale().sidebar.newFolder}
-        light
         full={getDrawer()}
         miniHide={!getDrawer()}
       />

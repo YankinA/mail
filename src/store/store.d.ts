@@ -2,11 +2,12 @@ import { Accessor, Resource, Setter } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import ru from './../locale/ru';
 import en from './../locale/en';
-import { colorThemes } from "./SettingsStore";
+import { colorThemes, fullThemes } from "./SettingsStore";
 
 export type SettingsStore = {
   theme: typeof colorThemes[number],
   colorThemes: typeof colorThemes,
+  fullThemes: typeof fullThemes,
   lang: 'ru' | 'en',
   open: boolean,
   tab: 'appearance' | 'lang',

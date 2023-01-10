@@ -66,6 +66,7 @@
   width: 120px;
   height: 88px;
   margin: 6px 10px;
+  background: red;
 }
 
 .selected_theme {

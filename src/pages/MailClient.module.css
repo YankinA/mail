@@ -2,6 +2,9 @@
   --theme-bg: #F6F7F8;
   --theme-header-bg: #ffffff;
   --theme-logo-mail-color: #005FF9;
+  --theme-font: #333333;
+  --theme-btn-hover: rgba(255, 255, 255, 0.24);
+  --theme-btn-active: rgba(0, 16, 61, 0.08);
 }
 
 .MailClient {

@@ -11,7 +11,6 @@ type ButtonComp = Component<{
 	onClick?: OnClick
 	active?: boolean,
 	border?: boolean,
-	light?: boolean,
 	mini?: boolean,
 	big?: boolean,
 	full?: boolean,

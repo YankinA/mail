@@ -1,8 +1,3 @@
-:root {
-  --theme-header-bg: #ffffff;
-  --theme-logo-mail-color: #005FF9;
-}
-
 .Header {
   position: fixed;
   z-index: 2;
@@ -18,7 +13,6 @@
 .Logo_Mail {
   fill: var(--theme-logo-mail-color);
 }
-
 
 .Logo_Mail_show {
   display: inline;
@@ -37,10 +31,12 @@
   display: flex;
   align-items: center;
   height: 20px;
+  fill: var(--theme-font);
 }
 
 .Back_text {
   margin-left: 19.5px;
+  color: var(--theme-font);
 }
 
 .Back_text_show {

@@ -11,6 +11,8 @@
   justify-content: start;
   align-items: center;
   border-radius: 8px;
+  color: var(--theme-font, #333333);
+  fill: var(--theme-font, #333333);
 }
 
 .Button_hide {
@@ -44,26 +46,16 @@
   border-radius: 8px;
 }
 
-.Button_light {
-  color: #87898f;
-  fill:#87898f;
-}
-
 .Button_border {
   outline: 1px solid rgba(0, 16, 61, 0.12);  
 }
 
 .Button:hover {
-  background: rgba(0, 16, 61, 0.04);
-}
-
-.Button_light:hover {
-  color: #333333;
-  fill:#333333;
+  background: var(--theme-btn-hover, rgba(0, 16, 61, 0.04));
 }
 
 .Button:active, .Button_active, .Button_active:hover {
-  background: rgba(0, 16, 61, 0.08);
+  background: var(--theme-btn-active, rgba(0, 16, 61, 0.08));
 }
 
 .Button:active > .Name, .Button_active > .Name {

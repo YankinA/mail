@@ -8,7 +8,6 @@ const Button: ButtonComp = (props) => (
     classList={{
       [styles.Button_border]: props.border,
       [styles.Button_active]: props.active,
-      [styles.Button_light]: props.light,
       [styles.Button_mini]: props.mini,
       [styles.Button_big]: props.big,
       [styles.Button_full]: props.full,

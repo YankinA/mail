@@ -17,7 +17,7 @@
   width: 232px;
 }
 
-.Sidebar_full > .Separator {
+.Sidebar_full>.Separator {
   display: block;
 }
 
@@ -29,6 +29,11 @@
   margin-bottom: 12px;
   border-radius: 8px;
   background: #ffffff;
+  color: #333333;
+}
+
+.WriteEmail > button {
+  color: #333333;
 }
 
 .Burger {
@@ -41,7 +46,7 @@
   margin-right: 0;
   text-align: end;
   padding-right: 12px;
-  color:  #2C2D2E;
+  color: inherit;
 }
 
 .Separator {
@@ -51,6 +56,16 @@
   margin-top: 8px;
   margin-bottom: 8px;
   background: rgba(0, 16, 61, 0.12);
+}
+
+.NewFolder {
+  color: #87898f;
+  fill: #87898f;
+}
+
+.NewFolder:hover {
+  color: var(--theme-font);
+  fill: var(--theme-font);
 }
 
 .OpenSetting {
@@ -72,7 +87,7 @@
     display: none;
   }
 
-  .Sidebar:not(.Sidebar_full) > .Separator {
+  .Sidebar:not(.Sidebar_full)>.Separator {
     display: none;
   }
 }

@@ -117,6 +117,9 @@ const ColorThemes = () => {
               document.documentElement.style.setProperty("--theme-bg", theme.bg);
               document.documentElement.style.setProperty("--theme-header-bg", theme.header);
               document.documentElement.style.setProperty("--theme-logo-mail-color", theme.logo);
+              document.documentElement.style.setProperty("--theme-font", theme.font);
+              document.documentElement.style.setProperty("--theme-btn-hover", theme.hover);
+              document.documentElement.style.setProperty("--theme-btn-active", theme.active);
 
             }}
             style={{ background: `${theme.bg}` }}
@@ -137,17 +140,18 @@ const FullThemes = () => {
 
   return (
     <section class={styles.FullThemes}>
-      {/* <For each={Object.values(settings.fullThemes)}>
-        {(color) => (
+      <For each={settings.fullThemes}>
+        {(theme) => (
           <div
-            class={`${styles.FullTheme}  ${styles.FullTheme_}${color}`}
+            style={{background: theme.bg}}
+            class={styles.FullTheme}
           >
             <div class={styles.selected_theme}>
               <CheckIcon />
             </ div>
           </ div>
         )}
-      </For> */}
+      </For>
     </section>)
 }
 
