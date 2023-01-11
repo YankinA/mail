@@ -134,6 +134,7 @@ export const colorThemes = [
 
 export const fullThemes = [
   { 
+    name: 'Dark',
     header: '#232324',
     bg: '#19191A',
     logo: '#ffffff',
@@ -142,6 +143,7 @@ export const fullThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    name: 'Light',
     header: '#808080',
     bg: '#f0f0f0',
     logo: '#ffffff',

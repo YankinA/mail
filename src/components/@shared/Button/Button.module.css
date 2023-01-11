@@ -11,8 +11,8 @@
   justify-content: start;
   align-items: center;
   border-radius: 8px;
-  color: var(--theme-font, #333333);
-  fill: var(--theme-font, #333333);
+  color: #333333;
+  fill: #333333;
 }
 
 .Button_hide {
@@ -51,11 +51,11 @@
 }
 
 .Button:hover {
-  background: var(--theme-btn-hover, rgba(0, 16, 61, 0.04));
+  background: rgba(0, 16, 61, 0.04);
 }
 
 .Button:active, .Button_active, .Button_active:hover {
-  background: var(--theme-btn-active, rgba(0, 16, 61, 0.08));
+  background: rgba(0, 16, 61, 0.08);
 }
 
 .Button:active > .Name, .Button_active > .Name {

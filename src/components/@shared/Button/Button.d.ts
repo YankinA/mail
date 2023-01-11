@@ -7,6 +7,7 @@ type ButtonComp = Component<{
 	name: string,
 	nameFirst?: boolean,
 	classes?: { [className: string]: boolean },
+	contentClasses?: { [className: string]: boolean },
 	children?: JSXElement,
 	onClick?: OnClick
 	active?: boolean,
@@ -23,5 +24,6 @@ type BtnContentComp = Component<{
 	Icon?: JSXElement,
 	name: string,
 	nameFirst?: boolean,
+	classes?: { [className: string]: boolean },
 }>;
 

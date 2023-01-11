@@ -4,6 +4,8 @@ import styles from './Settings.module.css';
 import RuIcon from './../../assets/icons/flags/ru.svg?component-solid';
 import EnIcon from './../../assets/icons/flags/en.svg?component-solid';
 import CheckIcon from './../../assets/icons/check_big.svg?component-solid';
+import LogoIcon from './../../assets/icons/logo.svg';
+import MailIcon from './../../assets/icons/mail.svg';
 import Radio from '../@shared/inputs/Radio/Radio';
 import Submit from '../@shared/inputs/Submit/Submit';
 import { createSignal, For, Match, Switch } from 'solid-js';
@@ -106,14 +108,14 @@ const AppearanceSettings = () => {
 const ColorThemes = () => {
 
   const { settings, setSettings } = useStore();
-  
+
   return (
     <section class={styles.ColorThemes}>
       <For each={settings.colorThemes}>
         {(theme) => (
           <div
-            onClick={() => { 
-              setSettings('theme', theme); 
+            onClick={() => {
+              setSettings('theme', theme);
               document.documentElement.style.setProperty("--theme-bg", theme.bg);
               document.documentElement.style.setProperty("--theme-header-bg", theme.header);
               document.documentElement.style.setProperty("--theme-logo-mail-color", theme.logo);
@@ -143,10 +145,11 @@ const FullThemes = () => {
       <For each={settings.fullThemes}>
         {(theme) => (
           <div
-            style={{background: theme.bg}}
+            style={{ background: theme.bg }}
             class={styles.FullTheme}
           >
-            <div class={styles.selected_theme}>
+            {theme.logo && <Logo />}
+            {theme.name === settings.theme?.name && <div class={styles.selected_theme}>}
               <CheckIcon />
             </ div>
           </ div>
@@ -154,6 +157,16 @@ const FullThemes = () => {
       </For>
     </section>)
 }
+
+const Logo = () => (
+  <div class={styles.Logo}>
+    <LogoIcon />
+    <span class={styles.Logo_Mail}>
+      <MailIcon />
+    </span>
+  </div>
+);
+
 
 const LangSettings = () => {
 

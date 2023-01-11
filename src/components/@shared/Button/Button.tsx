@@ -14,13 +14,14 @@ const Button: ButtonComp = (props) => (
       [styles.Button_hide]: props.hide,
       [styles.Button_miniHide]: props.miniHide,
       [styles.Button_hideIcon]: props.hideIcon,
-      ...props.classes
+      ...props.classes,
     }}
   >
     <BtnContent
       Icon={props.Icon}
       name={props.name}
       nameFirst={props.nameFirst}
+      classes={props.contentClasses}
     />
     {props.children}
   </ button>)
@@ -29,13 +30,13 @@ const BtnContent: BtnContentComp = (props) => (
   <>
     {props.nameFirst ?
       <>
-        <span class={styles.Name}>{props.name}</span>
-        <div class={styles.Icon}>{props.Icon}</ div>
+        <span class={styles.Name} classList={props.classes}>{props.name}</span>
+        <div class={styles.Icon} classList={props.classes}>{props.Icon}</ div>
       </>
       :
       <>
-        <div class={styles.Icon}>{props.Icon}</ div>
-        <span class={styles.Name}>{props.name}</span>
+        <div class={styles.Icon} classList={props.classes}>{props.Icon}</ div>
+        <span class={styles.Name} classList={props.classes}>{props.name}</span>
       </>}
   </>)
 

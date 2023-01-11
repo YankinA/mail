@@ -329,7 +329,6 @@
 }
 
 .wrap_widget > .Category {
-  margin-right: 10.5px;
 }
 
 .Category_name {
@@ -337,11 +336,12 @@
 }
 
 .Attach {
-  margin-right: 16px;
+  margin-left: 10.5px;
 }
 
 .Date {
-  min-width: 44px;
+  width: 44px;
+  margin-left: 16px;
   margin-right: 17px;
   color: #87898F;
 }

@@ -79,13 +79,18 @@ const Folders = () => {
       <For each={folders}>
         {(folder) => (
           <li classList={{ [styles.Burger]: folder.name === 'hide' }}>
-            <a>
+            <a class={styles.Folder}>
               <Button
                 Icon={<folder.Icon />}
                 name={getLocale().sidebar.folders[folder.name] ?? folder.name}
                 onClick={() => { folderOnClick(folder.name) }}
                 active={getFolder() === folder.name}
                 full={getDrawer()}
+                classes={{
+                  [styles.Sidebar_theme_btn]: true, 
+                  [styles.Sidebar_theme_btn_active]: getFolder() === folder.name, 
+                }}
+                contentClasses={{[styles.Sidebar_theme_btn_content]: true }}
               >
                 {folder.name === 'inbox'
                   && <div class={styles.Counter}>11</div>}
@@ -106,6 +111,8 @@ const NewFolder = () => {
         name={getLocale().sidebar.newFolder}
         full={getDrawer()}
         miniHide={!getDrawer()}
+        classes={{[styles.NewFolder]: true }}
+        contentClasses={{[styles.NewFolder]: true }}
       />
     </div>
   )
@@ -126,6 +133,8 @@ const OpenSetting = () => {
         Icon={<SettingsIcon />}
         name={getLocale().sidebar.settings}
         full={getDrawer()}
+        classes={{[styles.Sidebar_theme_btn]: true }}
+        contentClasses={{[styles.Sidebar_theme_btn_content]: true }}
       />
     </div>
   )
