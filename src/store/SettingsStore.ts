@@ -1,8 +1,10 @@
 import { createStore } from "solid-js/store";
-import { SettingsStore } from "./store";
+import { SettingsStore, Theme } from "./store";
 
-export const colorThemes = [
+export const colorThemes: Theme[] = [
   {
+    type: 'color',
+    id: 'color1',
     header: '#291b18',
     bg: '#4e342e',
     logo: '#ffffff',
@@ -11,6 +13,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color2',
     header: '#242424',
     bg: '#424242',
     logo: '#ffffff',
@@ -19,6 +23,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color3',
     header: '#331d33',
     bg: '#5a355a',
     logo: '#ffffff',
@@ -27,6 +33,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color4',
     header: '#171928',
     bg: '#35385a',
     logo: '#ffffff',
@@ -35,6 +43,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color5',
     header: '#434c98',
     bg: '#646ecb',
     logo: '#ffffff',
@@ -43,6 +53,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    id: 'color6',
+    type: 'color',
     header: '#b31c4f',
     bg: '#e73672',
     logo: '#ffffff',
@@ -51,6 +63,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color7',
     header: '#b73026',
     bg: '#f44336',
     logo: '#ffffff',
@@ -59,6 +73,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color8',
     header: '#27662a',
     bg: '#388e3c',
     logo: '#ffffff',
@@ -67,6 +83,8 @@ export const colorThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color9',
     header: '#3c928a',
     bg: '#81d8d0',
     logo: '#ffffff',
@@ -75,6 +93,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color10',
     header: '#837e78',
     bg: '#e2dcd5',
     logo: '#ffffff',
@@ -83,6 +103,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color11',
     header: '#8c847e',
     bg: '#ffebdc',
     logo: '#ffffff',
@@ -91,6 +113,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    id: 'color12',
+    type: 'color',
     header: '#747a63',
     bg: '#e7eed2',
     logo: '#ffffff',
@@ -99,6 +123,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color13',
     header: '#556f74',
     bg: '#d0f0f7',
     logo: '#ffffff',
@@ -107,6 +133,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color14',
     header: '#5a5e76',
     bg: '#c9d0fb',
     logo: '#ffffff',
@@ -115,6 +143,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color15',
     header: '#535f6b',
     bg: '#ddf3ff',
     logo: '#ffffff',
@@ -123,6 +153,8 @@ export const colorThemes = [
     active: 'rgba(0, 16, 61, 0.08)',
   },
   {
+    type: 'color',
+    id: 'color16',
     header: '#808080',
     bg: '#f0f0f0',
     logo: '#ffffff',
@@ -132,8 +164,10 @@ export const colorThemes = [
   }
 ];
 
-export const fullThemes = [
+export const fullThemes: Theme[] = [
   { 
+    type: 'full',
+    id: 'full1',
     name: 'Dark',
     header: '#232324',
     bg: '#19191A',
@@ -143,27 +177,47 @@ export const fullThemes = [
     active: 'rgba(255, 255, 255, 0.08)',
   },
   {
+    type: 'full',
+    id: 'full2',
     name: 'Light',
-    header: '#808080',
-    bg: '#f0f0f0',
-    logo: '#ffffff',
+    header: '#ffffff',
+    bg: '#F6F7F8',
+    logo: '#005FF9',
     font: '#333333',
-    hover: 'rgba(0, 16, 61, 0.04)',
+    hover: 'rgba(255, 255, 255, 0.24)',
     active: 'rgba(0, 16, 61, 0.08)',
   }
 ];
 
-const defaultTheme = colorThemes[0];
+const localeTheme = localStorage.getItem('theme');
+ 
+const defaultTheme = localeTheme ? JSON.parse(localeTheme) as Theme : { ...fullThemes[1]};
+
+const defaultLang = localStorage.getItem("lang") as 'ru' | 'en' ?? 'ru';
 
 const init: SettingsStore = {
-  theme: { ...defaultTheme },
+  theme: defaultTheme,
   colorThemes: colorThemes,
   fullThemes: fullThemes,
-  lang: 'ru',
+  lang: defaultLang,
   open: false,
   tab: 'appearance',
 }
 
 const [settings, setSettings] = createStore(init);
 
-export { settings, setSettings };
+const setTheme = (theme: Theme) => {
+  setSettings('theme', theme);
+  localStorage.setItem('theme', JSON.stringify(theme));
+  document.documentElement.style.setProperty("--theme-bg", theme.bg);
+  document.documentElement.style.setProperty("--theme-header-bg", theme.header);
+  document.documentElement.style.setProperty("--theme-logo-mail-color", theme.logo);
+  document.documentElement.style.setProperty("--theme-font", theme.font);
+  document.documentElement.style.setProperty("--theme-btn-hover", theme.hover);
+  document.documentElement.style.setProperty("--theme-btn-active", theme.active);
+
+}
+
+setTheme(defaultTheme);
+
+export { settings, setSettings, setTheme };

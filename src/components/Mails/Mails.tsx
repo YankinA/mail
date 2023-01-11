@@ -12,7 +12,9 @@ import PlaneIcon from './../../assets/icons/categories/plane.svg?component-solid
 import ShopIcon from './../../assets/icons/categories/shopping.svg?component-solid';
 import TicketIcon from './../../assets/icons/categories/ticket.svg?component-solid';
 import AttachIcon from './../../assets/icons/attach.svg?component-solid';
-import type { AuthorComp, AvatarComp, BookmarkComp, MailDocsComp, MailTextComp, OnOpenMail, OnToggle, ReadCheckBoxComp } from './Mails.d';
+import type { 
+  AuthorComp, AvatarComp, BookmarkComp, MailDocsComp, MailTextComp, OnOpenMail, OnToggle, ReadCheckBoxComp,
+} from './Mails.d';
 
 const Mails = () => {
   const { getMail } = useStore();
@@ -166,6 +168,7 @@ const MailList = () => {
             <MailDate date={mail.date} />
             {mail.doc && <></>}
           </div>
+          <hr class={styles.MailListItem_hr} />
         </ li>
       )}
     </For>
@@ -313,25 +316,28 @@ const Attach = () => {
 
 const MailDate = (props) => {
 
+  const { settings, getLocale } = useStore();
+
   const today = new Date();
   const [day, mouth, year] = today.toLocaleDateString().split('.');
   const mailDate = new Date(props.date);
 
   const fullDate = mailDate.toLocaleDateString();
   const [mailDay, mailMouth, mailYear] = fullDate.split('.');
-  const [hours, min, sec] = mailDate.toLocaleTimeString().split(':');
+  const [hours, min, _] = mailDate.toLocaleTimeString().split(':');
 
   const isToday = day === mailDay && mouth === mailMouth && year === mailYear;
 
   const isThisYear = year === mailYear;
 
-  const [formatedDay, mouthName] = mailDate
-    .toLocaleString('default', { day: "numeric", month: 'short' }).split(' ');
+  const parsedToDDMMM = mailDate.toLocaleString(settings.lang, { day: "numeric", month: 'short' }).split(' ');
+
+  const [formatedDay, mouthName] = settings.lang === 'ru' ? parsedToDDMMM : parsedToDDMMM.reverse();
 
   const date = isThisYear
-    ? `${formatedDay} ${mouthName.slice(0, 3)}` : mailDate.toLocaleDateString();
+    ? `${formatedDay} ${mouthName.slice(0, 3)}` : mailDate.toLocaleDateString(settings.lang);
 
-  const formatedToday = `${props.full ? 'Сегодня, ' : ''}${hours}:${min}`;
+  const formatedToday = `${props.full ? getLocale().mail.today + ', ' : ''}${hours}:${min}`;
   return (
     <div class={styles.Date}>
       {isToday ? formatedToday : date}

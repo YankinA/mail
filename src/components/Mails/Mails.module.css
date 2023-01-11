@@ -340,10 +340,18 @@
 }
 
 .Date {
-  width: 44px;
+  min-width: 44px;
   margin-left: 16px;
   margin-right: 17px;
   color: #87898F;
+}
+
+.MailListItem_hr {
+  position: absolute;
+  left: 72px;
+  bottom: 0;
+  width: calc(100% - 83px);
+  border: 1px solid var(--theme-bg);
 }
 
 .screen {

@@ -23,6 +23,7 @@ const en = {
       2: 'files',
       5: 'files',
     },
+    today: 'Сегодня',
   },
   settings: {
     appearance: 'Appearance',

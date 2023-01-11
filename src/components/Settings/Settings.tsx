@@ -9,6 +9,7 @@ import MailIcon from './../../assets/icons/mail.svg';
 import Radio from '../@shared/inputs/Radio/Radio';
 import Submit from '../@shared/inputs/Submit/Submit';
 import { createSignal, For, Match, Switch } from 'solid-js';
+import type { LogoComp } from './Settings.d';
 
 const Settings = () => {
   const { settings, setSettings } = useStore();
@@ -107,27 +108,18 @@ const AppearanceSettings = () => {
 
 const ColorThemes = () => {
 
-  const { settings, setSettings } = useStore();
+  const { settings, setTheme } = useStore();
 
   return (
     <section class={styles.ColorThemes}>
       <For each={settings.colorThemes}>
         {(theme) => (
           <div
-            onClick={() => {
-              setSettings('theme', theme);
-              document.documentElement.style.setProperty("--theme-bg", theme.bg);
-              document.documentElement.style.setProperty("--theme-header-bg", theme.header);
-              document.documentElement.style.setProperty("--theme-logo-mail-color", theme.logo);
-              document.documentElement.style.setProperty("--theme-font", theme.font);
-              document.documentElement.style.setProperty("--theme-btn-hover", theme.hover);
-              document.documentElement.style.setProperty("--theme-btn-active", theme.active);
-
-            }}
+            onClick={() => { setTheme(theme); }}
             style={{ background: `${theme.bg}` }}
             class={styles.ColorTheme}
           >
-            {settings.theme.bg === theme.bg ? <div class={styles.selected_theme}>
+            {theme.id === settings.theme.id ? <div class={styles.selected_theme}>
               <CheckIcon />
             </ div> : null}
           </ div>
@@ -138,28 +130,29 @@ const ColorThemes = () => {
 
 const FullThemes = () => {
 
-  const { settings } = useStore();
+  const { settings, setTheme } = useStore();
 
   return (
     <section class={styles.FullThemes}>
       <For each={settings.fullThemes}>
         {(theme) => (
           <div
+          onClick={() => { setTheme(theme); }}
             style={{ background: theme.bg }}
             class={styles.FullTheme}
           >
-            {theme.logo && <Logo />}
-            {theme.name === settings.theme?.name && <div class={styles.selected_theme}>}
+            {theme.logo && <Logo style={{ fill: theme.logo }}/>}
+            {theme.id === settings.theme.id && <div class={styles.selected_theme}>
               <CheckIcon />
-            </ div>
+            </ div>}
           </ div>
         )}
       </For>
     </section>)
 }
 
-const Logo = () => (
-  <div class={styles.Logo}>
+const Logo: LogoComp = ({ style }) => (
+  <div style={style} class={styles.Logo}>
     <LogoIcon />
     <span class={styles.Logo_Mail}>
       <MailIcon />
@@ -182,6 +175,7 @@ const LangSettings = () => {
     setSettings('lang', getLang());
     setSettings('open', false);
     e.preventDefault();
+    window.location.reload();
   };
 
 

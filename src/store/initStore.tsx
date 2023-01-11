@@ -1,6 +1,6 @@
 import { createEffect, createResource, createSignal } from "solid-js";
 import routes from '../routes';
-import { settings, setSettings } from './SettingsStore';
+import { settings, setSettings, setTheme } from './SettingsStore';
 import { getLocale, switchLocale } from "./LocaleStore";
 import type { Store, Mail, Mails } from './store.d';
 
@@ -24,12 +24,16 @@ const initStore = (): Store => {
 
   const [getMail, setMail] = createSignal<Mail | null>(null);
 
-  createEffect(() => { switchLocale(settings.lang); });
+  createEffect(() => { 
+    switchLocale(settings.lang);
+    localStorage.setItem("lang", settings.lang);
+  });
 
   return {
     getLocale,
     settings,
     setSettings,
+    setTheme,
     getFolder,
     setFolder,
     getDrawer,

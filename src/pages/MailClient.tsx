@@ -1,4 +1,3 @@
-import type { Component } from 'solid-js';
 import Header from '../components/Header/Header';
 import Sidebar from '../components/SideBar/Sidebar';
 import Mails from '../components/Mails/Mails';
