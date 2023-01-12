@@ -9,8 +9,11 @@ export const colorThemes: Theme[] = [
     bg: '#4e342e',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -19,8 +22,11 @@ export const colorThemes: Theme[] = [
     bg: '#424242',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -29,8 +35,11 @@ export const colorThemes: Theme[] = [
     bg: '#5a355a',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -39,8 +48,11 @@ export const colorThemes: Theme[] = [
     bg: '#35385a',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -49,8 +61,11 @@ export const colorThemes: Theme[] = [
     bg: '#646ecb',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     id: 'color6',
@@ -59,8 +74,11 @@ export const colorThemes: Theme[] = [
     bg: '#e73672',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -69,8 +87,11 @@ export const colorThemes: Theme[] = [
     bg: '#f44336',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -79,8 +100,11 @@ export const colorThemes: Theme[] = [
     bg: '#388e3c',
     logo: '#ffffff',
     font: '#ffffff',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -89,8 +113,11 @@ export const colorThemes: Theme[] = [
     bg: '#81d8d0',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -99,8 +126,11 @@ export const colorThemes: Theme[] = [
     bg: '#e2dcd5',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -109,8 +139,11 @@ export const colorThemes: Theme[] = [
     bg: '#ffebdc',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     id: 'color12',
@@ -119,8 +152,11 @@ export const colorThemes: Theme[] = [
     bg: '#e7eed2',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -129,8 +165,11 @@ export const colorThemes: Theme[] = [
     bg: '#d0f0f7',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -139,8 +178,11 @@ export const colorThemes: Theme[] = [
     bg: '#c9d0fb',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -149,8 +191,11 @@ export const colorThemes: Theme[] = [
     bg: '#ddf3ff',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   },
   {
     type: 'color',
@@ -159,8 +204,11 @@ export const colorThemes: Theme[] = [
     bg: '#f0f0f0',
     logo: '#ffffff',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(0, 16, 61, 0.04)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   }
 ];
 
@@ -172,9 +220,12 @@ export const fullThemes: Theme[] = [
     header: '#232324',
     bg: '#19191A',
     logo: '#ffffff',
-    font: '#ffffff',
+    font: '#E7E8EA',
+    mailFont: '#ffffff',
+    mutedFont: '#8C8E94',
     hover: 'rgba(255, 255, 255, 0.04)',
     active: 'rgba(255, 255, 255, 0.08)',
+    mails: '#232324',
   },
   {
     type: 'full',
@@ -184,8 +235,25 @@ export const fullThemes: Theme[] = [
     bg: '#F6F7F8',
     logo: '#005FF9',
     font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
     hover: 'rgba(255, 255, 255, 0.24)',
     active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
+  },
+  {
+    type: 'full',
+    id: 'full3',
+    name: 'Anime',
+    header: '#6B1344',
+    bg: 'linear-gradient(180deg, rgba(117, 0, 69, 0.64) 0%, rgba(0, 9, 83, 0.64) 100%), url(assets/bg/anime.png), #FFFFFF',
+    logo: '#005FF9',
+    font: '#333333',
+    mailFont: '#2C2D2E',
+    mutedFont: '#87898F',
+    hover: 'rgba(255, 255, 255, 0.24)',
+    active: 'rgba(0, 16, 61, 0.08)',
+    mails: '#ffffff',
   }
 ];
 
@@ -213,8 +281,11 @@ const setTheme = (theme: Theme) => {
   document.documentElement.style.setProperty("--theme-header-bg", theme.header);
   document.documentElement.style.setProperty("--theme-logo-mail-color", theme.logo);
   document.documentElement.style.setProperty("--theme-font", theme.font);
+  document.documentElement.style.setProperty("--theme-mail-font", theme.mailFont);
+  document.documentElement.style.setProperty("--theme-mutedFont", theme.mutedFont);
   document.documentElement.style.setProperty("--theme-btn-hover", theme.hover);
   document.documentElement.style.setProperty("--theme-btn-active", theme.active);
+  document.documentElement.style.setProperty("--theme-mails-bg", theme.mails);
 
 }
 

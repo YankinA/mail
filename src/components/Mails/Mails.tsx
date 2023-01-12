@@ -12,14 +12,16 @@ import PlaneIcon from './../../assets/icons/categories/plane.svg?component-solid
 import ShopIcon from './../../assets/icons/categories/shopping.svg?component-solid';
 import TicketIcon from './../../assets/icons/categories/ticket.svg?component-solid';
 import AttachIcon from './../../assets/icons/attach.svg?component-solid';
-import type { 
+import type {
   AuthorComp, AvatarComp, BookmarkComp, MailDocsComp, MailTextComp, OnOpenMail, OnToggle, ReadCheckBoxComp,
 } from './Mails.d';
+import { getLocale } from '../../store/LocaleStore';
 
 const Mails = () => {
-  const { getMail } = useStore();
+  const { getMail, settings } = useStore();
   return (
-    <section class={styles.Mails}>
+    <section
+      class={styles.Mails}>
       <div class={styles.screen}></div>
       {getMail() ? <Mail /> : <MailList />}
     </section>
@@ -75,11 +77,11 @@ const MailTo = () => {
 
   const to = mail?.to.slice(0, 2);
   const sing = to?.length ? ', ' : '';
-  const you = !mail?.folder ? `Вы${sing}` : '';
+  const you = !mail?.folder ? `${getLocale().mail.you}${sing}` : '';
   const recipient = (num: number) => num > 1 ? 'получателей' : 'получатель';
 
   return (
-    <div class={styles.MailTo}>Кому: {you}{to?.map(({ name, surname }, i) => (
+    <div class={styles.MailTo}>{getLocale().mail.to}: {you}{to?.map(({ name, surname }, i) => (
       <span>
         {name} {surname}{i === to.length - 1 ? '' : ','}
       </span>
@@ -91,14 +93,16 @@ const MailTo = () => {
 
 const MailDocs: MailDocsComp = ({ doc: { img } }) => {
 
+  const { getLocale } = useStore();
+
   const docCounter = String(Array.isArray(img) ? img.length : 1);
   const lastNum = Number(docCounter[docCounter.length - 1]);
 
-  let filesLocale: 'файлов' | 'файл' | 'файла' = 'файлов';
+  let filesLocale = getLocale().mail.file[5];
   if (lastNum === 1) {
-    filesLocale = 'файл';
+    filesLocale = getLocale().mail.file[1];
   } else if (lastNum > 1 && lastNum < 5) {
-    filesLocale = 'файла'
+    filesLocale = getLocale().mail.file[2];
   }
 
   const getImgSize = (src: string) => {
@@ -118,12 +122,12 @@ const MailDocs: MailDocsComp = ({ doc: { img } }) => {
     <>
       <div class={styles.MailDocs}>
         {Array.isArray(img) ? img.map((src: string) => (
-          <img class={styles.MailDocs_img} src={src} alt='вложенное изображение' />
-        )) : <img class={styles.MailDocs_img} src={img} alt='вложенное изображение' />}
+          <img class={styles.MailDocs_img} src={src} />
+        )) : <img class={styles.MailDocs_img} src={img} />}
       </div>
       <span>{docCounter} {filesLocale} </span>
-      <a class={styles.MailDocs_download}>Скачать </a>
-      <span class={styles.MailDocs_filesize}>({fullImgSize} кб)</span>
+      <a class={styles.MailDocs_download}>{getLocale().mail.download} </a>
+      <span class={styles.MailDocs_filesize}>({fullImgSize} {getLocale().mail.kb})</span>
     </>
   )
 };
@@ -150,6 +154,7 @@ const MailList = () => {
       {(mail) => (
         <li
           class={styles.MailListItem}
+          classList={{ [styles.MailListItem_theme]: settings.theme.id === 'full1' }}
           onClick={[onOpenMail, mail]}
         >
           <ReadCheckBox read={mail.read} />
@@ -168,9 +173,9 @@ const MailList = () => {
             <MailDate date={mail.date} />
             {mail.doc && <></>}
           </div>
-          <hr 
-            class={styles.MailListItem_hr} 
-            classList={{[styles.MailListItem_hr_theme]: settings.theme.name === 'Dark' }}
+          <hr
+            class={styles.MailListItem_hr}
+            classList={{ [styles.MailListItem_hr_theme]: settings.theme.id === 'full1' }}
           />
         </ li>
       )}
@@ -216,6 +221,7 @@ const Author: AuthorComp = (props) => {
 const AuthorCheckBox = () => {
 
   const [getCheck, setCheck] = createSignal<boolean>(false);
+  const { settings } = useStore();
 
   const onToggle: OnToggle = (e) => {
     const target = e.target as HTMLInputElement;
@@ -233,7 +239,8 @@ const AuthorCheckBox = () => {
       <label
         class={styles.AuthorCheckBox}
         classList={{
-          [styles.AuthorCheckBox_active]: getCheck()
+          [styles.AuthorCheckBox_active]: getCheck(),
+          [styles.AuthorCheckBox_theme]: settings.theme.id === 'full1'
         }}
       >
         <div class={styles.AuthorCheckBox_Icon}>
@@ -292,32 +299,45 @@ const MailContent = (props) => (
   </article>)
 
 const CategoryIcons = {
-  'Регистрации': <KeyIcon />,
-  'Заказы': <ShopIcon />,
-  'Билеты': <TicketIcon />,
-  'Путешевствия': <PlaneIcon />,
-  'Штрафы и налоги': <GovIcon />,
-  'Финансы': <MoneyIcon />,
+  registrations: <KeyIcon />,
+  orders: <ShopIcon />,
+  tickets: <TicketIcon />,
+  trips: <PlaneIcon />,
+  finesAndTaxes: <GovIcon />,
+  finance: <MoneyIcon />,
 }
 
-const Category = (props) => {
+type CategoryComp = Component<{ 
+  category: keyof typeof CategoryIcons,
+  full: boolean
+}>;
+
+const Category: CategoryComp = (props) => {
+
+  const { getLocale } = useStore();
   return (
     <div class={styles.Category}>
       {props.category in CategoryIcons ? CategoryIcons[props.category] : null}
-      {props.full && <span class={styles.Category_name}>{props.category}</ span>}
+      {props.full && <span class={styles.Category_name}>{getLocale().mail.category[props.category]}</ span>}
     </div>
   );
 };
 
 const Attach = () => {
+  const { settings } = useStore();
   return (
-    <div class={styles.Attach}>
+    <div class={styles.Attach} classList={{[styles.Attach_light]: settings.theme.id === 'full1'}}>
       <AttachIcon />
     </div>
   );
 };
 
-const MailDate = (props) => {
+type MailDateComp = Component<{
+  date: Date,
+  full: boolean
+}>;
+
+const MailDate: MailDateComp = (props) => {
 
   const { settings, getLocale } = useStore();
 
@@ -337,10 +357,14 @@ const MailDate = (props) => {
 
   const [formatedDay, mouthName] = settings.lang === 'ru' ? parsedToDDMMM : parsedToDDMMM.reverse();
 
-  const date = isThisYear
-    ? `${formatedDay} ${mouthName.slice(0, 3)}` : mailDate.toLocaleDateString(settings.lang);
+  const options: Intl.DateTimeFormatOptions = { year: '2-digit', month: '2-digit', day: '2-digit' };
+  
+  const formatedFullDate = mailDate.toLocaleDateString(settings.lang, options);
+  
+  const date = isThisYear ? `${formatedDay} ${mouthName.slice(0, 3)}` : formatedFullDate ;
 
   const formatedToday = `${props.full ? getLocale().mail.today + ', ' : ''}${hours}:${min}`;
+  
   return (
     <div class={styles.Date}>
       {isToday ? formatedToday : date}

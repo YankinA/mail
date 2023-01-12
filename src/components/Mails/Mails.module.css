@@ -5,7 +5,8 @@
   margin-right: 12px;
   width: 100%;
   border-radius: 12px;
-  background: #FFFFFF;
+  background: var(--theme-mails-bg);
+  color: var(--theme-mail-font);
 }
 
 .Mail {
@@ -63,7 +64,7 @@
 .MailTo {
   font-size: 13px;
   line-height: 18px;
-  color: #87898F;
+  color: var(--theme-mutedFont);
 }
 
 .MailDocs {
@@ -80,7 +81,7 @@
 }
 
 .MailDocs_filesize {
-  color: #87898F;
+  color: var(--theme-mutedFont);
 }
 
 .MailDocs_img {
@@ -105,7 +106,7 @@
 
 .MailLists {
   overflow: auto;
-  
+
 }
 
 .MailLists::-webkit-scrollbar {
@@ -135,8 +136,13 @@
   flex: 1;
 }
 
+
 .MailListItem:hover {
   background: rgba(0, 16, 61, 0.04);
+}
+
+.MailListItem_theme:hover {
+  background: var(--theme-btn-hover);
 }
 
 .ReadCheckBox {
@@ -148,7 +154,7 @@
   background: #A5A7AD;
 }
 
-.MailListItem:not(.MailListItem:hover) > .ReadCheckBox:not(.ReadCheckBox_active) { 
+.MailListItem:not(.MailListItem:hover)>.ReadCheckBox:not(.ReadCheckBox_active) {
   display: none;
 }
 
@@ -178,9 +184,14 @@
   display: none;
   width: 16px;
   height: 16px;
-  background: #FFFFFF;
+  background: var(--theme-mails-bg);
   border: 1px solid rgba(0, 16, 61, 0.12);
   border-radius: 4px;
+}
+
+.AuthorCheckBox_theme {
+  background: var(--theme-btn-hover);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .MailListItem:hover>.Author>.AuthorCheckBox_wrapper,
@@ -296,19 +307,19 @@
 }
 
 .title {
-  max-width: 252px;
+  max-width: 380px;
+  margin-right: 8px;
   text-align: start;
-  text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-} 
+}
 
 .ReadCheckBox_active~.MailContent>.title {
   font-weight: 700;
 }
 
 .text {
-  color: #87898F;
+  color: var(--theme-mutedFont);
   text-align: start;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -328,8 +339,7 @@
   align-items: center;
 }
 
-.wrap_widget > .Category {
-}
+.wrap_widget>.Category {}
 
 .Category_name {
   padding-left: 10.5px;
@@ -337,13 +347,22 @@
 
 .Attach {
   margin-left: 10.5px;
+  fill: #2C2D2E;
+}
+
+.Attach_light {
+  fill: #D9DADD;
 }
 
 .Date {
-  min-width: 44px;
+  min-width: 60px;
   margin-left: 16px;
   margin-right: 17px;
   color: #87898F;
+}
+
+.MailListItem:hover > .MailListItem_hr {
+  display: none;
 }
 
 .MailListItem_hr {
@@ -358,65 +377,12 @@
   border: 1px solid var(--theme-bg);
 }
 
-.screen {
-  display: none;
-  position: absolute;
-  z-index: 100;
-  top: 0;
-  left: 35%;
-  width: 200px;
-  height: 50px;
-  font-size: 20px;
-}
-
-.screen::after {
-  position: absolute;
-  content: 'normal';
-}
-
 .MailList_page_fixer {
   height: 10px;
   width: 100%;
 }
 
-
-@media screen and (max-width: 1366px) {
-
-  .screen::after {
-    content: 'max-width: 1366px';
-  }
-  
-}
-
-@media screen and (max-width: 1200px) {
-  .screen::after {
-    content: 'max-width: 1200px';
-  }
-}
-
-@media screen and (max-width: 1100px) {
-  .screen::after {
-    content: 'max-width: 1366px';
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  .screen::after {
-    content: 'max-width: 1000px';
-  }
-}
-
-@media screen and (max-width: 950px) {
-  .screen::after {
-    content: 'max-width: 950px';
-  }   
-}
-
 @media screen and (max-width: 900px) {
-
-  .screen::after {
-    content:'max-width: 900px';
-  }  
 
   .Mails {
     margin-left: 65px;
@@ -424,40 +390,15 @@
 
   .MailLists::-webkit-scrollbar {
     width: 0.4em;
-  }
+  }     
 
   .MailListItem {
     width: calc(100vw - 70px);
   }
 
   .title {
-    max-width: 150px;
+    max-width: 262px;
   }
 
-  
-}
 
-@media screen and (max-width: 800px) {
-
-  .screen::after {
-    content:'max-width: 800px';
-  }  
-
-  .title {
-    max-width: 130px;
-  }
-}
-
-@media screen and (max-width: 700px) {
-
-  .screen::after {
-    content:'max-width: 700px';
-  }  
-}
-
-@media screen and (max-width: 600px) {
-
-  .screen::after {
-    content:'max-width: 600px';
-  }  
 }

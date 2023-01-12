@@ -23,7 +23,17 @@ const ru = {
       2: 'Файла',
       5: 'Файлов',
     },
+    download: 'Скачать',
+    kb: 'кб',
     today: 'Сегодня',
+    category: {
+      registrations: 'Регистрации',
+      orders: 'Заказы',
+      tickets: 'Билеты',
+      trips: 'Путешевствия',
+      finesAndTaxes: 'Штрафы и налоги',
+      finance: 'Финансы',
+    }
   },
   settings: {
     appearance: 'Внешний вид',

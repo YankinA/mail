@@ -15,8 +15,20 @@ const _trslateFolder = {
   'Корзина': 'trash',
 }
 
+const _trslateCategory = {
+  'Регистрации': 'registrations',
+  'Заказы': 'orders',
+  'Билеты': 'tickets',
+  'Путешевствия': 'trips',
+  'Штрафы и налоги': 'finesAndTaxes',
+  'Финансы': 'finance',
+}
+
 db = db.map((mail) => {
   mail.folder = _trslateFolder[mail.folder];
+  if (mail.flag) {
+    mail.flag = _trslateCategory[mail.flag];
+  }
   return mail;
 });
 

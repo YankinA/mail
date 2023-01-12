@@ -23,7 +23,17 @@ const en = {
       2: 'files',
       5: 'files',
     },
+    download: 'Download',
+    kb: 'kb',
     today: 'Сегодня',
+    category: {
+      registrations: 'Registrations',
+      orders: 'Orders',
+      tickets: 'Tickets',
+      trips: 'Trips',
+      finesAndTaxes: 'Fines and taxes',
+      finance: 'Finance',
+    }
   },
   settings: {
     appearance: 'Appearance',

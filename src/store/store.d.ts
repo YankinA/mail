@@ -19,8 +19,11 @@ export type Theme = {
   bg: Color,
   logo: Color,
   font: Color,
+  mailFont: Color;
+  mutedFont: Color,
   hover: Color,
   active: Color,
+  mails: Color,
 }
 
 export type SettingsStore = {
@@ -59,7 +62,7 @@ export type Mail = {
   read: boolean;
   date: Date;
   doc: Doc;
-  flag: string;
+  flag?: "registrations" | "orders" | "tickets" | "trips" | "finesAndTaxes" | "finance";
   folder?: string;
 }
 
