@@ -351,6 +351,10 @@
   left: 72px;
   bottom: 0;
   width: calc(100% - 83px);
+  border: 1px solid #F6F7F8;
+}
+
+.MailListItem_hr_theme {
   border: 1px solid var(--theme-bg);
 }
 

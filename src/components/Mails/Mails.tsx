@@ -135,7 +135,7 @@ const MailText: MailTextComp = (props) => (
 );
 
 const MailList = () => {
-  const { getMails, setMail } = useStore();
+  const { getMails, setMail, settings } = useStore();
 
   const onOpenMail: OnOpenMail = (mail, e) => {
     const forbiddenTags = ['input', 'label', 'svg', 'path'];
@@ -168,7 +168,10 @@ const MailList = () => {
             <MailDate date={mail.date} />
             {mail.doc && <></>}
           </div>
-          <hr class={styles.MailListItem_hr} />
+          <hr 
+            class={styles.MailListItem_hr} 
+            classList={{[styles.MailListItem_hr_theme]: settings.theme.name === 'Dark' }}
+          />
         </ li>
       )}
     </For>
