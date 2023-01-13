@@ -142,9 +142,16 @@ const MailList = () => {
   const { getMails, setMail, settings } = useStore();
 
   const onOpenMail: OnOpenMail = (mail, e) => {
-    const forbiddenTags = ['input', 'label', 'svg', 'path'];
     const target: HTMLElement = e.target as HTMLElement;
-    if (!forbiddenTags.includes(target?.tagName.toLowerCase())) {
+
+    const forbiddenTags = ['input', 'label', 'svg', 'path'];
+    const forbiddenClasses = [styles.AuthorCheckBox_Icon];
+    const hasTag = forbiddenTags.includes(target?.tagName.toLowerCase());
+
+    const classList: string = target?.classList.value;
+    const hasClass = forbiddenClasses.some(fClass => classList.includes(fClass));
+
+    if (!hasTag && !hasClass) {
       setMail(mail);
     }
   }

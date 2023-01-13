@@ -138,10 +138,10 @@ const FullThemes = () => {
         {(theme) => (
           <div
           onClick={() => { setTheme(theme); }}
-            style={{ background: theme.bg }}
+            style={{ background: theme?.bgMini ?? theme.bg,  }}
             class={styles.FullTheme}
           >
-            {theme.logo && <Logo style={{ fill: theme.logo }}/>}
+            {theme.id !== 'full3' && theme.logo && <Logo style={{ fill: theme.logo }}/>}
             {theme.id === settings.theme.id && <div class={styles.selected_theme}>
               <CheckIcon />
             </ div>}

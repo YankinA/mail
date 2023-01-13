@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const querystring = require('querystring');
 let db = require('./db.json');
+const { debug } = require('console');
 
 const _trslateFolder = {
   undefined: 'inbox',
@@ -46,6 +47,8 @@ const MIME_TYPES = {
   js: 'application/javascript; charset=UTF-8',
   css: 'text/css',
   png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
   svg: 'image/svg+xml',
 };
 
@@ -99,8 +102,12 @@ class Orm {
 const orm = new Orm(db);
 
 const statFileController = async (req, res) => {
+  console.log({url: req.url});
   const file = req.url === '/' ? 'index.html' : req.url;
   const ext = path.extname(file).substring(1);
+
+   
+
   const mimeType = MIME_TYPES[ext];
 
   res.writeHead(200, { 'Content-Type': mimeType });
@@ -127,9 +134,11 @@ const router = async (req, res) => {
       await statFileController(req, res);
     },
     'assets': async () => {
+      console.log('assets');
       await statFileController(req, res);
     },
     'api': async (parsedPath) => {
+      console.log('api');
       const controllerName = parsedPath[3];
       if (controllerName.includes('mails?') || controllerName === "mails") {
         await mailsController(req, res);

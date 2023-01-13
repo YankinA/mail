@@ -1,4 +1,6 @@
 .Sidebar {
+  
+  background-image: none;
   background: var(--theme-bg);
   position: fixed;
   z-index: 1;
@@ -30,6 +32,11 @@
 .Burger {
   display: none;
 }
+
+.Folders > * {
+  margin-bottom: 1px;
+}
+
 .Folder > .Sidebar_theme_btn:hover,
 .OpenSetting > .Sidebar_theme_btn:hover {
   background: var(--theme-btn-hover);
