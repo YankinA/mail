@@ -137,11 +137,11 @@ const FullThemes = () => {
       <For each={settings.fullThemes}>
         {(theme) => (
           <div
-          onClick={() => { setTheme(theme); }}
-            style={{ background: theme?.bgMini ?? theme.bg,  }}
+            onClick={() => { setTheme(theme); }}
+            style={{ background: theme?.bgMini ?? theme.bg }}
             class={styles.FullTheme}
           >
-            {theme.id !== 'full3' && theme.logo && <Logo style={{ fill: theme.logo }}/>}
+            {theme.id !== 'full3' && theme.logo && <Logo style={{ fill: theme.logo }} />}
             {theme.id === settings.theme.id && <div class={styles.selected_theme}>
               <CheckIcon />
             </ div>}
@@ -153,7 +153,9 @@ const FullThemes = () => {
 
 const Logo: LogoComp = ({ style }) => (
   <div style={style} class={styles.Logo}>
-    <LogoIcon />
+    <div class={styles.Logo_icon}>
+      <LogoIcon />
+    </div>
     <span class={styles.Logo_Mail}>
       <MailIcon />
     </span>

@@ -1,9 +1,8 @@
 .Mails {
   display: flex;
-  margin-left: 232px;
+  margin-left: var(--sidebar-width-full);
+  width: calc(100vw - var(--sidebar-width-full) - 12px);
   margin-top: 68px;
-  margin-right: 12px;
-  width: 100%;
   border-radius: 12px;
   background: var(--theme-mails-bg);
   color: var(--theme-mail-font);
@@ -125,7 +124,6 @@
 
 .MailListItem {
   position: relative;
-  width: calc(100vw - 242px);
   height: 48px;
   border-radius: 12px;
   display: flex;
@@ -331,6 +329,7 @@
   width: 100%;
   display: flex;
   justify-content: end;
+  margin-left: 10px;
 }
 
 
@@ -385,7 +384,8 @@
 @media screen and (max-width: 900px) {
 
   .Mails {
-    margin-left: 65px;
+    margin-left: var(--sidebar-width-mini);
+    width: calc(100vw - var(--sidebar-width-mini) - 12px);
   }
 
   .MailLists::-webkit-scrollbar {

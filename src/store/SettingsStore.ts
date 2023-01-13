@@ -246,7 +246,7 @@ export const fullThemes: Theme[] = [
     id: 'full3',
     name: 'Anime',
     header: '#6B1344',
-    bg: 'linear-gradient(180deg, rgba(117, 0, 69, 0.64) 0%, rgba(0, 9, 83, 0.64) 100%), url(./src/assets/bg/anime.jpg) no-repeat, #FFFFFF',
+    bg: 'linear-gradient(180deg, rgba(117, 0, 69, 0.64) 0%, rgba(0, 9, 83, 0.64) 100%), url(./src/assets/bg/anime.jpg), #FFFFFF',
     bgMini: 'url(./src/assets/bg/anime_mini.jpg)',
     logo: '#ffffff',
     font: '#ffffff',

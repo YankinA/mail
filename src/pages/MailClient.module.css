@@ -1,4 +1,6 @@
 :root {
+  --sidebar-width-full: 232px;
+  --sidebar-width-mini: 64px;
   --theme-bg: #F6F7F8;
   --theme-header-bg: #ffffff;
   --theme-logo-mail-color: #005FF9;
@@ -12,8 +14,7 @@
 
 .MailClient {
   background: var(--theme-bg);
-  background-size: 1920px 1200px;
-  transition: 80ms;
+  transition: 80ms transform;
 }
 
 .MailClient_scale {
@@ -24,4 +25,55 @@
   display: flex;
   width: 100vw;
   height: 100vh;
+}
+
+@media (min-width: 0px),
+(min-height: 0px) {
+
+  .MailClient {
+    background-size: 1050px 656px;
+
+  }
+}
+
+@media (min-width: 1051px),
+(min-height: 657px) {
+
+  .MailClient {
+    background-size: 1280px 800px;
+
+  }
+}
+
+
+@media (min-width: 1281px),
+(min-height: 801px) {
+
+  .MailClient {
+    background-size: 1440px 900px;
+  }
+}
+
+@media (min-width: 1441px),
+(min-height: 901px) {
+  .MailClient {
+    background-size: 1680px 1050px;
+  }
+}
+
+
+@media (min-width: 1681px),
+(min-height: 1051px) {
+
+  .MailClient {
+    background-size: 1920px 1200px;
+  }
+}
+
+@media (min-width: 1921px),
+(min-height: 1201px) {
+
+  .MailClient {
+    background-size: 2560px 1600px;
+  }
 }

@@ -73,10 +73,19 @@
 }
 
 .Logo {
-  width: 96px;
+  width: 72px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+}
+
+.Logo_icon {
+  width: 24.16px;
+  height: 24px;
+}
+
+.Logo_Mail {
+  width: 40.99px;
+  height: 16.19px;
 }
 
 .selected_theme {

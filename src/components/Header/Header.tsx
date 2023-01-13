@@ -20,7 +20,9 @@ const Logo = () => {
   const { getDrawer } = useStore();
   return (
     <div class={styles.Logo}>
-      <LogoIcon />
+      <div class={styles.Logo_icon}>
+        <LogoIcon />
+      </ div>
       <span
         class={styles.Logo_Mail}
         classList={{ [styles.Logo_Mail_show]: getDrawer() }}
@@ -34,13 +36,13 @@ const Logo = () => {
 const Back = () => {
   const { getLocale, setMail, getDrawer } = useStore();
   return (
-    <button 
-      class={styles.Back} 
+    <button
+      class={styles.Back}
       onClick={() => { setMail(null); }}>
       <BackIcon />
       <span
         class={styles.Back_text}
-        classList={{[styles.Back_text_show]: getDrawer() }}
+        classList={{ [styles.Back_text_show]: getDrawer() }}
       >
         {getLocale().mail.back}
       </span>
