@@ -13,9 +13,21 @@ import ShopIcon from './../../assets/icons/categories/shopping.svg?component-sol
 import TicketIcon from './../../assets/icons/categories/ticket.svg?component-solid';
 import AttachIcon from './../../assets/icons/attach.svg?component-solid';
 import type {
+  AttachComp,
   AuthorComp, AvatarComp, BookmarkComp, MailDocsComp, MailTextComp, OnOpenMail, OnToggle, ReadCheckBoxComp,
 } from './Mails.d';
 import { getLocale } from '../../store/LocaleStore';
+import Modal from '../@shared/Modal/Modal';
+import { AttachModalStore } from '../../store/store';
+
+const getImgSize = (src: string) => {
+  try {
+    const base64str = src.substring(22);
+    return Math.floor(atob(base64str).length / 1024);
+  } catch (error) {
+    return 0;
+  }
+};
 
 const Mails = () => {
   const { getMail, settings } = useStore();
@@ -105,15 +117,6 @@ const MailDocs: MailDocsComp = ({ doc: { img } }) => {
     filesLocale = getLocale().mail.file[2];
   }
 
-  const getImgSize = (src: string) => {
-    try {
-      const base64str = src.substring(22);
-      return Math.floor(atob(base64str).length / 1024);
-    } catch (error) {
-      return 0;
-    }
-  };
-
   const fullImgSize = Array.isArray(img)
     ? img.reduce((acc: number, src: string) => acc + getImgSize(src), 0)
     : getImgSize(img);
@@ -139,26 +142,27 @@ const MailText: MailTextComp = (props) => (
 );
 
 const MailList = () => {
-  const { getMails, setMail, settings } = useStore();
+  const { getMails, setMail, settings, getModal, setModal } = useStore();
 
   const onOpenMail: OnOpenMail = (mail, e) => {
     const target: HTMLElement = e.target as HTMLElement;
-
-    const forbiddenTags = ['input', 'label', 'svg', 'path'];
-    const forbiddenClasses = [styles.AuthorCheckBox_Icon];
-    const hasTag = forbiddenTags.includes(target?.tagName.toLowerCase());
-
     const classList: string = target?.classList.value;
-    const hasClass = forbiddenClasses.some(fClass => classList.includes(fClass));
+    
+    const allowedClasses = [
+      styles.MailListItem, styles.Author_names, styles.title, styles.text, styles.Category, styles.Date,
+    ];
 
-    if (!hasTag && !hasClass) {
+    const hasClass = allowedClasses.some(cl => classList.includes(cl));
+
+    if (hasClass) {
       setMail(mail);
+      setModal(null);
     }
   }
 
   return <ul class={styles.MailLists}>
     <For each={getMails()?.result}>
-      {(mail) => (
+      {(mail, getIndex) => (
         <li
           class={styles.MailListItem}
           classList={{ [styles.MailListItem_theme]: settings.theme.id === 'full1' }}
@@ -176,7 +180,7 @@ const MailList = () => {
           />
           <div class={styles.wrap_widget}>
             <Category category={mail.flag} />
-            {mail.doc && <Attach />}
+            {mail.doc && <Attach doc={mail.doc} index={getIndex()} />}
             <MailDate date={mail.date} />
             {mail.doc && <></>}
           </div>
@@ -188,6 +192,9 @@ const MailList = () => {
       )}
     </For>
     <li class={styles.MailList_page_fixer} />
+    {getModal() && getModal()?.type === 'attach' && (
+      <AttachModal />
+    )}
   </ul>
 };
 
@@ -314,7 +321,7 @@ const CategoryIcons = {
   finance: <MoneyIcon />,
 }
 
-type CategoryComp = Component<{ 
+type CategoryComp = Component<{
   category: keyof typeof CategoryIcons,
   full: boolean
 }>;
@@ -330,14 +337,84 @@ const Category: CategoryComp = (props) => {
   );
 };
 
-const Attach = () => {
-  const { settings } = useStore();
+
+const Attach: AttachComp = (props) => {
+
+  const { settings, getModal, setModal } = useStore();
+
+  const id: AttachModalStore['id'] = `attach${props.index}`;
+  const attachPreviewHeight = 24;
+  const attachModalPadding = 8;
+  const attachModalHeight = 298;
+
+  const setModalCB = (cord: DOMRect) => (prev: AttachModalStore | null): AttachModalStore | null => {
+
+    const imgList = Array.isArray(props.doc.img) ? props.doc.img : [props.doc.img];
+    const top = String(cord.top - (imgList.length * (attachPreviewHeight - attachModalPadding / 2))) + 'px';
+    const left = String(cord.left - (attachModalHeight + (attachModalPadding))) + 'px';
+    return prev && prev.id === id ? null : {
+      id, type: 'attach', top, left, imgList,
+    };
+  };
+
+  const toggleModal = (e: MouseEvent & {
+    currentTarget: HTMLDivElement;
+    target: Element;
+  }) => {
+    e.stopPropagation();
+    const cord = e.target.getBoundingClientRect();
+    const cb = setModalCB(cord);
+    setModal(cb);
+  }
+
   return (
-    <div class={styles.Attach} classList={{[styles.Attach_light]: settings.theme.id === 'full1'}}>
+    <div
+      onClick={(e) => { toggleModal(e); }}
+      class={styles.Attach}
+      classList={{
+        [styles.Attach_theme_dark]: settings.theme.id === 'full1',
+        [styles.Attach_active]: getModal()?.type && getModal()?.id === id
+      }}
+    >
       <AttachIcon />
     </div>
   );
 };
+
+const AttachModal = () => {
+  const { getModal } = useStore();
+
+  const modalImgHeight = 198;
+
+  return (
+    <Modal
+      style={{ top: getModal()?.top, left: getModal()?.left }}
+      classes={{
+        [styles.AttachModal]: true,
+        [styles.AttachModal_theme_dark]: true
+      }}
+    >
+      <For each={getModal()?.imgList}>
+        {(img, getIndex) => (
+          <div class={styles.AttachModal_preview}>
+            <img class={styles.AttachModal_preview_img} src={img} />
+            <span>
+              {`image${getIndex() ? '_' + getIndex() : ''}.jpg ${getImgSize(img)} ${getLocale().mail.kb.toLocaleUpperCase()}`}
+            </ span>
+            <Modal
+              classes={{ 
+                [styles.AttachModal_preview_full]: true,
+                [styles.AttachModal_preview_full_bottom]: modalImgHeight > Number(getModal()?.top.slice(0, -2))
+              }}
+            >
+              <img class={styles.AttachModal_preview_full_img} src={img} />
+            </Modal>
+          </div>
+        )}
+      </For>
+    </Modal>
+  )
+}
 
 type MailDateComp = Component<{
   date: Date,
@@ -365,13 +442,13 @@ const MailDate: MailDateComp = (props) => {
   const [formatedDay, mouthName] = settings.lang === 'ru' ? parsedToDDMMM : parsedToDDMMM.reverse();
 
   const options: Intl.DateTimeFormatOptions = { year: '2-digit', month: '2-digit', day: '2-digit' };
-  
+
   const formatedFullDate = mailDate.toLocaleDateString(settings.lang, options);
-  
-  const date = isThisYear ? `${formatedDay} ${mouthName.slice(0, 3)}` : formatedFullDate ;
+
+  const date = isThisYear ? `${formatedDay} ${mouthName.slice(0, 3)}` : formatedFullDate;
 
   const formatedToday = `${props.full ? getLocale().mail.today + ', ' : ''}${hours}:${min}`;
-  
+
   return (
     <div class={styles.Date}>
       {isToday ? formatedToday : date}

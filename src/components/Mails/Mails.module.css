@@ -1,7 +1,7 @@
 .Mails {
-  display: flex;
   margin-left: var(--sidebar-width-full);
   width: calc(100vw - var(--sidebar-width-full) - 12px);
+  min-width: 500px;
   margin-top: 68px;
   border-radius: 12px;
   background: var(--theme-mails-bg);
@@ -18,11 +18,13 @@
 }
 
 .Mail_header {
+  width: 95%;
   display: flex;
   justify-content: space-between;
 }
 
 .Mail_title {
+  max-width: 90%;
   margin-top: -6px;
   font-weight: 700;
   font-size: 24px;
@@ -39,8 +41,8 @@
 
 .MailAuthor>.ReadCheckBox {
   position: absolute;
-  left: -13px;
   top: 21px;
+  right: calc(100% + 13px);
 }
 
 .MailAuthor_desc {
@@ -94,18 +96,17 @@
 }
 
 .MailText {
+  width: 90.7%;
   margin-top: 28px;
   font-family: 'Helvetica Neue';
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
   line-height: 20px;
-  text-align: left;
 }
 
 .MailLists {
   overflow: auto;
-
 }
 
 .MailLists::-webkit-scrollbar {
@@ -123,15 +124,15 @@
 }
 
 .MailListItem {
-  position: relative;
+  min-width: 500px;
+  width: 100%;
+  max-width: 100%;
   height: 48px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   text-align: center;
-  overflow: hidden;
   white-space: nowrap;
-  flex: 1;
 }
 
 
@@ -144,16 +145,27 @@
 }
 
 .ReadCheckBox {
-  position: absolute;
+  position: relative;
+  margin-left: 13px;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  left: 11px;
   background: #A5A7AD;
+  visibility: visible;
+}
+
+.ReadCheckBox::after {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  content: '';
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 
 .MailListItem:not(.MailListItem:hover)>.ReadCheckBox:not(.ReadCheckBox_active) {
-  display: none;
+  visibility: hidden;
 }
 
 .ReadCheckBox_active {
@@ -161,13 +173,13 @@
 }
 
 .ReadCheckBox>input[type=checkbox] {
-  display: none;
+  visibility: hidden;
 }
 
 .Author {
   display: flex;
   align-items: center;
-  margin-left: 28px;
+  margin-left: 11px;
 }
 
 .AuthorCheckBox_wrapper {
@@ -300,7 +312,7 @@
 
 .MailContent {
   display: flex;
-  overflow: hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
@@ -345,12 +357,104 @@
 }
 
 .Attach {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
   margin-left: 10.5px;
+  fill: #D9DADD;
+}
+
+.Attach:not(.Attach_theme_dark) {
   fill: #2C2D2E;
 }
 
-.Attach_light {
-  fill: #D9DADD;
+.Attach:hover {
+  background: rgba(0, 16, 61, 0.04);
+}
+
+.Attach_theme_dark:active,
+.Attach_active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.Attach:active:not(.Attach_theme_dark),
+.Attach_active:not(.Attach_theme_dark) {
+  background: rgba(0, 16, 61, 0.08);
+}
+
+.Attach_theme_dark:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.AttachModal {
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.MailLists>.AttachModal_theme_dark {
+  background: var(--theme-mails-bg);
+}
+
+.AttachModal_preview {
+  height: 40px;
+  width: 298px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.AttachModal_preview:hover {
+  background: rgba(0, 16, 61, 0.04);
+}
+
+.AttachModal_theme_dark >.AttachModal_preview:hover {
+  background: var(--theme-btn-active);
+}
+
+.AttachModal_preview_img {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  margin-left: 12px;
+  margin-right: 8px;
+}
+
+.AttachModal_preview:not(.AttachModal_preview:hover)>.AttachModal_preview_full {
+  display: none;
+}
+
+.AttachModal_preview_full {
+  right: 302px;
+  bottom: 0;
+}
+
+.AttachModal_theme_dark >.AttachModal_preview > .AttachModal_preview_full {
+  background: var(--theme-mails-bg);
+}
+
+.AttachModal_preview:before {
+  position: absolute;
+  right: 298px;
+  content: '';
+  width: 4px;
+  height: 100%;
+}
+
+.AttachModal_preview_full_bottom {
+  top: 0;
+  bottom: auto;
+}
+
+.AttachModal_preview_full_img {
+  width: 264px;
+  height: 198px;
+  border-radius: 12px;
+  margin: 4px;
 }
 
 .Date {
@@ -360,7 +464,7 @@
   color: #87898F;
 }
 
-.MailListItem:hover > .MailListItem_hr {
+.MailListItem:hover>.MailListItem_hr {
   display: none;
 }
 
@@ -390,7 +494,7 @@
 
   .MailLists::-webkit-scrollbar {
     width: 0.4em;
-  }     
+  }
 
   .MailListItem {
     width: calc(100vw - 70px);

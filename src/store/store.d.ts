@@ -72,6 +72,10 @@ export type Mails = {
   offset: number
 };
 
+type AttachModalStore = { 
+  type: 'attach', id: `attach${number}`,  top: string, left: string, imgList: string[],
+};
+
 export type Store = {
   getLocale: Accessor<typeof ru | typeof en>,
   settings: SettingsStore,
@@ -84,4 +88,6 @@ export type Store = {
   getMails: Resource<Mails>,
   getMail: Accessor<Mail | null>,
   setMail: Setter<Mail | null>,
+  getModal: Accessor<AttachModalStore | null>,
+  setModal: Setter<AttachModalStore | null>,
 }

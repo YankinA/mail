@@ -6,9 +6,16 @@ import Settings from '../components/Settings/Settings';
 import { useStore } from '../store';
 
 export const MailClient = () => {
-  const { settings } = useStore();
+  const { settings, getModal, setModal } = useStore();
   return <>
     <div
+      onClick={(e) => {
+        console.log(e.target);
+        if (getModal() !== null) {
+          setModal(null);
+        }
+        
+      }}
       class={styles.MailClient}
       classList={{
         [styles.MailClient_scale]: settings.open

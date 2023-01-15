@@ -1,11 +1,9 @@
 import { Component, JSX } from "solid-js"
 
-import type { Mail, Author } from './../../store/store.d';
+import type { Mail, Author, Doc } from './../../store/store.d';
 
 type MailDocsComp = Component<{
-  doc: {
-    img: string | string[]
-  }
+  doc: Doc
 }>
 
 type MailTextComp = Component<{
@@ -30,5 +28,7 @@ type BookmarkComp = Component<{
   important?: boolean;
 }>;
 
-
-
+type AttachComp = Component<{
+  doc: Doc,
+  index: number,
+}>
