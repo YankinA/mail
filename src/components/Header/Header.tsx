@@ -3,6 +3,7 @@ import LogoIcon from './../../assets/icons/logo.svg';
 import MailIcon from './../../assets/icons/mail.svg';
 import BackIcon from './../../assets/icons/back.svg';
 import { useStore } from '../../store';
+import Select from '../@shared/Select/Select';
 
 const Header = () => {
 
@@ -49,5 +50,15 @@ const Back = () => {
     </button>
   );
 };
+
+const Filter = () => {
+
+  const { } = useStore();
+
+  const options = {
+
+  }
+  return <Select options={options} />
+}
 
 export default Header;

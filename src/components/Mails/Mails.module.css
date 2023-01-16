@@ -1,4 +1,5 @@
 .Mails {
+ 
   margin-left: var(--sidebar-width-full);
   width: calc(100vw - var(--sidebar-width-full) - 12px);
   min-width: 500px;
@@ -6,6 +7,22 @@
   border-radius: 12px;
   background: var(--theme-mails-bg);
   color: var(--theme-mail-font);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.Mails::-webkit-scrollbar {
+  border-radius: 5px;
+  width: 0.6em;
+}
+
+.Mails::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+.Mails::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 16, 61, 0.08);
+  border-radius: 5px;
 }
 
 .Mail {
@@ -109,21 +126,8 @@
   overflow: auto;
 }
 
-.MailLists::-webkit-scrollbar {
-  border-radius: 5px;
-  width: 0.6em;
-}
-
-.MailLists::-webkit-scrollbar-track {
-  border-radius: 5px;
-}
-
-.MailLists::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 16, 61, 0.08);
-  border-radius: 5px;
-}
-
 .MailListItem {
+  position: relative;
   min-width: 500px;
   width: 100%;
   max-width: 100%;
@@ -338,7 +342,6 @@
 }
 
 .wrap_widget {
-  width: 100%;
   display: flex;
   justify-content: end;
   margin-left: 10px;
@@ -348,6 +351,7 @@
 .Category {
   display: flex;
   align-items: center;
+  width: 24px;
 }
 
 .wrap_widget>.Category {}
@@ -469,15 +473,20 @@
 }
 
 .MailListItem_hr {
+  display: none;
   position: absolute;
   left: 72px;
-  bottom: 0;
+  top: -1px;
   width: calc(100% - 83px);
   border: 1px solid #F6F7F8;
 }
 
 .MailListItem_hr_theme {
   border: 1px solid var(--theme-bg);
+}
+
+.MailListItem:hover + .MailListItem > .MailListItem_hr {
+  display: none;
 }
 
 .MailList_page_fixer {
@@ -492,7 +501,7 @@
     width: calc(100vw - var(--sidebar-width-mini) - 12px);
   }
 
-  .MailLists::-webkit-scrollbar {
+  .Mails::-webkit-scrollbar {
     width: 0.4em;
   }
 
