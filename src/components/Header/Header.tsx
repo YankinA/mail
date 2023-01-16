@@ -4,6 +4,9 @@ import MailIcon from './../../assets/icons/mail.svg';
 import BackIcon from './../../assets/icons/back.svg';
 import { useStore } from '../../store';
 import Select from '../@shared/Select/Select';
+import BookmarkRedIcon from './../../assets/icons/bookmark_red.svg?component-solid';
+import AttachIcon from './../../assets/icons/attach.svg?component-solid';
+
 
 const Header = () => {
 
@@ -12,6 +15,7 @@ const Header = () => {
   return (
     <header class={styles.Header}>
       {getMail() ? <Back /> : <Logo />}
+      <Filter />
     </header>
   );
 };
@@ -53,12 +57,35 @@ const Back = () => {
 
 const Filter = () => {
 
-  const { } = useStore();
+  const { getLocale, getFilter, setFilter } = useStore();
+
+  const {folder, ...selected } = getFilter();
+
+  type SelectedOptions = typeof selected & { all?: boolean };
+
+  const updateFilter = (selectedOptions: SelectedOptions) => {
+    
+    setFilter(prev => selectedOptions.all ? { folder: prev.folder } : {  ...prev, ...selectedOptions, folder: prev.folder })
+  }
+
+  const locale = getLocale().header;
 
   const options = {
-
+    all: { name: locale.filters.all },
+    read: { name: locale.filters.read, Icon: <Read /> },
+    bookmark: { name: locale.filters.bookmark, Icon: <BookmarkRedIcon /> },
+    doc: { name: locale.filters.doc, Icon: <AttachIcon /> },
   }
-  return <Select options={options} />
+  return (
+    <Select
+      name={locale.filter} 
+      options={options} 
+      selected={getFilter()}
+      onSelect={updateFilter}
+    />
+  )
 }
+
+const Read = () => <div class={styles.Read} />
 
 export default Header;

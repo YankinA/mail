@@ -49,6 +49,13 @@
   display: inline;
 }
 
+.Read {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #005FF9;
+}
+
 @media screen and (max-width: 900px) {
   .Logo_Mail:not(.Logo_Mail_show) {
     display: none;

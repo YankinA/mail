@@ -94,7 +94,12 @@ class Orm {
   */
   where(select, query) {
     const collNames = Object.keys(query);
-    return collNames.every(coll => query[coll] === select[coll]);
+    return collNames.every(coll => {
+      if (query[coll] === true && select[coll]) {
+        return true;
+      }
+      return query[coll] === select[coll];
+    });
   }
 };
 
@@ -120,7 +125,12 @@ const mailsController = async (req, res) => {
 
   const offset = query.offset ?? 0;
   delete query.offset;
-
+  
+  for (const key in query) {
+   if (query[key] === 'true' || query[key] === 'false') {
+    query[key] = Boolean(query[key]);
+   }
+  }
   const mails = await orm.findBy(query, offset);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(mails), 'utf-8');

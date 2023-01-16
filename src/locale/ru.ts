@@ -1,4 +1,13 @@
 const ru = {
+  header: {
+    filter: 'Фильтр',
+    filters: {
+      all: 'Все письма',
+      read: 'Непрочитанные',
+      bookmark: 'С флажком',
+      doc: 'С вложениями',
+    }
+  },
   sidebar: {
     writeEmail: 'Написать письмо',
     folders: {

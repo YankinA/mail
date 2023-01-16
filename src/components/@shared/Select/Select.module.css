@@ -1,3 +1,58 @@
 .Select {
-
+  display: flex;
+  position: relative;
+  height: 18px;
+  margin-left: auto;
+  margin-right: 30px;
+  color: var(--theme-mail-font);
+  fill: var(--theme-mail-font);
 }
+
+.Select_name {}
+
+.Select_icon {
+  margin-left: 10px;
+}
+
+.Optins {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+} 
+
+.Select > .Optins_theme_dark {
+  background: var(--theme-mails-bg);
+}
+
+.Option {
+  position: relative;
+  color: var(--theme-font);
+  fill: var(--theme-font);
+  width: 240px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.Option_check {
+  position: absolute;
+  top: 10px;
+  left: 7.3px;
+  fill: var(--theme-font);
+}
+
+.Options_icon {
+  width: 16px;
+  margin-left: 31px;
+}
+
+.Options_name {
+  margin-left: 15px;
+}
+
+.Options_name_no_icon {
+  margin-left: 31px;
+}
+

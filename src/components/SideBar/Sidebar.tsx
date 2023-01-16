@@ -14,6 +14,7 @@ import TrashIcon from './../../assets/icons/trash.svg?component-solid';
 import PlusIcon from './../../assets/icons/plus.svg?component-solid';
 import SettingsIcon from './../../assets/icons/settings.svg?component-solid';
 import { useStore } from '../../store';
+import { preview } from 'vite';
 
 const Sidebar = () => {
 
@@ -60,7 +61,7 @@ const Folders = () => {
     { Icon: TrashIcon, name: 'trash' },
   ];
 
-  const { getLocale, getDrawer, setDrawer, setFolder, getFolder, setMail } = useStore();
+  const { getLocale, getDrawer, setDrawer, getFilter, setFilter, setMail } = useStore();
 
   const toggleDrawer = () => { setDrawer(v => !v) }
 
@@ -69,7 +70,7 @@ const Folders = () => {
       toggleDrawer();
     } else {
       setMail(null);
-      setFolder(name);
+      setFilter(prev => ({ ...prev, folder: name }));
 
     }
   }
@@ -84,13 +85,13 @@ const Folders = () => {
                 Icon={<folder.Icon />}
                 name={getLocale().sidebar.folders[folder.name] ?? folder.name}
                 onClick={() => { folderOnClick(folder.name) }}
-                active={getFolder() === folder.name}
+                active={getFilter().folder === folder.name}
                 full={getDrawer()}
                 classes={{
-                  [styles.Sidebar_theme_btn]: true, 
-                  [styles.Sidebar_theme_btn_active]: getFolder() === folder.name, 
+                  [styles.Sidebar_theme_btn]: true,
+                  [styles.Sidebar_theme_btn_active]: getFilter().folder === folder.name,
                 }}
-                contentClasses={{[styles.Sidebar_theme_btn_content]: true }}
+                contentClasses={{ [styles.Sidebar_theme_btn_content]: true }}
               >
                 {folder.name === 'inbox'
                   && <div class={styles.Counter}>11</div>}
@@ -111,8 +112,8 @@ const NewFolder = () => {
         name={getLocale().sidebar.newFolder}
         full={getDrawer()}
         miniHide={!getDrawer()}
-        classes={{[styles.NewFolder]: true }}
-        contentClasses={{[styles.NewFolder]: true }}
+        classes={{ [styles.NewFolder]: true }}
+        contentClasses={{ [styles.NewFolder]: true }}
       />
     </div>
   )
@@ -133,8 +134,8 @@ const OpenSetting = () => {
         Icon={<SettingsIcon />}
         name={getLocale().sidebar.settings}
         full={getDrawer()}
-        classes={{[styles.Sidebar_theme_btn]: true }}
-        contentClasses={{[styles.Sidebar_theme_btn_content]: true }}
+        classes={{ [styles.Sidebar_theme_btn]: true }}
+        contentClasses={{ [styles.Sidebar_theme_btn_content]: true }}
       />
     </div>
   )

@@ -10,7 +10,6 @@ export const MailClient = () => {
   return <>
     <div
       onClick={(e) => {
-        console.log(e.target);
         if (getModal() !== null) {
           setModal(null);
         }

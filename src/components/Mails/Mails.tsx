@@ -149,7 +149,12 @@ const MailList = () => {
     const classList: string = target?.classList.value;
     
     const allowedClasses = [
-      styles.MailListItem, styles.Author_names, styles.title, styles.text, styles.Category, styles.Date,
+      styles.MailListItem, 
+      styles.Author_names, 
+      styles.title, 
+      styles.text, 
+      styles.Category, 
+      styles.Date,
     ];
 
     const hasClass = allowedClasses.some(cl => classList.includes(cl));

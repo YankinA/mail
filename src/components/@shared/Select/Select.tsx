@@ -1,27 +1,69 @@
-import { For, createSignal } from 'solid-js';
-import type { SelectComp, Options } from './Select.d';
+import { createSignal, For } from 'solid-js';
+import type { SelectComp, OptionsComp } from './Select.d';
 import styles from './Select.module.css';
-import { Dynamic } from 'solid-js/web';
+import ArrowDownIcon from './../../../assets/icons/arrowDown.svg';
+import CheckIcon from './../../../assets/icons/check.svg';
+import Modal from '../Modal/Modal';
+import { style } from 'solid-js/web';
+import { useStore } from '../../../store';
 
 const Select: SelectComp = (props) => {
 
-  const [selected, setSelected] = createSignal<Options>();
+  const [isShow, setShow] = createSignal<boolean>(false);
 
   return (
-    <select
-      value={selected()}
-      onInput={e => setSelected(e.currentTarget.value)}
+    <div
+      onClick={() => { setShow(prev => !prev) }}
       style={props.style}
       class={styles.Select}
       classList={props.classes}
     >
-      <For each={Object.keys(options)}>
-        {color => <option value={color}>{color}</option>}
-      </For>
-      <Dynamic component={props.options[selected()]} />
+      <div class={styles.Select_name}>
+        {props.name}
+      </div>
+      <div class={styles.Select_icon}>
+        <ArrowDownIcon />
+      </div>
       {props.children}
+      {isShow() && <Options 
+        options={props.options} 
+        selected={props.selected} 
+        onSelect={props.onSelect}
+      />}
+    </ div>)
+}
 
-    </ select>)
+const Options: OptionsComp = (props) => {
+
+  const { settings } = useStore();
+  return (
+    <Modal classes={{
+      [styles.Optins]: true,
+      [styles.Optins_theme_dark]: settings.theme.id === 'full1',
+       }}>
+      <For each={Object.keys(props.options)}>
+        {option => (
+          <div 
+            onClick={() => { props.onSelect({ [option]: !props.selected[option] }) }}
+            class={styles.Option}
+          >
+            {props.selected[option] && <div class={styles.Option_check}>
+              <CheckIcon />
+            </div>}
+            {props.options[option].Icon && <div class={styles.Options_icon}>
+              {props.options[option].Icon}
+            </div>}
+            <div 
+              class={styles.Options_name}
+              classList={{[styles.Options_name_no_icon]: !props.options[option].Icon }}
+            >
+              {props.options[option].name}
+            </div>
+          </div>
+        )}
+      </For>
+    </Modal>
+  )
 }
 
 

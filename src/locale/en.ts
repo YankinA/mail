@@ -1,4 +1,13 @@
 const en = {
+  header: {
+    filter: 'Filter',
+    filters: {
+      all: 'All messages',
+      read: 'Unread',
+      bookmark: 'Flagget',
+      doc: 'With attachments',
+    }
+  },
   sidebar: {
     writeEmail: 'Compose',
     folders: {
