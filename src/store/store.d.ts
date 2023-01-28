@@ -9,6 +9,10 @@ type HEX = `#${string}`;
 
 type Color = RGB | RGBA | HEX;
 
+type CSSVar = `var(${string})`;
+
+type CSSBackground = Color | CSSVar;
+
 type ThemeId = `color${number}` | `full${number}`;
 
 export type Theme = {
@@ -16,7 +20,8 @@ export type Theme = {
   id: ThemeId,
   name?: string,
   header: Color,
-  bg: Color,
+  bg: CSSBackground,
+  bgMini?: CSSBackground,
   logo: Color,
   font: Color,
   mailFont: Color;

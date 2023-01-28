@@ -2,6 +2,10 @@
   --sidebar-width-full: 232px;
   --sidebar-width-mini: 64px;
   --theme-bg: #F6F7F8;
+
+  --theme-bg-amime: linear-gradient(180deg, rgba(117, 0, 69, 0.64) 0%, rgba(0, 9, 83, 0.64) 100%), url(./../assets/bg/anime.jpg), #FFFFFF;
+  --theme-bg-amime-mini: url(./../assets/bg/anime_mini.jpg);
+
   --theme-header-bg: #ffffff;
   --theme-logo-mail-color: #005FF9;
   --theme-font: #333333;
@@ -10,6 +14,7 @@
   --theme-btn-hover: rgba(255, 255, 255, 0.24);
   --theme-btn-active: rgba(0, 16, 61, 0.08);
   --theme-mails-bg: none;
+  
 }
 
 .MailClient {
