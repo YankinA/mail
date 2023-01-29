@@ -76,10 +76,12 @@ export type Mails = {
   limit: number,
   offset: number
 };
+type ModalStore = { type :string; id: string } | null;
 
-type AttachModalStore = {
-  type: 'attach', id: `attach${number}`, top: string, left: string, imgList: string[],
+type AttachModalStore = ModalStore  | {
+  type: 'attach', id: `attach${number}`, top?: string, left?: string, imgList?: string[],
 };
+
 
 type Filter = {
   folder: string,

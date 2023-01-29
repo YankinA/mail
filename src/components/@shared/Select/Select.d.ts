@@ -1,22 +1,33 @@
-import type { Component, JSX, JSXElement } from 'solid-js';
+import type { Accessor, Component, JSX, JSXElement, Setter } from 'solid-js';
+import { SetStoreFunction } from 'solid-js/store';
 
 type Option = {
   Icon?: JSXElement,
-  name: string | JSXElement
+  value: string,
+  name: string | JSXElement,
+  selected?: boolean,
+};
+
+type Options = { 
+  [optionsValue: string]: Option 
 };
 
 type SelectComp = Component<{
-  name: string,
-  options: { [name: string]: Option },
-  selected: { [name: string]: boolean },
+  name: string, 
+  options: Options,
   style?: JSX.CSSProperties | undefined,
   classes?: { [className: string]: boolean },
   children?: JSXElement,
-  onSelect: (key: any) => void
+  onSelect: (key: any) => void,
+}>;
+
+type SelecteddNamesComp = Component<{
+  name: string,
+  options: Options,
 }>;
 
 type OptionsComp = Component<{
-  options: { [name: string]: Option },
-  selected: { [name: string]: boolean },
-  onSelect: (key: any) => void
+  options: Options,
+  onSelect: (key: any) => void,
+  setOptions: SetStoreFunction<Options>,
 }>;

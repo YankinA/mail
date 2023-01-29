@@ -37,6 +37,7 @@
   width: 95%;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 24px;
 }
 
 .Mail_title {
@@ -241,6 +242,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  fill: #ffffff;
 }
 
 .Avatar {

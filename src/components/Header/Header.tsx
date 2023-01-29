@@ -6,6 +6,7 @@ import { useStore } from '../../store';
 import Select from '../@shared/Select/Select';
 import BookmarkRedIcon from './../../assets/icons/bookmark_red.svg?component-solid';
 import AttachIcon from './../../assets/icons/attach.svg?component-solid';
+import type { Option, Options } from '../@shared/Select/Select.d';
 
 
 const Header = () => {
@@ -14,8 +15,7 @@ const Header = () => {
 
   return (
     <header class={styles.Header}>
-      {getMail() ? <Back /> : <Logo />}
-      <Filter />
+      {getMail() ? <Back /> : <><Logo /><Filter /></>}
     </header>
   );
 };
@@ -57,30 +57,56 @@ const Back = () => {
 
 const Filter = () => {
 
-  const { getLocale, getFilter, setFilter } = useStore();
+  const { getLocale, setFilter } = useStore();
 
-  const {folder, ...selected } = getFilter();
+  const updateFilter = (options: Options) => {
 
-  type SelectedOptions = typeof selected & { all?: boolean };
+    if (options.all?.selected === true) {
+  
+      
+      setFilter(prev => ({ folder: prev.folder }));
+    } else {
 
-  const updateFilter = (selectedOptions: SelectedOptions) => {
-    
-    setFilter(prev => selectedOptions.all ? { folder: prev.folder } : {  ...prev, ...selectedOptions, folder: prev.folder })
+      const filter: { [option: string]: true } = {};
+
+      for (let option in options) {
+        if (options[option].selected === true) {
+          filter[option] = true;
+        }
+      }
+      setFilter(prev => ({ ...filter, folder: prev.folder }));
+    }
   }
 
   const locale = getLocale().header;
 
-  const options = {
-    all: { name: locale.filters.all },
-    read: { name: locale.filters.read, Icon: <Read /> },
-    bookmark: { name: locale.filters.bookmark, Icon: <BookmarkRedIcon /> },
-    doc: { name: locale.filters.doc, Icon: <AttachIcon /> },
-  }
+  const options: Options = {
+    all: {
+      name: locale.filters.all,
+      value: 'all',
+      selected: true,
+    },
+    read: {
+      name: locale.filters.read,
+      value: 'read',
+      Icon: <Read />,
+    },
+    bookmark: {
+      name: locale.filters.bookmark,
+      value: 'bookmark',
+      Icon: <BookmarkRedIcon />,
+    },
+    doc: {
+      name: locale.filters.doc,
+      value: 'doc',
+      Icon: <AttachIcon />,
+    },
+  };
+
   return (
     <Select
-      name={locale.filter} 
-      options={options} 
-      selected={getFilter()}
+      name={locale.filter}
+      options={options}
       onSelect={updateFilter}
     />
   )

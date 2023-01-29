@@ -4,11 +4,34 @@
   height: 18px;
   margin-left: auto;
   margin-right: 30px;
-  color: var(--theme-mail-font);
-  fill: var(--theme-mail-font);
+  color: var(--theme-font);
+  fill: var(--theme-font);
+  outline: 1px solid blue;
 }
 
-.Select_name {}
+.SelecteddNames {
+  display: 'flex';
+  outline: 1px solid yellow;
+  height: 100%;
+  width: 100%;
+}
+
+.SelecteddNames_icons {
+  margin-left: 9px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  outline: 1px solid red;
+}
+
+.SelecteddNames_icon {
+  text-align: center;
+  vertical-align: bottom;
+  margin-left: 9px;
+  outline: 1px solid green;
+
+}
 
 .Select_icon {
   margin-left: 10px;
@@ -28,8 +51,8 @@
 
 .Option {
   position: relative;
-  color: var(--theme-font);
-  fill: var(--theme-font);
+  color: var(--theme-mail-font);
+  fill: var(--theme-mail-font);
   width: 240px;
   height: 44px;
   display: flex;
@@ -40,7 +63,7 @@
   position: absolute;
   top: 10px;
   left: 7.3px;
-  fill: var(--theme-font);
+  fill: var(--theme-mail-font);
 }
 
 .Options_icon {

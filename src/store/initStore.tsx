@@ -2,7 +2,7 @@ import { createEffect, createResource, createSignal } from "solid-js";
 import routes from '../routes';
 import { settings, setSettings, setTheme } from './SettingsStore';
 import { getLocale, switchLocale } from "./LocaleStore";
-import type { Store, Mail, Mails, AttachModalStore, Filter } from './store.d';
+import type { Store, Mail, Mails, AttachModalStore, Filter, ModalStore } from './store.d';
 
 
 const initStore = (): Store => {
@@ -31,7 +31,7 @@ const initStore = (): Store => {
     localStorage.setItem("lang", settings.lang);
   });
 
-  const [getModal, setModal] = createSignal<AttachModalStore | null>(null);
+  const [getModal, setModal] = createSignal<ModalStore>(null);
 
   return {
     getLocale,
