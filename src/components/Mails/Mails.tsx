@@ -1,4 +1,4 @@
-import { For, createSignal, Component } from 'solid-js';
+import { For, createSignal, Component, onMount, onCleanup, createEffect } from 'solid-js';
 import { useStore } from '../../store';
 import styles from './Mails.module.css';
 import CheckIcon from './../../assets/icons/check.svg?component-solid';
@@ -19,6 +19,7 @@ import type {
 import { getLocale } from '../../store/LocaleStore';
 import Modal from '../@shared/Modal/Modal';
 import { AttachModalStore } from '../../store/store';
+import { useScroll } from '../../hooks/useScroll';
 
 const getImgSize = (src: string) => {
   try {
@@ -30,10 +31,35 @@ const getImgSize = (src: string) => {
 };
 
 const Mails = () => {
-  const { getMail, settings } = useStore();
+
+  let ref;
+  const { getMail } = useStore();
+ 
+  const [getScrollTop, setScrollTop] = createSignal(0);
+
+  const onScroll = (e: Event) => {
+     
+    const target = e.target as Element;
+    console.log('onScroll', target.scrollTop);
+    
+    setScrollTop(target.scrollTop);
+  };
+
+  createEffect(() => {
+
+    console.log('createEffect');
+    
+    const scrollContainer = ref as HTMLElement;
+    setScrollTop(scrollContainer.scrollTop);
+    scrollContainer.addEventListener('scroll', onScroll);
+
+    console.log(scrollContainer.scrollTop);
+    
+    onCleanup(() => scrollContainer.removeEventListener("scroll", onScroll));
+  })
+  
   return (
-    <section
-      class={styles.Mails}>
+    <section class={styles.Mails} ref={ref}>
       <div class={styles.screen}></div>
       {getMail() ? <Mail /> : <MailList />}
     </section>

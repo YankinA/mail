@@ -57,13 +57,13 @@ const Back = () => {
 
 const Filter = () => {
 
-  const { getLocale, setFilter } = useStore();
+  const { getLocale, getFilter, setFilter } = useStore();
 
   const updateFilter = (options: Options) => {
 
     if (options.all?.selected === true) {
-  
-      
+
+
       setFilter(prev => ({ folder: prev.folder }));
     } else {
 
@@ -84,7 +84,6 @@ const Filter = () => {
     all: {
       name: locale.filters.all,
       value: 'all',
-      selected: true,
     },
     read: {
       name: locale.filters.read,
@@ -106,6 +105,16 @@ const Filter = () => {
       value: 'reset',
     },
   };
+
+  let selectCounter = 0;
+  for (const key in getFilter()) {
+    if (key in options) {
+      options[key].selected = true;
+      selectCounter++;
+    }
+  }
+
+  options.all.selected = selectCounter > 0 ? true : false;
 
   return (
     <Select

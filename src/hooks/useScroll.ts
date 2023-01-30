@@ -1,6 +1,6 @@
-import { createEffect, createSignal } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 
-const useScroll = (ref: HTMLElement) => {
+export const useScroll = (ref: HTMLElement) => {
 
   const [getScrollTop, setScrollTop] = createSignal(0);
 
@@ -9,13 +9,15 @@ const useScroll = (ref: HTMLElement) => {
     setScrollTop(target.scrollTop);
   };
 
-  createEffect(() => {
+  onMount(() => {
     const scrollContainer = ref;
 
     setScrollTop(scrollContainer.scrollTop);
     scrollContainer.addEventListener('scroll', onScroll);
-    return () => scrollContainer.removeEventListener("scroll", onScroll);
+    onCleanup(() => scrollContainer.removeEventListener("scroll", onScroll));
   })
- 
+
+
+
   return [getScrollTop, ref];
-}
+};
