@@ -6,6 +6,7 @@ const en = {
       read: 'Unread',
       bookmark: 'Flagget',
       doc: 'With attachments',
+      reset: 'Reset all',
     }
   },
   sidebar: {

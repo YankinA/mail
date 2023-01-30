@@ -18,7 +18,7 @@ const Select: SelectComp = (props) => {
       onClick={(e) => {
         e.stopPropagation();
         setModal(prev => prev ? null : { type: 'select', id: props.name });
-         
+
       }}
       style={props.style}
       class={styles.Select}
@@ -43,22 +43,23 @@ const Select: SelectComp = (props) => {
 }
 
 const SelecteddNames: SelecteddNamesComp = (props) => {
-
+  const getSelectedOptions = (options: typeof props.options) => Object.values(options)
+    .filter(({value, selected }) => value !== 'all' && selected);
   return (
     <div class={styles.SelecteddNames}>
-      <div>{props.name}</div>
-      <div class={styles.SelecteddNames_icons}>
-        <For each={Object.values(props.options)}>
-          {(option) => {
-            console.log(option);
-            
-            return (
-              <div class={styles.SelecteddNames_icon}>
-                {option.Icon}
-              </div>
-            )
-          }}
-        </For>
+      <For each={Object.values(props.options)}>
+        {({ Icon, value }) => (
+          <Show when={props.options[value]?.selected}>
+            <div class={styles.SelecteddNames_icon}>
+              {Icon}
+            </div>
+          </Show>
+        )}
+      </For>
+      <div class={styles.SelecteddNames_name}>
+        {getSelectedOptions(props.options).length === 1 
+          ? getSelectedOptions(props.options)[0]?.name :  props.name
+        }
       </div>
 
     </div>
@@ -69,13 +70,10 @@ const Options: OptionsComp = (props) => {
 
   const { settings, setModal } = useStore();
 
+
   const toggleOptions = (selectedOption: string) => {
 
-    props.setOptions(selectedOption, (option) => ({
-      ...option, selected: selectedOption === 'all' ? true : !option.selected
-    }));
-
-    if (selectedOption === 'all') {
+    if (selectedOption === 'all' || selectedOption === 'reset') {
       props.setOptions((options) => Object.keys(options).reduce((acc: typeof options, key) => {
 
         acc[key] = { ...options[key], selected: key === 'all' ? true : false };
@@ -84,6 +82,10 @@ const Options: OptionsComp = (props) => {
       }, {}))
     } else {
       props.setOptions((options) => ({ ...options, all: { ...options.all, selected: false } }));
+
+      props.setOptions(selectedOption, (option) => ({
+        ...option, selected: !option.selected
+      }));
     }
 
     props.onSelect(props.options);
@@ -96,32 +98,40 @@ const Options: OptionsComp = (props) => {
       [styles.Optins_theme_dark]: settings.theme.id === 'full1',
     }}>
       <For each={Object.values(props.options)}>
-        {(option: Option) => (
-          <div
-            onClick={() => {
-              toggleOptions(option.value);
-            }}
-            class={styles.Option}
-          >
-            <Show when={props.options[option.value]?.selected}>
-              <div class={styles.Option_check}>
-                <CheckIcon />
-              </div>
-            </Show>
-            {props.options[option.value].selected && <div class={styles.Option_check}>
-              <CheckIcon />
-            </div>}
-            {option.Icon && <div class={styles.Options_icon}>
-              {option.Icon}
-            </div>}
+        {({ value, Icon, name }: Option) => {
+
+
+          return (
             <div
-              class={styles.Options_name}
-              classList={{ [styles.Options_name_no_icon]: !option.Icon }}
+              onClick={() => {
+                toggleOptions(value);
+              }}
+              class={styles.Option}
+              classList={{
+                [styles.Select_reset]: value === 'reset' && settings.theme.id !== 'full1',
+                [styles.Select_reset_dark]: value === 'reset' && settings.theme.id === 'full1',
+              }}
             >
-              {option.name}
+              <Show when={props.options[value]?.selected}>
+                <div class={styles.Option_check}>
+                  <CheckIcon />
+                </div>
+              </Show>
+              {props.options[value]?.selected && <div class={styles.Option_check}>
+                <CheckIcon />
+              </div>}
+              {Icon && <div class={styles.Options_icon}>
+                {Icon}
+              </div>}
+              <div
+                class={styles.Options_name}
+                classList={{ [styles.Options_name_no_icon]: !Icon }}
+              >
+                {name}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }}
       </For>
     </Modal>
   )

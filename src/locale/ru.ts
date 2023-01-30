@@ -6,6 +6,7 @@ const ru = {
       read: 'Непрочитанные',
       bookmark: 'С флажком',
       doc: 'С вложениями',
+      reset: 'Cбросить все',
     }
   },
   sidebar: {

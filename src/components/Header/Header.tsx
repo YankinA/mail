@@ -4,9 +4,9 @@ import MailIcon from './../../assets/icons/mail.svg';
 import BackIcon from './../../assets/icons/back.svg';
 import { useStore } from '../../store';
 import Select from '../@shared/Select/Select';
-import BookmarkRedIcon from './../../assets/icons/bookmark_red.svg?component-solid';
-import AttachIcon from './../../assets/icons/attach.svg?component-solid';
-import type { Option, Options } from '../@shared/Select/Select.d';
+import BookmarkRedIcon from './../../assets/icons/bookmark_red.svg';
+import AttachIcon from './../../assets/icons/attach.svg';
+import type { Options } from '../@shared/Select/Select.d';
 
 
 const Header = () => {
@@ -89,17 +89,21 @@ const Filter = () => {
     read: {
       name: locale.filters.read,
       value: 'read',
-      Icon: <Read />,
+      Icon: Read,
     },
     bookmark: {
       name: locale.filters.bookmark,
       value: 'bookmark',
-      Icon: <BookmarkRedIcon />,
+      Icon: BookmarkRedIcon,
     },
     doc: {
       name: locale.filters.doc,
       value: 'doc',
-      Icon: <AttachIcon />,
+      Icon: AttachIcon,
+    },
+    cleane: {
+      name: locale.filters.reset,
+      value: 'reset',
     },
   };
 

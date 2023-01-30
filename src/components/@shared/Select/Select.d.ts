@@ -1,4 +1,4 @@
-import type { Accessor, Component, JSX, JSXElement, Setter } from 'solid-js';
+import type { Component, JSX, JSXElement, Setter } from 'solid-js';
 import { SetStoreFunction } from 'solid-js/store';
 
 type Option = {
