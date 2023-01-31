@@ -7,6 +7,7 @@ import Select from '../@shared/Select/Select';
 import BookmarkRedIcon from './../../assets/icons/bookmark_red.svg';
 import AttachIcon from './../../assets/icons/attach.svg';
 import type { Options } from '../@shared/Select/Select.d';
+import { MailFilter } from '../../store/store';
 
 
 const Header = () => {
@@ -57,26 +58,7 @@ const Back = () => {
 
 const Filter = () => {
 
-  const { getLocale, getFilter, setFilter } = useStore();
-
-  const updateFilter = (options: Options) => {
-
-    if (options.all?.selected === true) {
-
-
-      setFilter(prev => ({ folder: prev.folder }));
-    } else {
-
-      const filter: { [option: string]: true } = {};
-
-      for (let option in options) {
-        if (options[option].selected === true) {
-          filter[option] = true;
-        }
-      }
-      setFilter(prev => ({ ...filter, folder: prev.folder }));
-    }
-  }
+  const { getLocale, getMailFilter, setMailFilter } = useStore();
 
   const locale = getLocale().header;
 
@@ -107,7 +89,7 @@ const Filter = () => {
   };
 
   let selectCounter = 0;
-  for (const key in getFilter()) {
+  for (const key in getMailFilter()) {
     if (key in options) {
       options[key].selected = true;
       selectCounter++;
@@ -115,6 +97,25 @@ const Filter = () => {
   }
 
   options.all.selected = selectCounter > 0 ? true : false;
+
+  const updateFilter = (selectedOptions: Options) => {
+
+    const prevMailFilter = getMailFilter();
+    let nextMailFilter = {};
+
+    for (let key in prevMailFilter) {
+      if (!(key in options)) {
+        nextMailFilter[key] = prevMailFilter[key];
+      }
+    }
+
+    for (let option in selectedOptions) {
+      if (option !== 'all' && options[option].selected === true) {
+        nextMailFilter[option] = true;
+      }
+    }
+    setMailFilter(nextMailFilter);
+  }
 
   return (
     <Select

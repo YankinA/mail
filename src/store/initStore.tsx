@@ -2,27 +2,13 @@ import { createEffect, createResource, createSignal } from "solid-js";
 import routes from '../routes';
 import { settings, setSettings, setTheme } from './SettingsStore';
 import { getLocale, switchLocale } from "./LocaleStore";
-import type { Store, Mail, Mails, AttachModalStore, Filter, ModalStore } from './store.d';
+import type { Store, ModalStore } from './store.d';
+import { getMail, getMailFilter, getMails, setMail, setMailFilter } from "./MailsStore";
 
 
 const initStore = (): Store => {
 
-  const [getFilter, setFilter] = createSignal<Filter>({folder: 'inbox'});
-
   const [getDrawer, setDrawer] = createSignal<boolean>(false);
-
-  const fetchMails = async (filter: Filter): Promise<Mails> => {
-    try {
-      return (await fetch(routes.getMails(filter))).json()
-    } catch (error) {
-      console.log({error});
-      return await fetchMails(filter);
-    };
-  };
-
-  const [getMails] = createResource(getFilter, fetchMails);
-
-  const [getMail, setMail] = createSignal<Mail | null>(null);
 
   createEffect(() => { 
     switchLocale(settings.lang);
@@ -41,10 +27,10 @@ const initStore = (): Store => {
     getMails,
     getMail,
     setMail,
+    getMailFilter,
+    setMailFilter,
     getModal,
     setModal,
-    getFilter,
-    setFilter
   }
 }
 export default initStore;

@@ -32,25 +32,34 @@ const getImgSize = (src: string) => {
 
 const Mails = () => {
 
-  const { getMail, getMails } = useStore();
+  const { getMail, getMails, setMailFilter } = useStore();
   
-  const [getScrollTop, setRef] = useScroll();
+  const [setRef, getScrollTop] = useScroll();
   
   const mailListItemHeight = 48;
 
   let prevScrollTop = getScrollTop();
   createEffect(() => {
-    let { result = [], limit = 30, offset = 30 } = getMails()  ?? {};
+    let { result = [], limit = 30, offset = 0 } = getMails()  ?? {};
 
     const curScrollTop = getScrollTop();
+    const mails = result.length;
 
-    const scrolledMails = getScrollTop() / mailListItemHeight;
+    const isScrolledDown = curScrollTop >= prevScrollTop;
+
+    const scrolledMails = curScrollTop / mailListItemHeight;
+
+    const isNeenLoad = isScrolledDown 
+      ? (scrolledMails > mails - 5) 
+      : (offset > 0) && (scrolledMails < 4);
     
-    if (result?.length === limit) {
-      offset += prevScrollTop > getScrollTop() ? limit : -limit;
-      prevScrollTop = getScrollTop();
+    if (isNeenLoad) {
+      console.log({scrolledMails, isScrolledDown,isNeenLoad});
+      setMailFilter(prev => ({ ...prev, 
+        offset: isScrolledDown ? offset + limit : Math.max(offset - limit, 0)
+      }));
     }
-     
+    prevScrollTop = curScrollTop;
   });
   
   

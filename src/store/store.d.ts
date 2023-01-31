@@ -83,7 +83,8 @@ type AttachModalStore = ModalStore  | {
 };
 
 
-type Filter = {
+type MailFilter = {
+  offset?: number,
   folder: string,
   read?: boolean,
   bookmark?: boolean;
@@ -102,6 +103,6 @@ export type Store = {
   setMail: Setter<Mail | null>,
   getModal: Accessor<AttachModalStore | null>,
   setModal: Setter<AttachModalStore | null>,
-  getFilter: Accessor<Filter>,
-  setFilter: Setter<Filter>,
+  getMailFilter: Accessor<MailFilter>,
+  setMailFilter: Setter<MailFilter>,
 }

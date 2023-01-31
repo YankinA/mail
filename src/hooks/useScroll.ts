@@ -1,6 +1,10 @@
-import { Accessor, createSignal, onCleanup, onMount } from "solid-js";
+import { Accessor, createSignal, onCleanup } from "solid-js";
 
-type UseScroll = [Accessor<number>,(ref: HTMLElement) => void];
+type UseScroll = [
+  (ref: HTMLElement) => void,
+  Accessor<number>,
+];
+
 export const useScroll = (): UseScroll => {
 
   const [getScrollTop, setScrollTop] = createSignal(0);
@@ -18,5 +22,5 @@ export const useScroll = (): UseScroll => {
     });
   }
 
-  return [getScrollTop, setRef];
+  return [setRef, getScrollTop];
 };

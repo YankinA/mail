@@ -71,8 +71,8 @@ class Orm {
    * @param {number} limit
    * @returns {Promise<{ offset: number, limit: number, result: object[] | [] }>}
    */
-  async findBy(query, offset = 0, limit = 30) {
-    this.offset = offset === 0 ? offset : this.offset;
+  async findBy(query, offset = 0, limit = 20) {
+    this.offset = offset;
 
     const result = []
     while (result.length < limit && this.offset < this.db.length) {
@@ -83,7 +83,7 @@ class Orm {
         result.push(select);
       }
     }
-    return { offset: result.length + offset, limit, result };
+    return { offset, limit, result };
   }
 
   /**

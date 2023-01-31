@@ -61,7 +61,7 @@ const Folders = () => {
     { Icon: TrashIcon, name: 'trash' },
   ];
 
-  const { getLocale, getDrawer, setDrawer, getFilter, setFilter, setMail } = useStore();
+  const { getLocale, getDrawer, setDrawer, getMailFilter, setMailFilter, setMail } = useStore();
 
   const toggleDrawer = () => { setDrawer(v => !v) }
 
@@ -70,7 +70,7 @@ const Folders = () => {
       toggleDrawer();
     } else {
       setMail(null);
-      setFilter(prev => ({ ...prev, folder: name }));
+      setMailFilter(prev => ({ ...prev, folder: name }));
 
     }
   }
@@ -85,11 +85,11 @@ const Folders = () => {
                 Icon={<folder.Icon />}
                 name={getLocale().sidebar.folders[folder.name] ?? folder.name}
                 onClick={() => { folderOnClick(folder.name) }}
-                active={getFilter().folder === folder.name}
+                active={getMailFilter().folder === folder.name}
                 full={getDrawer()}
                 classes={{
                   [styles.Sidebar_theme_btn]: true,
-                  [styles.Sidebar_theme_btn_active]: getFilter().folder === folder.name,
+                  [styles.Sidebar_theme_btn_active]: getMailFilter().folder === folder.name,
                 }}
                 contentClasses={{ [styles.Sidebar_theme_btn_content]: true }}
               >
