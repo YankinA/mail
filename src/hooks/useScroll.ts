@@ -1,6 +1,7 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { Accessor, createSignal, onCleanup, onMount } from "solid-js";
 
-export const useScroll = (ref: HTMLElement) => {
+type UseScroll = [Accessor<number>,(ref: HTMLElement) => void];
+export const useScroll = (): UseScroll => {
 
   const [getScrollTop, setScrollTop] = createSignal(0);
 
@@ -9,15 +10,13 @@ export const useScroll = (ref: HTMLElement) => {
     setScrollTop(target.scrollTop);
   };
 
-  onMount(() => {
-    const scrollContainer = ref;
+  const setRef = (ref: HTMLElement) => {
+    setScrollTop(ref.scrollTop);
+    ref.addEventListener('scroll', onScroll);
+    onCleanup(() => {
+      ref.removeEventListener("scroll", onScroll);
+    });
+  }
 
-    setScrollTop(scrollContainer.scrollTop);
-    scrollContainer.addEventListener('scroll', onScroll);
-    onCleanup(() => scrollContainer.removeEventListener("scroll", onScroll));
-  })
-
-
-
-  return [getScrollTop, ref];
+  return [getScrollTop, setRef];
 };

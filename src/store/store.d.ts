@@ -95,8 +95,6 @@ export type Store = {
   settings: SettingsStore,
   setSettings: SetStoreFunction<SettingsStore>,
   setTheme: (theme: Theme) => void,
-  getFolder: Accessor<string>,
-  setFolder: Setter<string>,
   getDrawer: Accessor<boolean>,
   setDrawer: Setter<boolean>,
   getMails: Resource<Mails>,

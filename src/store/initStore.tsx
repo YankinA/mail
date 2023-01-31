@@ -7,8 +7,6 @@ import type { Store, Mail, Mails, AttachModalStore, Filter, ModalStore } from '.
 
 const initStore = (): Store => {
 
-  const [getFolder, setFolder] = createSignal<string>('inbox');
-
   const [getFilter, setFilter] = createSignal<Filter>({folder: 'inbox'});
 
   const [getDrawer, setDrawer] = createSignal<boolean>(false);
@@ -38,8 +36,6 @@ const initStore = (): Store => {
     settings,
     setSettings,
     setTheme,
-    getFolder,
-    setFolder,
     getDrawer,
     setDrawer,
     getMails,

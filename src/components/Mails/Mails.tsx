@@ -32,34 +32,30 @@ const getImgSize = (src: string) => {
 
 const Mails = () => {
 
-  let ref;
-  const { getMail } = useStore();
- 
-  const [getScrollTop, setScrollTop] = createSignal(0);
+  const { getMail, getMails } = useStore();
+  
+  const [getScrollTop, setRef] = useScroll();
+  
+  const mailListItemHeight = 48;
 
-  const onScroll = (e: Event) => {
-     
-    const target = e.target as Element;
-    console.log('onScroll', target.scrollTop);
-    
-    setScrollTop(target.scrollTop);
-  };
-
+  let prevScrollTop = getScrollTop();
   createEffect(() => {
+    let { result = [], limit = 30, offset = 30 } = getMails()  ?? {};
 
-    console.log('createEffect');
-    
-    const scrollContainer = ref as HTMLElement;
-    setScrollTop(scrollContainer.scrollTop);
-    scrollContainer.addEventListener('scroll', onScroll);
+    const curScrollTop = getScrollTop();
 
-    console.log(scrollContainer.scrollTop);
+    const scrolledMails = getScrollTop() / mailListItemHeight;
     
-    onCleanup(() => scrollContainer.removeEventListener("scroll", onScroll));
-  })
+    if (result?.length === limit) {
+      offset += prevScrollTop > getScrollTop() ? limit : -limit;
+      prevScrollTop = getScrollTop();
+    }
+     
+  });
+  
   
   return (
-    <section class={styles.Mails} ref={ref}>
+    <section class={styles.Mails} ref={setRef}>
       <div class={styles.screen}></div>
       {getMail() ? <Mail /> : <MailList />}
     </section>
