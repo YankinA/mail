@@ -24,15 +24,24 @@ const _trslateCategory = {
   'Финансы': 'finance',
 }
 
-db = db.map((mail) => {
-  mail.folder = _trslateFolder[mail.folder];
-  if (mail.flag) {
+db = db.filter(mail => mail).map((mail) => {
+  mail.folder = mail.folder in _trslateFolder ? _trslateFolder[mail.folder] : 'inbox';
+  if ('flag' in mail && mail.flag in _trslateCategory) {
     mail.flag = _trslateCategory[mail.flag];
   }
   return mail;
 });
 
 db.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+db = [...db, ...db, ...db, ...db];
+
+console.log(
+  db.reduce((acc, mail) => {
+    acc[mail.folder] = mail.folder in acc ? acc[mail.folder] + 1 : 1;
+    return acc;
+  }, {})
+);
 
 
 const PORT = 3000;
@@ -71,19 +80,22 @@ class Orm {
    * @param {number} limit
    * @returns {Promise<{ offset: number, limit: number, result: object[] | [] }>}
    */
-  async findBy(query, offset = 0, limit = 20) {
+  async findBy(query, offset = 0, limit = 40) {
     this.offset = offset;
 
     const result = []
-    while (result.length < limit && this.offset < this.db.length) {
+    while (result.length <= limit && this.offset < this.db.length) {
+
+      if (this.db.length <= this.offset) {
+        break;
+      }
       const select = this.db[this.offset];
       this.offset++;
-
       if (this.where(select, query)) {
         result.push(select);
       }
     }
-    return { offset, limit, result };
+    return { offset: this.offset, limit, result };
   }
 
   /**
@@ -94,10 +106,12 @@ class Orm {
   */
   where(select, query) {
     const collNames = Object.keys(query);
+
     return collNames.every(coll => {
       if (query[coll] === true && select[coll]) {
         return true;
       }
+
       return query[coll] === select[coll];
     });
   }
@@ -109,7 +123,7 @@ const statFileController = async (req, res) => {
   const file = req.url === '/' ? 'index.html' : req.url;
   const ext = path.extname(file).substring(1);
 
-   
+
 
   const mimeType = MIME_TYPES[ext];
 
@@ -125,12 +139,23 @@ const mailsController = async (req, res) => {
 
   const offset = query.offset ?? 0;
   delete query.offset;
-  
+
+  // string to types
   for (const key in query) {
-   if (query[key] === 'true' || query[key] === 'false') {
-    query[key] = Boolean(query[key]);
-   }
+    
+    const value = query[key];
+
+    if (value === 'true' || value === 'false') {
+      query[key] = Boolean(value);
+      continue;
+    }
+
+    if (!isNaN(Number(value)) && typeof Number(value) === 'number') {
+      query[key] = Number(value);
+      continue;
+    }
   }
+
   const mails = await orm.findBy(query, offset);
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(mails), 'utf-8');

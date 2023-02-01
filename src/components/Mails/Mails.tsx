@@ -40,23 +40,25 @@ const Mails = () => {
 
   let prevScrollTop = getScrollTop();
   createEffect(() => {
-    let { result = [], limit = 30, offset = 0 } = getMails()  ?? {};
+    let { result = [], limit = 40, offset = 0 } = getMails()  ?? {};
+    console.log({ result: result.length});
+    
 
     const curScrollTop = getScrollTop();
-    const mails = result.length;
-
+     
     const isScrolledDown = curScrollTop >= prevScrollTop;
 
     const scrolledMails = curScrollTop / mailListItemHeight;
 
     const isNeenLoad = isScrolledDown 
-      ? (scrolledMails > mails - 5) 
-      : (offset > 0) && (scrolledMails < 4);
+      ?  (scrolledMails - offset) > 0
+      : false;//(offset > 0) && (scrolledMails < 4);
     
+    console.log({ scrolledMails: scrolledMails - offset, isScrolledDown, isNeenLoad});
+
     if (isNeenLoad) {
-      console.log({scrolledMails, isScrolledDown,isNeenLoad});
       setMailFilter(prev => ({ ...prev, 
-        offset: isScrolledDown ? offset + limit : Math.max(offset - limit, 0)
+        offset: isScrolledDown ? offset : offset //Math.max(offset - limit, 0)
       }));
     }
     prevScrollTop = curScrollTop;
@@ -64,7 +66,13 @@ const Mails = () => {
   
   
   return (
-    <section class={styles.Mails} ref={setRef}>
+    <section 
+      style={{ 
+        height: getMail() ? 'auto' : `${getMails()?.result?.length * (mailListItemHeight + 2)}px`
+      }} 
+      class={styles.Mails} 
+      ref={setRef}
+    >
       <div class={styles.screen}></div>
       {getMail() ? <Mail /> : <MailList />}
     </section>

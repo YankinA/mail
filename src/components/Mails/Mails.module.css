@@ -8,11 +8,12 @@
   color: var(--theme-mail-font);
   overflow: hidden;
   overflow-y: auto;
+  max-height: calc(100vh - 75px);
 }
 
 .Mails::-webkit-scrollbar {
   border-radius: 5px;
-  width: 0.6em;
+  width: 0.5em;
 }
 
 .Mails::-webkit-scrollbar-track {
@@ -20,7 +21,7 @@
 }
 
 .Mails::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 16, 61, 0.08);
+  background-color: rgba(159, 169, 182, 0.388);
   border-radius: 5px;
 }
 

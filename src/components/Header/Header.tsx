@@ -95,8 +95,7 @@ const Filter = () => {
       selectCounter++;
     }
   }
-
-  options.all.selected = selectCounter > 0 ? true : false;
+  options.all.selected = selectCounter === 0;
 
   const updateFilter = (selectedOptions: Options) => {
 

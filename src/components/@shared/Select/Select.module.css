@@ -4,27 +4,41 @@
   height: 18px;
   margin-left: auto;
   margin-right: 30px;
-  color: var(--theme-font);
+}
+
+.Select_icon {
+  fill: #ffffff;
+}
+
+.Select_icon_whiteTheme {
   fill: var(--theme-font);
 }
 
 .Select_reset {
-  border-top: 1px solid #DADCE0; 
+  border-top: 1px solid #DADCE0;
 }
 
 .Select_reset_dark {
-  border-top: 1px solid rgba(0, 0, 0, 0.4); 
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
 }
 
-.SelecteddNames {
+.SelectedNames {
   display: flex;
   align-items: center;
   height: 100%;
   width: 100%;
+  color: #ffffff;
+  fill: #ffffff;
+}
+
+.SelectedNames_whiteTheme {
+  color: var(--theme-font);
+  fill: var(--theme-font);
 }
 
 .SelecteddNames_name {
   margin-left: 11px;
+
 }
 
 .SelecteddNames_icon {
@@ -39,7 +53,7 @@
   display: flex;
   align-items: center;
   height: 100%;
- 
+
 }
 
 .Optins {
@@ -48,9 +62,9 @@
   right: 0;
   display: flex;
   flex-direction: column;
-} 
+}
 
-.Select > .Optins_theme_dark {
+.Select>.Optins_theme_dark {
   background: var(--theme-mails-bg);
 }
 
@@ -83,4 +97,3 @@
 .Options_name_no_icon {
   margin-left: 31px;
 }
-

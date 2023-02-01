@@ -9,7 +9,7 @@ import { createStore } from 'solid-js/store';
 
 const Select: SelectComp = (props) => {
 
-  const { getModal, setModal } = useStore();
+  const { settings, getModal, setModal } = useStore();
 
   const [options, setOptions] = createStore(props.options);
 
@@ -24,11 +24,14 @@ const Select: SelectComp = (props) => {
       class={styles.Select}
       classList={props.classes}
     >
-      <SelecteddNames
+      <SelectedNames
         options={options}
         name={props.name}
       />
-      <div class={styles.Select_icon}>
+      <div 
+        class={styles.Select_icon}
+        classList={{[styles.Select_icon_whiteTheme]: settings.theme.id === 'full2' }}
+      >
         <ArrowDownIcon />
       </div>
       {props.children}
@@ -42,11 +45,14 @@ const Select: SelectComp = (props) => {
     </ div>)
 }
 
-const SelecteddNames: SelecteddNamesComp = (props) => {
+const SelectedNames: SelecteddNamesComp = (props) => {
+  const { settings } = useStore();
   const getSelectedOptions = (options: typeof props.options) => Object.values(options)
     .filter(({value, selected }) => value !== 'all' && selected);
   return (
-    <div class={styles.SelecteddNames}>
+    <div class={styles.SelectedNames}
+    classList={{[styles.SelectedNames_whiteTheme]: settings.theme.id === 'full2' }}
+    >
       <For each={Object.values(props.options)}>
         {({ Icon, value }) => (
           <Show when={props.options[value]?.selected}>
