@@ -23,32 +23,30 @@ const compareFilters = (prev: MailFilter, cur: MailFilter) => {
   return true;
 }
 
-let errorCouter = 0;
-let prevMails: Mail[] = [];
+let mailsCache: Mail[] = [];
 let prevFilter: MailFilter;
 const fetchMails = async (filter: MailFilter): Promise<Mails> => {
-  console.log({filter});
-  
-   
+
   try {
     let mails: Promise<Mails> = (await fetch(routes.getMails(filter))).json();
-    (await mails).offset = Number((await mails).offset);
-    (await mails).limit = Number((await mails).limit);
+    const { offset, limit } = await mails;
+    (await mails).offset = Number(offset);
+    (await mails).limit = Number(limit);
 
-    if (prevFilter && compareFilters(prevFilter, filter) && (await mails).offset > prevFilter?.offset) {
-      (await mails).result = [...prevMails, ...(await mails).result]
+    const isEqualFilter = prevFilter && compareFilters(prevFilter, filter);
+    const prevOffset = prevFilter?.offset ?? 0;
+    const isValidOffset = ((await mails).offset > prevOffset)
+      || (await mails).offset === prevOffset && !(await mails).result.length
+
+    if (isEqualFilter && isValidOffset) {
+      (await mails).result = [...mailsCache, ...(await mails).result]
     }
-    
 
-    prevMails = (await mails).result;
+    mailsCache = (await mails).result;
     prevFilter = filter;
     return mails;
   } catch (error) {
     console.log({ error });
-    errorCouter++;
-    if (errorCouter < 20) {
-      return await fetchMails(filter);
-    }
   };
 };
 
@@ -58,10 +56,27 @@ const [getMails] = createResource(getMailFilter, fetchMails);
 
 const [getMail, setMail] = createSignal<Mail | null>(null);
 
+const [getDraft, setDraft] = createSignal<Mail[] | []>([]);
+
+
+const newMail: Mail = { 
+  to: [], 
+  title: '', 
+  text: '',
+  bookmark: false, 
+  important: false, 
+  read: true, 
+  date: new Date(), 
+  folder: 'draft',
+};
+
 export {
   getMailFilter,
   setMailFilter,
   getMails,
   getMail,
   setMail,
+  getDraft, 
+  setDraft,
+  newMail,
 }; 

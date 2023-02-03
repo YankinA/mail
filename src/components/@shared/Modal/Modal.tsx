@@ -5,9 +5,17 @@ const Modal: ModalComp = (props) => (
   <div
     ref={props.ref}
     style={props.style}
-    onClick={props.onClick}
+    onClick={(e) => {
+      if (props.onClick) {
+        props.onClick(e);
+      }
+      e.stopPropagation();
+    }}
     class={styles.Modal}
-    classList={props.classes}
+    classList={{
+      [styles.Modal_hide]: props.hide,
+      ...props.classes
+    }}
   >
     {props.children}
   </ div>)

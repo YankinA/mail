@@ -19,7 +19,6 @@
   "dependencies": {
     "normalize.css": "^8.0.1",
     "reset-css": "^5.0.1",
-    "solid-devtools": "^0.23.1",
     "solid-js": "^1.5.1"
   },
   "main": "index.js",

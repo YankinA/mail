@@ -1,5 +1,4 @@
 /* @refresh reload */
-import 'solid-devtools';
 import { render } from 'solid-js/web';
 import { Provider } from './store';
 import App from './App';

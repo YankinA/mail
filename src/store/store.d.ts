@@ -105,4 +105,7 @@ export type Store = {
   setModal: Setter<AttachModalStore | null>,
   getMailFilter: Accessor<MailFilter>,
   setMailFilter: Setter<MailFilter>,
+  getDraft: Accessor<Mail[] | []>,
+  setDraft: Setter<Mail[] | []>,
+  newMail: Mail,
 }

@@ -113,6 +113,7 @@ const Filter = () => {
         nextMailFilter[option] = true;
       }
     }
+    nextMailFilter.offset = 0;
     setMailFilter(nextMailFilter);
   }
 

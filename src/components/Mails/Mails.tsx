@@ -33,44 +33,47 @@ const getImgSize = (src: string) => {
 const Mails = () => {
 
   const { getMail, getMails, setMailFilter } = useStore();
-  
-  const [setRef, getScrollTop] = useScroll();
-  
+
+  const [setRef, getScroll] = useScroll();
+
   const mailListItemHeight = 48;
 
-  let prevScrollTop = getScrollTop();
+  let prevScroll = getScroll();
   createEffect(() => {
-    let { result = [], limit = 40, offset = 0 } = getMails()  ?? {};
-    console.log({ result: result.length});
+    let { offset = 0 } = getMails() ?? {};
     
+    const curScroll = getScroll();
 
-    const curScrollTop = getScrollTop();
-     
-    const isScrolledDown = curScrollTop >= prevScrollTop;
+    const isScrolledDown = curScroll.top > (prevScroll?.top ?? 0);
 
-    const scrolledMails = curScrollTop / mailListItemHeight;
+   // const isScrollStart = curScroll.top === 0;
+    const isScrollEnd = (curScroll.height - curScroll.top) === curScroll.parentHeight;
 
-    const isNeenLoad = isScrolledDown 
-      ?  (scrolledMails - offset) > 0
-      : false;//(offset > 0) && (scrolledMails < 4);
+    const isNeenLoad = isScrolledDown
+      ? isScrollEnd : false //&& isScrollStart && offset > 0;
     
-    console.log({ scrolledMails: scrolledMails - offset, isScrolledDown, isNeenLoad});
-
-    if (isNeenLoad) {
-      setMailFilter(prev => ({ ...prev, 
-        offset: isScrolledDown ? offset : offset //Math.max(offset - limit, 0)
+    
+    if (isNeenLoad) {    
+      setMailFilter(prev => ({
+        ...prev,
+        offset, //: isScrolledDown ? offset : offset //Math.max(offset - limit, 0)
+       // limit: limit
       }));
     }
-    prevScrollTop = curScrollTop;
+    prevScroll = curScroll;
   });
-  
-  
+
+  const calculateHeight = (mails: any[], mailHeight: number) => {
+    return `${mails.length * (mailHeight + 2)}px`;
+  };
+
   return (
-    <section 
-      style={{ 
-        height: getMail() ? 'auto' : `${getMails()?.result?.length * (mailListItemHeight + 2)}px`
-      }} 
-      class={styles.Mails} 
+    <section
+      style={{
+        height: getMail() ? 'auto'
+          : calculateHeight(getMails()?.result ?? [], mailListItemHeight)
+      }}
+      class={styles.Mails}
       ref={setRef}
     >
       <div class={styles.screen}></div>
@@ -186,13 +189,13 @@ const MailList = () => {
   const onOpenMail: OnOpenMail = (mail, e) => {
     const target: HTMLElement = e.target as HTMLElement;
     const classList: string = target?.classList.value;
-    
+
     const allowedClasses = [
-      styles.MailListItem, 
-      styles.Author_names, 
-      styles.title, 
-      styles.text, 
-      styles.Category, 
+      styles.MailListItem,
+      styles.Author_names,
+      styles.title,
+      styles.text,
+      styles.Category,
       styles.Date,
     ];
 
@@ -392,7 +395,7 @@ const Attach: AttachComp = (props) => {
   const attachModalHeight = 298;
 
   const setModalCB = (cord: DOMRect) => (prev: AttachModalStore | null): AttachModalStore | null => {
-
+   
     const imgList = Array.isArray(props.doc.img) ? props.doc.img : [props.doc.img];
     const top = String(cord.top - (imgList.length * (attachPreviewHeight - attachModalPadding / 2))) + 'px';
     const left = String(cord.left - (attachModalHeight + (attachModalPadding))) + 'px';
@@ -446,7 +449,7 @@ const AttachModal = () => {
               {`image${getIndex() ? '_' + getIndex() : ''}.jpg ${getImgSize(img)} ${getLocale().mail.kb.toLocaleUpperCase()}`}
             </ span>
             <Modal
-              classes={{ 
+              classes={{
                 [styles.AttachModal_preview_full]: true,
                 [styles.AttachModal_preview_full_bottom]: modalImgHeight > Number(getModal()?.top.slice(0, -2))
               }}

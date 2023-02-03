@@ -1,0 +1,38 @@
+.MultiSelectOptions {
+  margin-right: 5px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.MultiSelectOption {
+ min-height: 30px;
+ margin-right: 5px;
+ margin-bottom: 2px;
+ border-radius: 10px;
+ background: rgba(208, 208, 212, 0.671);
+ display: flex;
+ align-items: center;
+ justify-content: start;
+ padding-left: 5px;
+ padding-right: 5px;
+
+}
+
+.MultiSelectOption_fail {
+  background: rgba(210, 147, 147, 0.672);
+}
+
+.MultiSelectOption_icon {
+  stroke:#000;
+  width: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-left: 4px;
+}
+
+
+ 

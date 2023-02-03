@@ -7,5 +7,6 @@ type ModalComp = Component<{
   style?: JSX.CSSProperties | undefined,
   classes?: { [className: string]: boolean },
   children?: JSXElement,
-  onClick?: OnClick
+  onClick?: OnClick,
+  hide?: boolean
 }>;

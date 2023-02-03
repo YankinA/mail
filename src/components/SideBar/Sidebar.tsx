@@ -14,7 +14,6 @@ import TrashIcon from './../../assets/icons/trash.svg?component-solid';
 import PlusIcon from './../../assets/icons/plus.svg?component-solid';
 import SettingsIcon from './../../assets/icons/settings.svg?component-solid';
 import { useStore } from '../../store';
-import { preview } from 'vite';
 
 const Sidebar = () => {
 
@@ -33,11 +32,21 @@ const Sidebar = () => {
 
 const WriteEmail = () => {
 
-  const { getLocale, getDrawer } = useStore();
-
+  const { getLocale, getDrawer, getModal ,setModal, getDraft, setDraft, newMail  } = useStore();
+  
   return (
     <div class={styles.WriteEmail}>
       <Button
+        onClick={(e) => {
+          if (!getModal()) {
+            setDraft((prev) => [...prev, { ...newMail }]);
+            setModal({ type: 'newMail', id: 'newMail', draftIndex: getDraft().length - 1});
+          } else {
+            setModal(null);
+          }
+           
+          e.stopPropagation();
+        }}
         Icon={<PenIcon />}
         name={getLocale().sidebar.writeEmail}
         border
@@ -70,7 +79,7 @@ const Folders = () => {
       toggleDrawer();
     } else {
       setMail(null);
-      setMailFilter(prev => ({ ...prev, folder: name }));
+      setMailFilter(prev => ({ ...prev, folder: name, offset: 0 }));
 
     }
   }

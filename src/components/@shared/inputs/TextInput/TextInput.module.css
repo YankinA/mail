@@ -1,0 +1,32 @@
+.TextInput_container {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  border-radius: 12px;
+}
+
+.TextInput_container:hover {
+  background: rgba(0, 16, 61, 0.054);
+}
+
+.TextInput_name  {
+  margin-left: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  color: rgba(154, 154, 154, 0.9);
+}
+
+.TextInput {
+  height: 100%;
+  min-height: 40px;
+  display: flex;
+  align-self: end;
+  outline: none;
+  flex: 1;
+  font-size: 17px;  
+}
+
+
+ 

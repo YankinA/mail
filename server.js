@@ -24,7 +24,9 @@ const _trslateCategory = {
   'Финансы': 'finance',
 }
 
-db = db.filter(mail => mail).map((mail) => {
+db = db.filter(mail => mail).map((mail, index) => {
+  mail.id = Date.now().toString(36) + new Date(mail.date).getTime() + index;
+
   mail.folder = mail.folder in _trslateFolder ? _trslateFolder[mail.folder] : 'inbox';
   if ('flag' in mail && mail.flag in _trslateCategory) {
     mail.flag = _trslateCategory[mail.flag];
@@ -34,14 +36,23 @@ db = db.filter(mail => mail).map((mail) => {
 
 db.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-db = [...db, ...db, ...db, ...db];
+// mail counter by folder
+// console.log(
+//   db.reduce((acc, mail) => {
+//     acc[mail.folder] = mail.folder in acc ? acc[mail.folder] + 1 : 1;
+//     return acc;
+//   }, {})
+// );
 
-console.log(
-  db.reduce((acc, mail) => {
-    acc[mail.folder] = mail.folder in acc ? acc[mail.folder] + 1 : 1;
-    return acc;
-  }, {})
-);
+db = db.reduce((acc, mail) => {
+  if (mail.folder in acc) {
+    acc[mail.folder].push(mail);
+  } else {
+    acc[mail.folder] = [mail];
+  }
+
+  return acc;
+}, {})
 
 
 const PORT = 3000;
@@ -80,16 +91,16 @@ class Orm {
    * @param {number} limit
    * @returns {Promise<{ offset: number, limit: number, result: object[] | [] }>}
    */
-  async findBy(query, offset = 0, limit = 40) {
+  async findBy(query, offset = 0, limit = 30) {
     this.offset = offset;
 
     const result = []
-    while (result.length <= limit && this.offset < this.db.length) {
+    while (result.length < limit && this.offset < this.db[query.folder].length) {
 
-      if (this.db.length <= this.offset) {
+      if (this.db[query.folder].length <= this.offset) {
         break;
       }
-      const select = this.db[this.offset];
+      const select = this.db[query.folder][this.offset];
       this.offset++;
       if (this.where(select, query)) {
         result.push(select);
@@ -139,10 +150,12 @@ const mailsController = async (req, res) => {
 
   const offset = query.offset ?? 0;
   delete query.offset;
+  const limit = query.limit ?? 30;
+  delete query.limitt;
 
   // string to types
   for (const key in query) {
-    
+
     const value = query[key];
 
     if (value === 'true' || value === 'false') {
@@ -156,7 +169,21 @@ const mailsController = async (req, res) => {
     }
   }
 
-  const mails = await orm.findBy(query, offset);
+  const mails = await orm.findBy(query, offset, limit);
+
+  // for (mail of mails.result) {
+  //   if (mail?.doc?.img) {
+
+  //   const buffer = Buffer.from(mail.doc.img.replace('data:image/jpg;base64,', ''), "base64");
+  //   // fs.writeFileSync('./src/assets/doc/' +  mail.id + '.jpg', buffer);
+  //   //  mail.doc.img = './assets/doc/' +  mail.id + '.jpg'
+  //    fs.writeFileSync('./src/assets/doc/test.jpg', buffer);
+     
+  //    mail.doc.img = './../../assets/doc/test.jpg';
+
+  //   }
+  //}
+
   res.writeHead(200, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(mails), 'utf-8');
 }

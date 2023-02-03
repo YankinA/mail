@@ -1,0 +1,178 @@
+.NewMail {
+  position: fixed;
+  z-index: 2000;
+  left: calc(30px + var(--sidebar-width-full));
+  top: 50px;
+  right: 50px;
+  bottom: 80px;
+  min-height: 50vh;
+  min-width: 50vw;
+  background-color: #f7f7f7fc;
+}
+
+.NewMail_form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.NewMailHeader {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.NewMailHeader_btns {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  top: 0;
+  right: 3px;
+}
+
+.NewMailHeader_btn_close {
+  stroke:#000;
+}
+
+.NewMailHeader_btn>svg {
+  width: 20px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+
+}
+
+.NewMailHeader_btn:last-child>svg {
+  margin-top: 2px;
+}
+
+
+
+.NewMailHeader_to,
+.NewMailHeader_title {
+  margin-bottom: 8px;
+  width: 80%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.TextEditor {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  flex: 1 0 auto;
+}
+
+.TextEditor_toolBar {
+  width: 25%;
+  margin-left: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.TextEditor_toolBar_bold {
+  font-weight: bold;
+}
+
+.TextEditor_toolBar_italic {
+  font-style: italic;
+}
+
+.TextEditor_toolBar_underline {
+  text-decoration: underline;
+}
+
+.TextEditor_toolBar_strike {
+  text-decoration: line-through;
+}
+
+
+.NewMailFooter {
+  justify-self: end;
+  margin-left: 10px;
+}
+
+.NewMailDraft_wrapper {
+  position: absolute;
+  right: 10px;
+  bottom: 4px;
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: end;
+  gap: 1.5px;
+  max-height: 80vh;
+  overflow: auto;
+
+}
+
+.NewMailDraft {
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  background: none;
+}
+
+.NewMailDraft_open {
+  background: rgba(0, 0, 0, 0.781);
+  color: rgb(234, 227, 227);
+  fill: rgb(234, 227, 227);
+}
+
+
+.NewMailDraft_open:hover {
+  background: rgba(0, 0, 0, 0.783);
+  color: rgb(234, 227, 227);
+  fill: rgb(234, 227, 227);
+}
+
+
+
+.NewMailDraft > .NewMailDraft_close {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background: rgba(0, 0, 0, 0.781);
+  fill: rgb(234, 227, 227);
+  stroke:rgb(234, 227, 227);
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  margin-left: -4px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.NewMailDraft_close:hover {
+  background: rgba(0, 0, 0, 0.783);
+}
+
+.NewMailFooter > .NewMailFooter_Submit {
+  background: #3a76d7f0;
+}
+
+.NewMailFooter > .NewMailFooter_Submit:hover {
+  background: #005ff984;
+}
+
+.NewMailFooter > .NewMailFooter_Submit:active {
+  background: #004fcf67;
+}
+
+@media screen and (max-width: 900px) {
+  .NewMail {
+    right: 5px;
+    bottom: 5px;
+    left: calc(var(--sidebar-width-mini));
+  }
+}
