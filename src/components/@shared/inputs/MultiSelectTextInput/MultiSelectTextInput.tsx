@@ -6,8 +6,9 @@ import TextInput from '../TextInput/TextInput';
 
 const MultiSelectTextInput: MultiSelectTextInputComp = (props) => {
   const [getOptions, setOptions] = createSignal(props?.options);
-
+  let value = '';
   createEffect(() => {
+    value = '';
     setOptions(props?.options);
   });
 
@@ -20,7 +21,10 @@ const MultiSelectTextInput: MultiSelectTextInputComp = (props) => {
     target: Element;
   }
   const onKeyPress = (e: InputEvent) => {
-    
+    if(props.onKeyPress) {
+      props.onKeyPress(e);
+    }
+     
     const option = e.target.value;
     if (e.key === 'Enter' && option && option.trim()) {
       e.target.value = '';
@@ -35,7 +39,7 @@ const MultiSelectTextInput: MultiSelectTextInputComp = (props) => {
   }
 
   return (
-    <TextInput name={props.name} onKeyPress={onKeyPress}>
+    <TextInput name={props.name} onKeyPress={onKeyPress} value={!getOptions() ? '' : ''}>
       <MultiSelectOptions
         removeOption={removeOption}
         options={getOptions()}

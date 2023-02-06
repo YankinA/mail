@@ -8,10 +8,21 @@ const TextInput: TextInputComp = (props) => {
     <div class={styles.TextInput_container}>
       <div class={styles.TextInput_name}>
         {props.name}
-      </div> 
+      </div>
       {props.children}
       <input
-        onKeyPress={props.onKeyPress}
+        onKeyPress={(e) => {
+
+          if (e.code === 'Enter') {
+            e.preventDefault();
+          }
+
+          if (props.onKeyPress) {
+            props.onKeyPress(e);
+          }
+
+
+        }}
         onInput={props.onChange}
         class={styles.TextInput}
         type='text'

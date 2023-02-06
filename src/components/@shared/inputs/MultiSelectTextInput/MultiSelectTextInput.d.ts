@@ -11,7 +11,8 @@ export type MultiSelectTextInputComp = Component<{
   name: string,
   options: Option[],
   onChange?: (e: InputEvent) => void,
-  validOptions: (option: Option) => boolean
+  validOptions: (option: Option) => boolean,
+  onKeyPress?: (e: InputEvent) => void
 }>;
 
 export type MultiSelectOptionsComp  = Component<{

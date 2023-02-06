@@ -51,8 +51,6 @@
   margin-top: 2px;
 }
 
-
-
 .NewMailHeader_to,
 .NewMailHeader_title {
   margin-bottom: 8px;
@@ -61,6 +59,11 @@
   justify-content: start;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.NewMailHeader_to_error {
+  background: #eba9a923;
+  border-radius: 8px;
 }
 
 .TextEditor {
@@ -102,7 +105,7 @@
 
 .NewMailDraft_wrapper {
   position: absolute;
-  right: 10px;
+  right: 14px;
   bottom: 4px;
   display: flex;
   flex-direction: column-reverse;
@@ -123,6 +126,8 @@
 }
 
 .NewMailDraft_open {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   background: rgba(0, 0, 0, 0.781);
   color: rgb(234, 227, 227);
   fill: rgb(234, 227, 227);
@@ -146,7 +151,6 @@
   width: 36px;
   height: 36px;
   padding: 8px;
-  margin-left: -4px;
   margin-right: 4px;
   display: flex;
   align-items: center;

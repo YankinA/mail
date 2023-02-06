@@ -24,8 +24,13 @@ const _trslateCategory = {
   'Финансы': 'finance',
 }
 
+const createUniqId = (date = null) => {
+  const strDate = (date ? new Date(date) : new Date()).getTime().toString(36);
+  return 'ID' + strDate + Math.random().toString(36).slice(2, 6);
+}
+
 db = db.filter(mail => mail).map((mail, index) => {
-  mail.id = Date.now().toString(36) + new Date(mail.date).getTime() + index;
+  mail.id = createUniqId(mail.date);
 
   mail.folder = mail.folder in _trslateFolder ? _trslateFolder[mail.folder] : 'inbox';
   if ('flag' in mail && mail.flag in _trslateCategory) {
@@ -36,13 +41,6 @@ db = db.filter(mail => mail).map((mail, index) => {
 
 db.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-// mail counter by folder
-// console.log(
-//   db.reduce((acc, mail) => {
-//     acc[mail.folder] = mail.folder in acc ? acc[mail.folder] + 1 : 1;
-//     return acc;
-//   }, {})
-// );
 
 db = db.reduce((acc, mail) => {
   if (mail.folder in acc) {
@@ -71,6 +69,13 @@ const MIME_TYPES = {
   svg: 'image/svg+xml',
 };
 
+const corsHeaders = { 
+  'Access-Control-Allow-Origin': '*', 
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Credentials': true,
+}
+
 /**
  * Simle orm for db.json
  */
@@ -80,8 +85,23 @@ class Orm {
    * @param {object[]} db 
    */
   constructor(db) {
-    this.db = db;
+    //db = db;
     this.offset = 0;
+  }
+
+  /**
+   * add row to database table
+   * @param {object} data - line data
+   * @returns {boolean}
+   */
+  insert(data) {
+    if (data.folder in db) {
+      data.date = new Date().toString();
+      data.id = createUniqId();
+      db[data.folder].unshift(data);
+      return db[data.folder][0];
+    }
+    return false;
   }
 
   /**
@@ -95,12 +115,12 @@ class Orm {
     this.offset = offset;
 
     const result = []
-    while (result.length < limit && this.offset < this.db[query.folder].length) {
+    while (result.length < limit && this.offset < db[query.folder].length) {
 
-      if (this.db[query.folder].length <= this.offset) {
+      if (db[query.folder].length <= this.offset) {
         break;
       }
-      const select = this.db[query.folder][this.offset];
+      const select = db[query.folder][this.offset];
       this.offset++;
       if (this.where(select, query)) {
         result.push(select);
@@ -138,57 +158,78 @@ const statFileController = async (req, res) => {
 
   const mimeType = MIME_TYPES[ext];
 
-  res.writeHead(200, { 'Content-Type': mimeType });
+  res.writeHead(200, { 'Content-Type': mimeType, ...corsHeaders });
   const filePath = path.join(__dirname, DIR, file);
   fs.createReadStream(filePath).pipe(res);
 }
 
 const mailsController = async (req, res) => {
-  const parsedUrl = url.parse(req.url);
 
-  const query = querystring.parse(parsedUrl.query);
 
-  const offset = query.offset ?? 0;
-  delete query.offset;
-  const limit = query.limit ?? 30;
-  delete query.limitt;
+  const getMils = async () => {
+    const parsedUrl = url.parse(req.url);
 
-  // string to types
-  for (const key in query) {
+    const query = querystring.parse(parsedUrl.query);
 
-    const value = query[key];
+    const offset = query.offset ?? 0;
+    delete query.offset;
 
-    if (value === 'true' || value === 'false') {
-      query[key] = Boolean(value);
-      continue;
+    // string to types
+    for (const key in query) {
+
+      const value = query[key];
+
+      if (value === 'true' || value === 'false') {
+        query[key] = Boolean(value);
+        continue;
+      }
+
+      if (!isNaN(Number(value)) && typeof Number(value) === 'number') {
+        query[key] = Number(value);
+        continue;
+      }
     }
 
-    if (!isNaN(Number(value)) && typeof Number(value) === 'number') {
-      query[key] = Number(value);
-      continue;
-    }
+    const mails = await orm.findBy(query, offset);
+    res.writeHead(200, { 'Content-Type': 'application/json', ...corsHeaders});
+    res.end(JSON.stringify(mails), 'utf-8');
   }
 
-  const mails = await orm.findBy(query, offset, limit);
+  const addMail = async () => {
+       let body = '';
+        req.on('data', (chunk) => {
+            body += chunk.toString();
+        });
+        req.on('end',async () => {
+           const parsed = JSON.parse(body);
+           const isOk = await orm.insert(parsed);
+        });
+   res.statusCode = 200;
+   res.end('mail added');
+  }
 
-  // for (mail of mails.result) {
-  //   if (mail?.doc?.img) {
+  const methods = {
+    GET: async () => {
+      await getMils();
+    },
+    POST: async () => {
+      addMail();
+    },
+    OPTIONS: async () => {
 
-  //   const buffer = Buffer.from(mail.doc.img.replace('data:image/jpg;base64,', ''), "base64");
-  //   // fs.writeFileSync('./src/assets/doc/' +  mail.id + '.jpg', buffer);
-  //   //  mail.doc.img = './assets/doc/' +  mail.id + '.jpg'
-  //    fs.writeFileSync('./src/assets/doc/test.jpg', buffer);
-     
-  //    mail.doc.img = './../../assets/doc/test.jpg';
+      res.writeHead(200, corsHeaders);
+      //'Access-Control-Allow-Origin':'*'
+      res.end('mail added');
+    }
+  };
 
-  //   }
-  //}
-
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(mails), 'utf-8');
+  if (req.method in  methods) {
+    await methods[req.method]();
+  }
 }
 
 const router = async (req, res) => {
+
   const stateMachine = {
     '': async () => {
       await statFileController(req, res);

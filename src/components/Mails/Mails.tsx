@@ -1,4 +1,4 @@
-import { For, createSignal, Component, onMount, onCleanup, createEffect } from 'solid-js';
+import { For, createSignal, Component, createEffect } from 'solid-js';
 import { useStore } from '../../store';
 import styles from './Mails.module.css';
 import CheckIcon from './../../assets/icons/check.svg?component-solid';
@@ -40,6 +40,7 @@ const Mails = () => {
 
   let prevScroll = getScroll();
   createEffect(() => {
+
     let { offset = 0 } = getMails() ?? {};
     
     const curScroll = getScroll();
@@ -206,7 +207,7 @@ const MailList = () => {
       setModal(null);
     }
   }
-
+  
   return <ul class={styles.MailLists}>
     <For each={getMails()?.result}>
       {(mail, getIndex) => (

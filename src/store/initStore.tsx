@@ -3,7 +3,9 @@ import routes from '../routes';
 import { settings, setSettings, setTheme } from './SettingsStore';
 import { getLocale, switchLocale } from "./LocaleStore";
 import type { Store, ModalStore } from './store.d';
-import { getMail, getMailFilter, getMails, setMail, setMailFilter, getDraft, setDraft, newMail } from "./MailsStore";
+import { 
+  getMail, getMailFilter, getMails, addMail, setMail, setMailFilter, getDraft, setDraft, newMail,
+} from "./MailsStore";
 
 
 const initStore = (): Store => {
@@ -25,6 +27,7 @@ const initStore = (): Store => {
     getDrawer,
     setDrawer,
     getMails,
+    addMail,
     getMail,
     setMail,
     getDraft, 

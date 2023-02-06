@@ -59,16 +59,38 @@ const [getMail, setMail] = createSignal<Mail | null>(null);
 const [getDraft, setDraft] = createSignal<Mail[] | []>([]);
 
 
-const newMail: Mail = { 
-  to: [], 
-  title: '', 
+const newMail: Mail = {
+  to: [],
+  title: '',
   text: '',
-  bookmark: false, 
-  important: false, 
-  read: true, 
-  date: new Date(), 
+  bookmark: false,
+  important: false,
+  read: true,
+  date: new Date(),
   folder: 'draft',
+  author: {
+    name: "Антон",
+    surname: 'Я',
+    email: 'my@mail.ru',
+  }
 };
+
+const addMail = async (mail: Mail) => {
+
+  const req = {
+    url: routes.addMails(),
+    method: 'post',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: JSON.stringify(mail),
+  };
+
+  try {
+    await fetch(routes.addMails(), req);
+
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export {
   getMailFilter,
@@ -76,7 +98,8 @@ export {
   getMails,
   getMail,
   setMail,
-  getDraft, 
+  getDraft,
   setDraft,
   newMail,
+  addMail,
 }; 

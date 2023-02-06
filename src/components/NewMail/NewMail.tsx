@@ -12,15 +12,30 @@ import Submit from "../@shared/inputs/Submit/Submit";
 import { createSignal, For, Show } from "solid-js";
 import { getDraft, setDraft } from "../../store/MailsStore";
 
-
+const validEmail = (email: string) => {
+  const matcher = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return email.match(matcher) ? true : false;
+}
 const NewMail = () => {
 
-  const { getModal } = useStore();
+  const { getModal, getDraft, setDraft, addMail, setModal, setMailFilter } = useStore();
   const onSubmit = (e: Event) => {
-    console.log(e);
-
     e.preventDefault();
-    // window.location.reload();
+    e.stopPropagation();
+    const { draftIndex } =  getModal();
+    const mail = getDraft()[draftIndex];
+
+    if (mail.to.length === 0 || mail.to.some(({email}) => !validEmail(email))) {
+      const toInput = e.target.getElementsByClassName(styles.NewMailHeader_to)[0];
+      toInput.classList.add(styles.NewMailHeader_to_error);
+      
+    } else {
+      mail.folder = 'sent';
+      addMail(mail);
+      setModal(null);
+      setDraft(prev => prev.filter((_, i) => i !== draftIndex));
+      setMailFilter({ folder: 'sent' });
+    }
   };
 
   return (
@@ -65,7 +80,6 @@ const NewMailHeader = () => {
 
   const onChangeTitle = (e) => {
     const { draftIndex } = getModal();
-
     const drafts = getDraft();
     drafts[draftIndex] = { ...drafts[draftIndex], title: e.target.value };
     setDraft(drafts);
@@ -81,7 +95,7 @@ const NewMailHeader = () => {
 
   const onChangeTo = (e) => {
     const { draftIndex } = getModal();
-
+    
     const drafts = getDraft();
     drafts[draftIndex] = {
       ...drafts[draftIndex],
@@ -97,6 +111,13 @@ const NewMailHeader = () => {
       return getDraft()[getModal().draftIndex].to.map(({ email }) => email);
     }
     return [];
+  }
+
+  const onKeyPressTo = (e: InputEvent) => {
+    
+    if (e?.target?.parentNode?.parentNode?.classList) {
+      e.target.parentNode.parentNode.classList.remove(styles.NewMailHeader_to_error);
+    }
   }
 
   return (
@@ -123,6 +144,7 @@ const NewMailHeader = () => {
       <section class={styles.NewMailHeader_to}>
         <MultiSelectTextInput
           name="Кому:"
+          onKeyPress={onKeyPressTo}
           onChange={onChangeTo}
           options={getDraftTo()}
           validOptions={validOptions}
@@ -208,7 +230,7 @@ const NewMailFooter = () => {
 
 const NewMailDrafts = () => {
 
-  const { getModal, setModal, setDraft } = useStore();
+  const { getModal, setModal, setDraft, addMail } = useStore();
 
   const onOpen = (draftIndex: number) => (e) => {
 
@@ -216,9 +238,10 @@ const NewMailDrafts = () => {
   }
 
   const onClose = (draftIndex: number) => (e) => {
-    console.log('onClose');
-    
-    setDraft((prev) => prev.filter((_, i) => i !== draftIndex));
+
+    const mail = getDraft()[draftIndex];
+    addMail(mail);
+    setDraft(prev => prev.filter((_, i) => i !== draftIndex));
   };
 
   return (

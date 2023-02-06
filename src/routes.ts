@@ -7,5 +7,6 @@ type Query = {
 
 export default {
   getMails: (query: Query) => `${baseUrl}${rootAPI}/mails?${new URLSearchParams(query)}`, 
+  addMails: () => `${baseUrl}${rootAPI}/mails`,
 }
 

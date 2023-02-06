@@ -99,6 +99,7 @@ export type Store = {
   getDrawer: Accessor<boolean>,
   setDrawer: Setter<boolean>,
   getMails: Resource<Mails>,
+  addMail: (mail: Mail) => Promise<void>,
   getMail: Accessor<Mail | null>,
   setMail: Setter<Mail | null>,
   getModal: Accessor<AttachModalStore | null>,
