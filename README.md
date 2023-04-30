@@ -1,3 +1,5 @@
+vk cup 2022/23 (final)
+
 ## Available Scripts
 
 In the project directory, you can run:
